@@ -1,0 +1,56 @@
+﻿
+### OK
+
+http://blog.csdn.net/rao356/article/details/48975617
+windows系统下，django1.8+python3.5使用pymysql链接 mysql数据库
+
+```
+E:\webs\08tools\txmao\python\ex200>easy_install.exe pymysql3
+Searching for pymysql3
+Reading https://pypi.python.org/simple/pymysql3/
+Best match: PyMySQL3 0.5
+Downloading https://pypi.python.org/packages/82/c4/55b23360d9d7195ef5e2e5266b995
+3f562c1a3c5ce1e4f71df6c72587a0e/PyMySQL3-0.5.tar.gz#md5=9157b6068f9b2a277d8b126e
+f05bab3a
+Processing PyMySQL3-0.5.tar.gz
+Writing C:\Users\jk\AppData\Local\Temp\easy_install-xqw05lvj\PyMySQL3-0.5\setup.
+cfg
+Running PyMySQL3-0.5\setup.py -q bdist_egg --dist-dir C:\Users\jk\AppData\Local\
+Temp\easy_install-xqw05lvj\PyMySQL3-0.5\egg-dist-tmp-a_u12wgg
+zip_safe flag not set; analyzing archive contents...
+Copying pymysql3-0.5-py3.5.egg to c:\users\jk\appdata\local\programs\python\pyth
+on35-32\lib\site-packages
+Adding pymysql3 0.5 to easy-install.pth file
+
+Installed c:\users\jk\appdata\local\programs\python\python35-32\lib\site-package
+s\pymysql3-0.5-py3.5.egg
+Processing dependencies for pymysql3
+Finished processing dependencies for pymysql3
+```
+
+### Error
+
+python.exe -m pip install PyMySQL
+
+E:\server\Python35\Python35-Setup>python.exe -m pip install PyMySQL
+Collecting PyMySQL
+  Downloading PyMySQL-0.7.9-py3-none-any.whl (78kB)
+    41% |█████████████▍                  | 32kB 39kB/s eta 0:00:02
+    47% |███████████████                 | 36kB 44kB/s eta 0:00:0
+    52% |████████████████▊               | 40kB 49kB/s eta 0:00
+    57% |██████████████████▍             | 45kB 49kB/s eta 0:
+    62% |████████████████████            | 49kB 52kB/s eta 0
+    67% |█████████████████████▊          | 53kB 57kB/s eta
+    73% |███████████████████████▍        | 57kB 73kB/s e
+    78% |█████████████████████████       | 61kB 78kB/s
+    83% |██████████████████████████▊     | 65kB 91kB/
+    88% |████████████████████████████▌   | 69kB 98k
+    94% |██████████████████████████████▏ | 73kB 1
+    99% |███████████████████████████████▉| 77kB
+    100% |████████████████████████████████| 81kB
+ 744kB/s
+Installing collected packages: PyMySQL
+Successfully installed PyMySQL-0.7.9
+You are using pip version 7.1.2, however version 8.1.2 is available.
+You should consider upgrading via the 'python -m pip install --upgrade pip' comm
+and.
