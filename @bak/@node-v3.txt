@@ -3,3 +3,6 @@
 
 http://www.cnblogs.com/fnng/p/3576154.html
 python实现简单爬虫功能
+
+http://docs.pythontab.com/python/python3.5/
+ Python3 中文手册
