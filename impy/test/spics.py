@@ -1,9 +1,10 @@
-#coding=utf-8
-import urllib.request
+#coding=UTF-8
+
+from urllib import request as req; #import urllib.request
 import re
 
 def getHtml(url):
-    page = urllib.request.urlopen(url)
+    page = req.urlopen(url)
     html = page.read()
     return html
 
@@ -13,12 +14,17 @@ def getImg(html):
     imglist = re.findall(imgre,html)
     x = 0
     for imgurl in imglist:
-        urllib.request.urlretrieve(imgurl,'../cache/tmpic/%s.jpg' % x)
+        req.urlretrieve(imgurl,'../cache/tmpic/%s.jpg' % x)
         x+=1
 
-# 桌面
-html = getHtml("https://tieba.baidu.com/p/2460150866")
-html = html.decode('utf-8')
+# 
+"""
+http://txmao.txjia.com/
+https://tieba.baidu.com/p/2460150866
+"""
+html = getHtml("http://txmao.txjia.com/")
+html = html.decode('utf-8', 'ignore')
+print(html)
 
-print(getImg(html))
+#print(getImg(html))
 # print()
