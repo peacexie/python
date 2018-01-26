@@ -36,7 +36,9 @@ def list(html, key='pics', no=0):
         itms.append(val)
     return itms
 
-def elem(html, tag):
+def cut(html, tag, end):
+    #<div class="pgf_menu">
+    p = html.find(tag)
     return html
 
 def save(html, base):
