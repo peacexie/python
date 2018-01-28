@@ -1,12 +1,11 @@
 # url抓取(py=爬)相关函数
 
-import os
-import re
-from urllib import request as req
-
 #from lxml import *
 #from pyquery import PyQuery as pq
 
+import os
+import re
+from urllib import request as req
 
 def page(url, cset='utf-8'):
     page = req.urlopen(url)
@@ -17,7 +16,7 @@ def page(url, cset='utf-8'):
 def list(html, key='pics', no=0):
     dict = {
         'links': r'<a [^\>]*href=[\'\"]?([^\'\"]+)[\'\"]?[^\>]*>(.*?)</a>',
-        'pics': r'src="(.+?\.(jpg|gif|png))"',
+        'pics':  r'src=[\'\"]?([^\'\"]+\.(jpg|gif|png))[\'\"]?',
     }
     if key in dict:
         reg = dict[key]
@@ -32,25 +31,34 @@ def list(html, key='pics', no=0):
             val = [itm[0], itm[1]] if len(itm)>=2 else itm[0]
         else:
             val = itm[no] if no>=0 else itm
-        print(val)
+        #print(val)
         itms.append(val)
     return itms
 
-def cut(html, tag, end):
-    #<div class="pgf_menu">
-    p = html.find(tag)
+def cut(html, tag, end=''):
+    p1 = html.find(tag)
+    if p1<0:
+        return ''
+    slen = len(html)
+    html = html[p1:slen]
+    p1 = html.find(end)
+    if p1<0 or end=='':
+        return html
+    p1 += len(end)
+    html = html[0:p1]
     return html
 
-def save(html, base):
-    reg = r'src="(.+?\.jpg)"' # pic_ext
-    imgre = re.compile(reg)
-    imglist = re.findall(imgre,html)
-    x = 0
-    for imgurl in imglist:
-        imgurl = base+imgurl; # (base+imgurl).replace('//', '/');
-        file = os.path.basename(imgurl);
-        print(imgurl)
-        req.urlretrieve(imgurl,'../cache/tmpic/'+str(x)+'-%s' % file)
-        x+=1
-    return x
-
+def save(ulist, udir, base):
+    no = 0
+    for itm in ulist:
+        print(type(itm))
+        if isinstance(itm, list): #type(itm) == list:
+            url = itm[0]
+        else:
+            url = itm;
+        if url.find('://')!=0:
+            url = base+url;
+        file = os.path.basename(url);
+        req.urlretrieve(url, '../cache/'+udir+'/'+str(no)+'-%s'%file)
+        no += 1
+    return no
