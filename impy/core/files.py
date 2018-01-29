@@ -1,7 +1,7 @@
 # files:文件相关
 
 import os
-import re
+#import re
 
 # 自动文件名
 def autnm(url):
@@ -19,7 +19,7 @@ def autnm(url):
     ext = exts[1] if len(exts[1])>0 else '.htm'
     exts = '(.asp|.php|.jsp|.aspx|.do)'
     if exts.find(ext)>0 and len(pstr)>0:
-        file = base + '---' + pstr + ext
+        file = base + '---' + pstr + '.htm'
     else:
         file = base if base.find('.')>0 else base + ext
     return file

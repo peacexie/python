@@ -37,6 +37,9 @@ urlpy.svurl(url, 'tmps')
 pic = 'http://dg.fzg360.com/template/default/images/logo306.gif'
 urlpy.svurl(pic, 'tmps')
 
+pag1 = 'http://txmao.txjia.com/chn.php?mkv=cargo&stype=p2012&price=300~500&brand=huawei'
+urlpy.svurl(pag1, 'tmps')
+
 
 '''
 asp,php,jsp,aspx,do
@@ -47,8 +50,8 @@ for itm in itmp:
     url = itm[0]
     if url.find('://')<=0:
         url = base+url
-    file = urlpy.svurl(url, 'pics')
-    print(file)
+    #file = urlpy.svurl(url, 'pics')
+    #print(file)
 
 # http://blog.csdn.net/eastmount/article/details/51082253
 #print(getImg(html,url))

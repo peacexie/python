@@ -63,7 +63,7 @@ def svurl(url, sdir, file=''):
     file = files.autnm(url)
     fp = '../cache/' + sdir + '/' + file
     with open(fp, "wb") as fo:
-        fo.write(data) #写文件用bytes而不是str，所以要转码 ???
+        fo.write(data) #写文件用bytes而不是str
     return file
 
 '''
@@ -71,5 +71,4 @@ def svurl(url, sdir, file=''):
 .json,xml,txt
 .html,htm,js,css,
 .asp,php,jsp,aspx,do
-
 '''
