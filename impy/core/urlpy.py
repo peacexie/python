@@ -3,11 +3,14 @@
 #from lxml import *
 #from pyquery import PyQuery as pq
 
+# sys-import
 import os
 import re
 from urllib import request as req
 
-#import files
+# peace-import
+from core import files
+
 
 def page(url, cset='utf-8'):
     page = req.urlopen(url)
@@ -57,11 +60,9 @@ def svurl(url, sdir, file=''):
     data = req.urlopen(url).read()
     if len(data)==0:
         return ''
-    if file.find('.')<1:
-        base = os.path.basename(url)
-        file = file.replace('?', '~')
+    file = files.autnm(url)
     fp = '../cache/' + sdir + '/' + file
-    with open(fp+".htm", "wb") as fo:
+    with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str，所以要转码 ???
     return file
 
@@ -70,30 +71,5 @@ def svurl(url, sdir, file=''):
 .json,xml,txt
 .html,htm,js,css,
 .asp,php,jsp,aspx,do
-'''
 
-'''
-
-
-def x_save(ulist, udir, base):
-    no = 0
-    for itm in ulist:
-        print(type(itm))
-        if isinstance(itm, list): #type(itm) == list:
-            url = itm[0]
-        else:
-            url = itm;
-        if url.find('://')!=0:
-            url = base+url
-        file = os.path.basename(url);
-        req.urlretrieve(url, '../cache/'+udir+'/'+str(no)+'-%s'%file)
-        no += 1
-    return no
-
-# 打开一个文件
-fo = open("foo.txt", "wb")
-fo.write( "www.runoob.com!\nVery good site!\n")
- 
-# 关闭打开的文件
-fo.close()
 '''

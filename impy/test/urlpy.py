@@ -47,7 +47,8 @@ for itm in itmp:
     url = itm[0]
     if url.find('://')<=0:
         url = base+url
-    #urlpy.svurl(url, 'pics')
+    file = urlpy.svurl(url, 'pics')
+    print(file)
 
 # http://blog.csdn.net/eastmount/article/details/51082253
 #print(getImg(html,url))
