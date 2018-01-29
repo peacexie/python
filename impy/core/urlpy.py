@@ -7,10 +7,25 @@ import os
 import re
 from urllib import request as req
 
+#import files
+
 def page(url, cset='utf-8'):
     page = req.urlopen(url)
     html = page.read()
     html = html.decode(cset, 'ignore')
+    return html
+
+def block(html, tag, end=''):
+    p1 = html.find(tag)
+    if p1<0:
+        return ''
+    slen = len(html)
+    html = html[p1:slen]
+    p1 = html.find(end)
+    if p1<0 or end=='':
+        return html
+    p1 += len(end)
+    html = html[0:p1]
     return html
 
 def list(html, key='pics', no=0):
@@ -35,20 +50,32 @@ def list(html, key='pics', no=0):
         itms.append(val)
     return itms
 
-def cut(html, tag, end=''):
-    p1 = html.find(tag)
-    if p1<0:
+# 保存文本
+def svurl(url, sdir, file=''):
+    if url.find('://')<0:
         return ''
-    slen = len(html)
-    html = html[p1:slen]
-    p1 = html.find(end)
-    if p1<0 or end=='':
-        return html
-    p1 += len(end)
-    html = html[0:p1]
-    return html
+    data = req.urlopen(url).read()
+    if len(data)==0:
+        return ''
+    if file.find('.')<1:
+        base = os.path.basename(url)
+        file = file.replace('?', '~')
+    fp = '../cache/' + sdir + '/' + file
+    with open(fp+".htm", "wb") as fo:
+        fo.write(data) #写文件用bytes而不是str，所以要转码 ???
+    return file
 
-def save(ulist, udir, base):
+'''
+.jpg,jpeg,png,bmp,gif
+.json,xml,txt
+.html,htm,js,css,
+.asp,php,jsp,aspx,do
+'''
+
+'''
+
+
+def x_save(ulist, udir, base):
     no = 0
     for itm in ulist:
         print(type(itm))
@@ -57,8 +84,16 @@ def save(ulist, udir, base):
         else:
             url = itm;
         if url.find('://')!=0:
-            url = base+url;
+            url = base+url
         file = os.path.basename(url);
         req.urlretrieve(url, '../cache/'+udir+'/'+str(no)+'-%s'%file)
         no += 1
     return no
+
+# 打开一个文件
+fo = open("foo.txt", "wb")
+fo.write( "www.runoob.com!\nVery good site!\n")
+ 
+# 关闭打开的文件
+fo.close()
+'''

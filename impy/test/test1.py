@@ -1,9 +1,14 @@
 #coding=UTF-8
 import sys
+import os
 sys.path.append("../")
 
 from core import pyfun
 from core import pycls
+
+
+re = pyfun.test(5, 3)
+print(re)
 
 # 函数使用
 re = pyfun.add(1, 2)
