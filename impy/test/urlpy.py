@@ -8,8 +8,8 @@ sys.path.append("../")
 from core import urlpy
 #from core import pycls
 
-# gb18030,
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
+# gb18030,utf-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='gb18030')
 
 # 
 """
@@ -50,8 +50,8 @@ for itm in itmp:
     url = itm[0]
     if url.find('://')<=0:
         url = base+url
-    #file = urlpy.svurl(url, 'pics')
-    #print(file)
+    file = urlpy.svurl(url, 'pics')
+    print(file)
 
 # http://blog.csdn.net/eastmount/article/details/51082253
 #print(getImg(html,url))
