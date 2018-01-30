@@ -3,6 +3,10 @@
 import os
 import keyword
 
+a = 'abc,'
+b = a * 3
+print(b)
+
 num = 25 # float(input('请输入一个数字： '))
 num_sqrt = num ** 0.5
 print(' %0.3f 的平方根为 %0.3f'%(num ,num_sqrt))
