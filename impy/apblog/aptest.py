@@ -4,6 +4,10 @@ import sys
 sys.path.append("../")
 sys.path.append("../import")
 
+import scrapy
+
+print(sys.path)
+
 from flask import Flask
 from flask import render_template
 
