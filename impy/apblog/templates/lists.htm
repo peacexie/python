@@ -26,5 +26,24 @@
   <p>{{ incs.input('username') }}</p>
   <p>{{ incs.input('password', type='password') }}</p>
 
+{% endblock %}
+
+{% block debug %}
+
+<div class=page>
+  {{ config }}
+</div>
+
+<div class=page>
+  {{ request }}
+</div>
+
+<div class=page>
+  {{ session }}
+</div>
+
+<div class=page>
+  {{ g }}
+</div>
 
 {% endblock %}

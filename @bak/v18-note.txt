@@ -3,16 +3,6 @@
 * template
 * mysql/sqlite
 
-{% from '/_incs.macro' import head,foot,input %}
-{% import '/_incs.html' as incs %}
-
-  {{ incs.head('hdid')}}
-
-  {{ incs.input('username')}}
-  {{ incs.input('password',type='password')}}
-
-  {{ incs.foot('ftid')}}
-
 
 ----------------------------------------- 
 

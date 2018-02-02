@@ -6,7 +6,7 @@ sys.path.append("../")
 sys.path.append("../import")
 #sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
-# all the imports
+# all the imports // , json
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash

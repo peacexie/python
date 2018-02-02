@@ -1,8 +1,12 @@
 
 
 {% macro input(name, value='', type='text', size=20) -%}
-    <input type="{{ type }}" name="{{ name }}" value="{{
-        value|e }}" size="{{ size }}">
+    <input 
+        type="{{ type }}" 
+        name="{{ name }}" 
+        value="{{ value|e }}" 
+        size="{{ size }}"
+    />
 {% endmacro %}
 
 
@@ -13,7 +17,7 @@
         <li>News</li>
         <li>Product</li>
         <li>About</li>
-    <ul>    
+    </ul>    
 {% endmacro %}
 
 
@@ -24,5 +28,5 @@
         <li>Product</li>
         <li>About</li>
         <li>{{ muid }} (end)</li>
-    <ul> 
+    </ul> 
 {% endmacro %}

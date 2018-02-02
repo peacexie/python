@@ -1,14 +1,7 @@
 
 
 
-  {{ incs.head('hdid')}}
 
-
-
-  {{ incs.foot('ftid')}}
-
-{% from '/_incs.macro' import head,foot,input %}
-{% import '/_incs.html' as incs %}
 
 
 http://www.cnblogs.com/fnng/p/3576154.html
