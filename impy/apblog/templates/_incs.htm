@@ -1,15 +1,12 @@
 
 
-{% marco input(name, type='text', value='', size=20) %}
-    <input type="{{ type }}"
-           name="{{ name }}"
-           value="{{ value }}"
-           size="{{ size }}"
-    />
-{% endmarco %}
+{% macro input(name, value='', type='text', size=20) -%}
+    <input type="{{ type }}" name="{{ name }}" value="{{
+        value|e }}" size="{{ size }}">
+{% endmacro %}
 
 
-{% marco head(muid='home') %}
+{% macro head(muid='home') %}
     <ul>
         <li>{{ muid }}</li>
         <li>Home</li>
@@ -17,10 +14,10 @@
         <li>Product</li>
         <li>About</li>
     <ul>    
-{% endmarco %}
+{% endmacro %}
 
 
-{% marco foot(muid='') %}
+{% macro foot(muid='') %}
     <ul>
         <li>Profile</li>
         <li>Service</li>
@@ -28,4 +25,4 @@
         <li>About</li>
         <li>{{ muid }} (end)</li>
     <ul> 
-{% endmarco %}
+{% endmacro %}

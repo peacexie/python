@@ -1,7 +1,9 @@
+{% import '/_incs.htm' as incs %}
 <!doctype html>
 <title>Pathon Blog</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
+  {{ incs.head() }}
   <h1>Pathon Blog</h1>
   <div class=metanav>
   {% if not session.logged_in %}
@@ -14,4 +16,5 @@
     <div class=flash>{{ message }}</div>
   {% endfor %}
   {% block body %}{% endblock %}
+  {{ incs.foot() }}
 </div>
