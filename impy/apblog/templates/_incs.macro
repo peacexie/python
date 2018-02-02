@@ -1,0 +1,31 @@
+
+
+{% marco input(name, type='text', value='', size=20) %}
+    <input type="{{ type }}"
+           name="{{ name }}"
+           value="{{ value }}"
+           size="{{ size }}"
+    />
+{% endmarco %}
+
+
+{% marco head(muid='home') %}
+    <ul>
+        <li>{{ muid }}</li>
+        <li>Home</li>
+        <li>News</li>
+        <li>Product</li>
+        <li>About</li>
+    <ul>    
+{% endmarco %}
+
+
+{% marco foot(muid='') %}
+    <ul>
+        <li>Profile</li>
+        <li>Service</li>
+        <li>Product</li>
+        <li>About</li>
+        <li>{{ muid }} (end)</li>
+    <ul> 
+{% endmarco %}

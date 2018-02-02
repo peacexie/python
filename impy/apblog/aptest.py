@@ -4,7 +4,7 @@ import sys
 sys.path.append("../")
 sys.path.append("../import")
 
-import scrapy
+#import scrapy
 
 print(sys.path)
 

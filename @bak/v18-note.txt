@@ -1,8 +1,26 @@
 
+* pyquery
+* mysql/sqlite
+
+----------------------------------------- 
+
+jinja2 宏的简单使用总结(macro)
+http://www.cnblogs.com/linuxhui/p/5804380.html
+
+关于win8下pip安装mysql找不到config-win.h文件的一种解决方案
+http://blog.csdn.net/bijiaoshenqi/article/details/44758055
+
+python3.5连接MySQL出现Cannot open include file: 'config-win.h': No such file or directory 错误解决办法
+http://blog.csdn.net/qq_28291153/article/details/52931291
+
+
+https://pypi.python.org/pypi/pyquery
 http://webpy.org/
 
 https://www.cnblogs.com/Sunday-fly/articles/7598909.html
 Python 各种扩展包的安装
+
+----------------------------------------- 
 
 http://python.jobbole.com/tag/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/
 Python - > 模板引擎
