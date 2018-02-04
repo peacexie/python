@@ -26,7 +26,7 @@ def connect_db():
 def init_db():
     with closing(connect_db()) as db:
         #with app.open_resource('./schema.sql') as f:
-        #    db.cursor().executescript(f.read()) 
+        #    db.cursor().executescript(f.read())
         # ValueError: script argument must be unicode.
         db.cursor().executescript(dbsql)
         db.commit()
@@ -54,40 +54,43 @@ def before_request():
 def teardown_request(exception):
     g.db.close()
 
-''' >用户扩展
-@app.route('/exuser/exact')
-def exuser(name=''):
-    return '/exuser/exact!'
-'''
-@app.route('/blog/')
+
+@app.route('/')
 def lists():
     cur = g.db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('blog/lists.htm', entries=entries)
 
+@app.route('/add', methods=['POST'])
+def add_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('insert into entries (title, text) values (?, ?)',
+                 [request.form['title'], request.form['text']])
+    g.db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('lists'))
 
-@app.route('/')
-@app.route('/<tpl>/')
-@app.route('/<mkv>')
-@app.route('/<tpl>/<mkv>')
-def rop(tpl='', mkv=''):
-    if len(mkv)==0:
-        type = 'mhome'
-        mkv = 'home-index'
-    elif mkv.find('.')>0:
-        type = 'detail'
-    elif mkv.find('-')>0:
-        type = 'mtype'
-    else:
-        type = 'mhome'
-        mkv = mkv + '-index'
-    tmp = mkv.split('.') if mkv.find('.')>0 else mkv.split('-')
-    view = tmp[2] if len(tmp)>=3 else ''
-    mkvs = {'tpl':tpl, 'mkv':mkv, 'type':type, 'mod':tmp[0], 'key':tmp[1], 'view':view}
-    g.mkvs = mkvs
-    res = {'data':{}, 'tpl':tpl, 'mkv':mkv} # data,mkvs,tpl,mkv,
-    g.res = res 
-    return render_template('root/index.htm', res=res)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('lists'))
+    return render_template('blog/login.htm', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('lists'))
+
 
 if __name__ == '__main__':
     app.run()

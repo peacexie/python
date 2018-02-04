@@ -1,6 +1,7 @@
-{% extends "layout.htm" %}
+{% extends "blog/layout.htm" %}
 
 {% block body %}
+
   <h2>Login</h2>
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
   <form action="{{ url_for('login') }}" method=post>
@@ -12,4 +13,5 @@
       <dd><input type=submit value=Login>
     </dl>
   </form>
+  
 {% endblock %}

@@ -6,6 +6,7 @@ import re
 from urllib import request as req
 
 # peace-import
+from core import config as _cfg
 from core import files
 
 

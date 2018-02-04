@@ -1,9 +1,9 @@
-{% extends "layout.htm" %}
+{% extends "blog/layout.htm" %}
 
 {% block body %}
 
   {% if session.logged_in %}
-    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+    <form action="{- url_for('add_entry') -}" method=post class=add-entry>
       <dl>
         <dt>Title:
         <dd><input type=text size=30 name=title>
@@ -21,29 +21,5 @@
   {% endfor %}
   </ul>
 
-  <hr>
-
-  <p>{{ incs.input('username') }}</p>
-  <p>{{ incs.input('password', type='password') }}</p>
-
 {% endblock %}
 
-{% block debug %}
-
-<div class=page>
-  {{ config }}
-</div>
-
-<div class=page>
-  {{ request }}
-</div>
-
-<div class=page>
-  {{ session }}
-</div>
-
-<div class=page>
-  {{ g }}
-</div>
-
-{% endblock %}

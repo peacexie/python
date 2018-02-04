@@ -1,0 +1,21 @@
+
+<!doctype html>
+<title>Hello from Flask</title>
+
+{% if res.mvks %}
+  <h1>Hello {{ res.mvks }}!</h1>
+{% else %}
+  <h1>Hello Python!</h1>
+{% endif %}
+
+<p>
+/template/{{ g.res }}.html
+</p>
+
+<p>
+/g.mkvs/{{ g.mkvs }}.html
+</p>
+
+<p>
+/template/{{ res.tpl }}:{{ res.mkv }}.html
+</p>

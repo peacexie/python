@@ -3,6 +3,12 @@
 * template
 * mysql/sqlite
 
+set
+part
+group
+tpl
+sec
+/tpl/mkv?
 
 ----------------------------------------- 
 
