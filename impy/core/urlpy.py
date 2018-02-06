@@ -1,24 +1,20 @@
 # url抓取(py=爬)相关函数
 
 # sys-import
-import os
-import re
+import os, re
 from urllib import request as req
-
-# peace-import
-from core import config as _cfg
 from core import files
 
 
 # 从url保存一个文件
-def svurl(url, sdir, file=''):
+def svurl(url, sdir, file='', path='..'):
     if url.find('://')<0:
         return ''
     data = req.urlopen(url).read()
     if len(data)==0:
         return ''
     file = files.autnm(url)
-    fp = '../cache/' + sdir + '/' + file
+    fp = path + '/cache/' + sdir + '/' + file
     with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str
     return file

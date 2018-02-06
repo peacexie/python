@@ -1,54 +1,25 @@
 #coding=UTF-8
 
-import sys
-#import io
+import sys, io
 sys.path.append("../")
-sys.path.append("../import")
+from core import config, dbop, vop
+_cfgs = config.init()
 #sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
-# all the imports // , json
-import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, \
-    abort, render_template, flash
-from contextlib import closing
-from core import config as _cfg
-
-# configuration
-DATABASE = './flaskr.db'
-DEBUG = True
-SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = '123456'
-
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
-
-def init_db():
-    with closing(connect_db()) as db:
-        #with app.open_resource('./schema.sql') as f:
-        #    db.cursor().executescript(f.read())
-        # ValueError: script argument must be unicode.
-        db.cursor().executescript(dbsql)
-        db.commit()
-
-'''
-dbsql = '\
-drop table if exists entries;\
-create table entries (\
-  id integer primary key autoincrement,\
-  title string not null,\
-  text string not null\
-);\
-'''
+# all the imports 
+from flask import Flask, request, g, render_template, \
+    redirect, url_for, abort, flash, session
 
 # create our little application :)
 app = Flask(__name__)
-app.config.from_object(__name__)
+#app.config.from_object(__name__)
+app.secret_key = _cfgs['app']['secret_key']
+#app.config.from_object(_cfgs['app'])
 
 
 @app.before_request
 def before_request():
-    g.db = connect_db()
+    g.db = dbop.conn(_cfgs['db'])
 
 @app.teardown_request
 def teardown_request(exception):
@@ -75,9 +46,9 @@ def add_entry():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
+        if request.form['username'] != _cfgs['blog']['user']:
             error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        elif request.form['password'] != _cfgs['blog']['pass']:
             error = 'Invalid password'
         else:
             session['logged_in'] = True
@@ -94,5 +65,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run()
-
 

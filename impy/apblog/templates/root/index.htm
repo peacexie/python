@@ -1,5 +1,7 @@
 
 <!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Hello from Flask</title>
 
 {% if _cfgs.mvks %}
@@ -17,15 +19,17 @@ _cfgs.envs = {{ _cfgs.envs }}
 </p>
 
 <p>
+_cfgs.app = {{ _cfgs.app }}
+</p>
+<p>
 _cfgs.path = {{ _cfgs.path }}
 </p>
-
 <p>
 _cfgs.db = {{ _cfgs.db }}
 </p>
 
 <p>
-_cfgs.mkvs = {{ _cfgs.mkvs }}.html
+_cfgs.mkvs = {{ _cfgs.mkvs }}
 </p>
 
 <p>

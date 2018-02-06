@@ -6,9 +6,8 @@ def init():
     _cfgs = {}
     _cfgs['envs'] = envs()
     bcfg = base(_cfgs['envs'])
-    _cfgs['app'] = bcfg['app']
-    _cfgs['path'] = bcfg['path']
-    _cfgs['db'] = bcfg['db']
+    for key in bcfg: # app, path, db, blog ... 
+        _cfgs[key] = bcfg[key]
     _cfgs['db']['path'] = _cfgs['envs']['root'] + _cfgs['db']['file']
     return _cfgs
 
@@ -23,7 +22,7 @@ def envs():
 
 def base(envs):
     conf = configparser.ConfigParser()
-    conf.read(envs['root'] + "/data/config.ini")
+    conf.read(envs['root']+"/data/config.ini", encoding="utf-8-sig")
     secs = conf.sections()
     base = {}
     for key in secs:

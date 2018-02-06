@@ -1,11 +1,9 @@
 #coding=UTF-8
 
-import sys
+import sys, io
 sys.path.append("../")
 from core import config, dbop, vop
 _cfgs = config.init()
-
-#import io
 #sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
 # all the imports 
@@ -30,7 +28,7 @@ app = Flask(__name__)
 
 @app.before_request
 def before_request():
-    g.db = dbop.conn(_cfgs['db']) #connect_db()
+    g.db = dbop.conn(_cfgs['db'])
 
 @app.teardown_request
 def teardown_request(exception):
@@ -46,7 +44,7 @@ def exuser(name=''):
 def lists():
     cur = g.db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog/lists.htm', entries=entries)
+    return render_template('root/blog/lists.htm', entries=entries)
 
 
 @app.route('/')

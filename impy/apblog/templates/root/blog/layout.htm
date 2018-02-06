@@ -1,4 +1,4 @@
-{% import '/_incs.htm' as incs %}
+
 <!doctype html>
 <title>Pathon Blog</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
@@ -7,9 +7,9 @@
   <h1>Pathon Blog</h1>
   <div class=metanav>
   {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">log in</a>
+    <a href="{- url_for('login') -}">log in</a>
   {% else %}
-    <a href="{{ url_for('logout') }}">log out</a>
+    <a href="{- url_for('logout') -}">log out</a>
   {% endif %}
   </div>
   {% for message in get_flashed_messages() %}
@@ -23,10 +23,3 @@
 <hr>
 
 {% block debug %}{% endblock %}
-
-{{ incs.head() }}
-Contenter
-<div class=page>
-  {{ request.path }}
-</div>
-{{ incs.foot() }}

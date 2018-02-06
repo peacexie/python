@@ -1,9 +1,9 @@
-{% extends "blog/layout.htm" %}
+{% extends "root/blog/layout.htm" %}
 
 {% block body %}
 
   {% if session.logged_in %}
-    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+    <form action="{- url_for('add_entry') -}" method=post class=add-entry>
       <dl>
         <dt>Title:
         <dd><input type=text size=30 name=title>
@@ -20,7 +20,6 @@
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}
   </ul>
-  lists-02
 
 {% endblock %}
 

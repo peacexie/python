@@ -1,12 +1,9 @@
 #coding=UTF-8
 
-import sys
-import io
+import sys, io
 sys.path.append("../")
-#sys.path.append("../imps/")
-
-from core import urlpy
-#from core import pycls
+from core import config, urlpy
+_cfgs = config.init()
 
 # gb18030,utf-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='gb18030')
@@ -45,12 +42,15 @@ urlpy.svurl(pag1, 'tmps')
 asp,php,jsp,aspx,do
 '''
 
+_envs = config.envs()
+path = _cfgs['envs']['root']
 base = 'http://txmao.txjia.com'
-for itm in itmp:
+itms = itmp[1:3]
+for itm in itms:
     url = itm[0]
     if url.find('://')<=0:
         url = base+url
-    file = urlpy.svurl(url, 'pics')
+    file = urlpy.svurl(url, 'pics') # path
     print(file)
 
 # http://blog.csdn.net/eastmount/article/details/51082253
