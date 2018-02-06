@@ -7,11 +7,12 @@ _cfgs = config.init()
 #sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
 # all the imports 
-from flask import Flask, request, g, render_template
-# , redirect, url_for, , abort, flash, session
+from flask import Flask, request, g, render_template #, \
+#    redirect, url_for, abort, flash, session
 
 
 app = Flask(__name__)
+config.app(app, _cfgs)
 '''
     self,
     import_name,
@@ -24,7 +25,6 @@ app = Flask(__name__)
     instance_relative_config=False,
     root_path=None
 '''
-#app.config.from_object(__name__)
 
 @app.before_request
 def before_request():
@@ -41,7 +41,7 @@ def exuser(name=''):
     return '/exuser/exact!'
 '''
 @app.route('/blog/')
-def lists():
+def blog_home():
     cur = g.db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('root/blog/lists.htm', entries=entries)
@@ -51,11 +51,12 @@ def lists():
 @app.route('/<vgp>/')
 @app.route('/<mkv>')
 @app.route('/<vgp>/<mkv>')
-def rop(vgp='', mkv=''):
+def route(vgp='', mkv=''):
     _cfgs['mkvs'] = vop.mkvs(vgp, mkv)
-    res = {'data':{}, 'vgp':vgp} 
-    g.res = res
-    return render_template('root/index.htm', _cfgs=_cfgs, _res=res)
+    _vres = {'data':{}, 'vgp':vgp} # data, state, tpname
+    #print(app); print(request); print(g); print(_cfgs)
+    _vres = vop.vres(app, request, g, _cfgs)
+    return render_template('root/index.htm', _cfgs=_cfgs, _vres=_vres)
 
 if __name__ == '__main__':
     app.run()

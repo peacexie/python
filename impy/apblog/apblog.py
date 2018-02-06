@@ -12,9 +12,11 @@ from flask import Flask, request, g, render_template, \
 
 # create our little application :)
 app = Flask(__name__)
+config.app(app, _cfgs)
 #app.config.from_object(__name__)
-app.secret_key = _cfgs['app']['secret_key']
-#app.config.from_object(_cfgs['app'])
+#app.config['SECRET_KEY'] = _cfgs['app']['secret_key']
+#app.secret_key = _cfgs['app']['secret_key']
+#app.config.from_object(_cfgs['app']) # x
 
 
 @app.before_request

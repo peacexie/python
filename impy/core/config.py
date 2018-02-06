@@ -2,6 +2,14 @@
 import os, sys, platform
 import configparser
 
+def app(app, _cfgs):
+    for key in _cfgs['app']:
+        app.config[key.upper()] = _cfgs['app'][key]
+'''
+    app.config['SECRET_KEY'] = '123456'  
+    app.secret_key = '123456' 
+'''
+
 def init():
     _cfgs = {}
     _cfgs['envs'] = envs()
@@ -13,7 +21,8 @@ def init():
 
 def envs():
     envs = {}
-    envs['root'] = os.path.dirname(os.path.dirname(__file__)) # `..`
+    envs['root'] = os.path.dirname(os.path.dirname(__file__))
+    envs['rapp'] = '.'
     sys.path.append(envs['root'] + "/import")
     envs['arc'] = platform.architecture()
     envs['sys'] = platform.system()
