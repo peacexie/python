@@ -17,8 +17,8 @@ def init_sqlite(sql):
 dbsql = '\
 drop table if exists entries;\
 create table entries (\
-  id integer primary key autoincrement,\
-  title string not null,\
-  text string not null\
+    id integer primary key autoincrement,\
+    title string not null,\
+    text string not null\
 );\
 '''

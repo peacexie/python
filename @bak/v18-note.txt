@@ -1,4 +1,15 @@
 
+actest
+apblog
+    cache
+    data
+    static
+    tpls(templates)
+...
+core
+import
+impui
+
 * pyquery
 * template
 * mysql/sqlite
