@@ -8,30 +8,34 @@ _cfgs = config.init()
 #import io
 #sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
-# all the imports // , json
-
-from flask import Flask, request, session, g, redirect, url_for, \
-    abort, render_template, flash
-
-# configuration
-DATABASE = './flaskr.db'
-DEBUG = True
-SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = '123456'
+# all the imports 
+from flask import Flask, request, g, render_template
+# , redirect, url_for, , abort, flash, session
 
 
 app = Flask(__name__)
-app.config.from_object(__name__)
-
+'''
+    self,
+    import_name,
+    static_url_path=None,
+    static_folder='static',
+    static_host=None,
+    host_matching=False,
+    template_folder='templates',
+    instance_path=None,
+    instance_relative_config=False,
+    root_path=None
+'''
+#app.config.from_object(__name__)
 
 @app.before_request
 def before_request():
-    g.db = dbop.conn(_cfgs['base']['db']) #connect_db()
+    g.db = dbop.conn(_cfgs['db']) #connect_db()
 
 @app.teardown_request
 def teardown_request(exception):
     g.db.close()
+
 
 ''' >用户扩展
 @app.route('/exuser/exact')
@@ -50,14 +54,11 @@ def lists():
 @app.route('/<mkv>')
 @app.route('/<vgp>/<mkv>')
 def rop(vgp='', mkv=''):
-
     _cfgs['mkvs'] = vop.mkvs(vgp, mkv)
-    res = {'data':{}, 'vgp':vgp} # data,mkvs,vgp,mkv,
-    g.res = res 
-    tpname = vop.tpname(_cfgs)
-    return render_template('root/index.htm', res=res)
+    res = {'data':{}, 'vgp':vgp} 
+    g.res = res
+    return render_template('root/index.htm', _cfgs=_cfgs, _res=res)
 
 if __name__ == '__main__':
     app.run()
-
 

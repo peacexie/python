@@ -2,20 +2,32 @@
 <!doctype html>
 <title>Hello from Flask</title>
 
-{% if res.mvks %}
-  <h1>Hello {{ res.mvks }}!</h1>
+{% if _cfgs.mvks %}
+  <h1>Hello {{ _cfgs.mvks }}!</h1>
 {% else %}
   <h1>Hello Python!</h1>
 {% endif %}
 
 <p>
-/template/{{ g.res }}.html
+g = {{ g }}
 </p>
 
 <p>
-/g.mkvs/{{ g.mkvs }}.html
+_cfgs.envs = {{ _cfgs.envs }}
 </p>
 
 <p>
-/template/{{ res.tpl }}:{{ res.mkv }}.html
+_cfgs.path = {{ _cfgs.path }}
+</p>
+
+<p>
+_cfgs.db = {{ _cfgs.db }}
+</p>
+
+<p>
+_cfgs.mkvs = {{ _cfgs.mkvs }}.html
+</p>
+
+<p>
+/template/{{ _cfgs.mkvs.tpname }}.html
 </p>

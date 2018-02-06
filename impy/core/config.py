@@ -5,8 +5,11 @@ import configparser
 def init():
     _cfgs = {}
     _cfgs['envs'] = envs()
-    _cfgs['base'] = base(_cfgs['envs'])
-    _cfgs['base']['db']['path'] = _cfgs['envs']['root'] + _cfgs['base']['db']['file']
+    bcfg = base(_cfgs['envs'])
+    _cfgs['app'] = bcfg['app']
+    _cfgs['path'] = bcfg['path']
+    _cfgs['db'] = bcfg['db']
+    _cfgs['db']['path'] = _cfgs['envs']['root'] + _cfgs['db']['file']
     return _cfgs
 
 def envs():
