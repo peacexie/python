@@ -1,15 +1,29 @@
 #coding=UTF-8
 
+import sys
 import configparser
 
 conf = configparser.ConfigParser()
 conf.read("../data/config.ini")
+#tmp = dict(conf)
+#print(tmp)
+
 secs = conf.sections()
-print(secs)
+cfgs = {}
+for key in secs:
+    cfgs[key] = dict(conf.items(key))
+print(cfgs)
+sys.exit()
+
+tmp = dict(conf.items("db"))
+print(tmp)
+#print(tmp.user)
+print(tmp['user'])
 
 tmp = conf.get("db", "user")
 print(tmp)
 tmp = conf.items("db")
+print(tmp[0])
 print(tmp)
 
 print()

@@ -2,15 +2,18 @@
 
 import sys
 sys.path.append("../")
+from core import config
+_cfgs = config.init()
 
-from core import start
-#from core import config as _cfg
+from flask import Flask, request, g, render_template, flash
+
+#print(g)
+print(_cfgs['envs'])
+print(_cfgs['base'])
+
+sys.exit()
 
 #print(start._cfg)
-
-from flask import Flask
-from flask import render_template
-import requests
 
 app = Flask(__name__)
 '''
