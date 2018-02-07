@@ -1,2 +1,6 @@
+
 # python
-This repository is just for Porsonal Test!
+
+`master` A mini python Framework!
+
+`branches` For Porsonal Test!

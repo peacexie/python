@@ -3,7 +3,7 @@
 import sys, io
 sys.path.append("../")
 from core import config, urlpy
-_cfgs = config.init()
+#_cfgs = config.init()
 
 # gb18030,utf-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='gb18030')
@@ -43,7 +43,6 @@ asp,php,jsp,aspx,do
 '''
 
 _envs = config.envs()
-path = _cfgs['envs']['root']
 base = 'http://txmao.txjia.com'
 itms = itmp[1:3]
 for itm in itms:

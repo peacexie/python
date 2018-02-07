@@ -42,7 +42,7 @@ def blog_home():
 @app.route('/<vgp>/<mkv>')
 def route(vgp='', mkv=''):
     _cfgs['mkvs'] = vop.mkvs(vgp, mkv)
-    _vres = {'data':{}, 'vgp':vgp} # data, state, tpname
+    _vres = {'data':{}, 'vgp':vgp} # data, state, tpname, tpath
     #print(app); print(request); print(g); print(_cfgs)
     _vres = vop.vres(app, request, g, _cfgs)
     return render_template('root/index.htm', _cfgs=_cfgs, _vres=_vres)

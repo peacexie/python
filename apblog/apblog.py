@@ -11,7 +11,7 @@ from flask import Flask, request, g, render_template, \
     redirect, url_for, abort, flash, session
 
 # create our little application :)
-app = Flask(__name__)
+app = Flask(__name__, template_folder='tpls')
 config.app(app, _cfgs)
 #app.config.from_object(__name__)
 #app.config['SECRET_KEY'] = _cfgs['app']['secret_key']
@@ -21,7 +21,7 @@ config.app(app, _cfgs)
 
 @app.before_request
 def before_request():
-    g.db = dbop.conn(_cfgs['db'])
+    g.db = dbop.conn(_cfgs)
 
 @app.teardown_request
 def teardown_request(exception):

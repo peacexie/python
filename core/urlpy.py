@@ -7,7 +7,7 @@ from core import files
 
 
 # 从url保存一个文件
-def svurl(url, sdir, file='', path='./cache'):
+def svurl(url, sdir, file='', path='./_cache'):
     if url.find('://')<0:
         return ''
     data = req.urlopen(url).read()
