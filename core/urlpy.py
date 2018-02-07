@@ -7,14 +7,14 @@ from core import files
 
 
 # 从url保存一个文件
-def svurl(url, sdir, file='', path='..'):
+def svurl(url, sdir, file='', path='./cache'):
     if url.find('://')<0:
         return ''
     data = req.urlopen(url).read()
     if len(data)==0:
         return ''
     file = files.autnm(url)
-    fp = path + '/cache/' + sdir + '/' + file
+    fp = path + '/' + sdir + '/' + file
     with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str
     return file

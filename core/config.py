@@ -13,10 +13,10 @@ def app(app, _cfgs):
 def init():
     _cfgs = {}
     _cfgs['envs'] = envs()
-    bcfg = base(_cfgs['envs'])
+    bcfg = ucfg(_cfgs['envs'])
     for key in bcfg: # app, dir, path, db, blog ... 
         _cfgs[key] = bcfg[key]
-    sys.path.append(_cfgs['dir']['coredir'])
+    sys.path.append(_cfgs['dir']['cpdir'])
     return _cfgs
 
 def envs():
@@ -26,12 +26,12 @@ def envs():
     envs['ver'] = platform.version()
     return envs
 
-def base(envs):
+def ucfg(envs):
     conf = configparser.ConfigParser()
     conf.read("./data/config.ini", encoding="utf-8-sig")
     secs = conf.sections()
-    base = {}
+    ucfg = {}
     for key in secs:
-        base[key] = dict(conf.items(key))
-    return base
+        ucfg[key] = dict(conf.items(key))
+    return ucfg
 

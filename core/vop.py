@@ -16,7 +16,7 @@ def vres(app, request, g, _cfgs):
     return res
 
 def load(_cfgs):
-    gpath = _cfgs['envs']['rapp'] + "/templates/" + _cfgs['mkvs']['vgp']
+    gpath = "./templates/" + _cfgs['mkvs']['vgp']
     sys.path.append(gpath)
     file = _cfgs['mkvs']['mod'] + 'Ctrl'
     flag = os.path.exists(gpath+'/_ctrls/'+file+'.py')
