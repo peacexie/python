@@ -11,7 +11,7 @@ from flask import Flask, request, g, render_template #, \
 #    redirect, url_for, abort, flash, session
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='tpls')
 config.app(app, _cfgs)
 
 
