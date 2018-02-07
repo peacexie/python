@@ -14,16 +14,13 @@ def init():
     _cfgs = {}
     _cfgs['envs'] = envs()
     bcfg = base(_cfgs['envs'])
-    for key in bcfg: # app, path, db, blog ... 
+    for key in bcfg: # app, dir, path, db, blog ... 
         _cfgs[key] = bcfg[key]
-    _cfgs['db']['path'] = _cfgs['envs']['root'] + _cfgs['db']['file']
+    sys.path.append(_cfgs['dir']['coredir'])
     return _cfgs
 
 def envs():
     envs = {}
-    envs['root'] = os.path.dirname(os.path.dirname(__file__))
-    envs['rapp'] = '.'
-    sys.path.append(envs['root'] + "/import")
     envs['arc'] = platform.architecture()
     envs['sys'] = platform.system()
     envs['ver'] = platform.version()
@@ -31,7 +28,7 @@ def envs():
 
 def base(envs):
     conf = configparser.ConfigParser()
-    conf.read(envs['root']+"/data/config.ini", encoding="utf-8-sig")
+    conf.read("./data/config.ini", encoding="utf-8-sig")
     secs = conf.sections()
     base = {}
     for key in secs:

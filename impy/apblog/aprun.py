@@ -13,22 +13,11 @@ from flask import Flask, request, g, render_template #, \
 
 app = Flask(__name__)
 config.app(app, _cfgs)
-'''
-    self,
-    import_name,
-    static_url_path=None,
-    static_folder='static',
-    static_host=None,
-    host_matching=False,
-    template_folder='templates',
-    instance_path=None,
-    instance_relative_config=False,
-    root_path=None
-'''
+
 
 @app.before_request
 def before_request():
-    g.db = dbop.conn(_cfgs['db'])
+    g.db = dbop.conn(_cfgs)
 
 @app.teardown_request
 def teardown_request(exception):
