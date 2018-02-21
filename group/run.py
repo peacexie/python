@@ -8,9 +8,12 @@ from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='views')
 
+'''
+@app.route('/')
 @app.route('/<mkv>')
 def route(mkv=''):
     return render_template('root/home/index.htm')
+'''
 
 vop.run(app)
 

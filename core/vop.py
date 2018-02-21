@@ -14,15 +14,15 @@ def run(app):
         views(app, group, _cfgs)
 
 def views(app, group, _cfgs):
-    #group = 'root' if len(gid)==0 else gid
     sview = Blueprint(group, '__name_'+group)
-    #@sview.route('/')
+    @sview.route('/')
     @sview.route('/<mkv>')
     def smkv(mkv=''):
         print(app); print(request); print(g); 
-        return render_template(group + '/home/index.htm')
-    #fix = '' if len(gid)==0 else '/'+group
-    app.register_blueprint(sview, url_prefix='/'+group)
+        gdir = 'root' if len(group)==0 else group
+        return render_template(gdir + '/home/index.htm')
+    gfix = '' if len(group)==0 else '/'+group
+    app.register_blueprint(sview, url_prefix=gfix)
 
 # res : data, state, tpname, code, message
 # mkvs, http(code,message), data:list,detail,ext/side*
