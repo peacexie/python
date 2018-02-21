@@ -1,9 +1,31 @@
 
 import os, sys
+from flask import Blueprint, request, g, render_template
+from core import config
 #from _ctrls import blogCtrl
 #ctrl = blogCtrl.main(request, g, _cfgs)
 
+def run(app):
+    _cfgs = config.init()
+    for key in _cfgs['sys']:
+        app.config[key.upper()] = _cfgs['sys'][key]
+    groups = _cfgs['sys']['groups'].split(',')
+    for group in groups:
+        views(app, group, _cfgs)
+
+def views(app, group, _cfgs):
+    #group = 'root' if len(gid)==0 else gid
+    sview = Blueprint(group, '__name_'+group)
+    #@sview.route('/')
+    @sview.route('/<mkv>')
+    def smkv(mkv=''):
+        print(app); print(request); print(g); 
+        return render_template(group + '/home/index.htm')
+    #fix = '' if len(gid)==0 else '/'+group
+    app.register_blueprint(sview, url_prefix='/'+group)
+
 # res : data, state, tpname, code, message
+# mkvs, http(code,message), data:list,detail,ext/side*
 def vres(app, request, g, _cfgs):
     tpath = _cfgs['dir']['tpls'] + '/' + _cfgs['mkvs']['vgp']
     ctrl = load(_cfgs, tpath)
@@ -16,7 +38,7 @@ def vres(app, request, g, _cfgs):
         print(' xxxx2!!! ')
     #sys.exit()
     res['data'] = {}
-    return res
+    return res 
 
 def load(_cfgs, tpath):
     sys.path.append(tpath)
@@ -56,4 +78,6 @@ def mkvs(vgp, mkv):
     tpdef = vgp +'/'+ tmp[0] +'/'+ type
     exts = {'vgp':vgp, mkv:mkv, 'tpname':tpname, 'tpdef':tpdef}
     res = dict(mkvs, **exts)
+    #print(request); 
+    #print(g)
     return res

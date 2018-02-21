@@ -12,7 +12,7 @@ from flask import Flask, request, g, render_template #, \
 
 
 app = Flask(__name__, template_folder='tpls')
-config.app(app, _cfgs)
+config.app(app, _cfgs) # app.config.from_pyfile('./data/cfgapp.py')
 
 
 @app.before_request
@@ -31,7 +31,7 @@ def exuser(name=''):
 '''
 @app.route('/blog/')
 def blog_home():
-    cur = g.db.execute('select title, text from entries order by id desc')
+    cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('root/blog/lists.htm', entries=entries)
 
@@ -41,6 +41,7 @@ def blog_home():
 @app.route('/<mkv>')
 @app.route('/<vgp>/<mkv>')
 def route(vgp='', mkv=''):
+    #print(app.config['PORT'])
     _cfgs['mkvs'] = vop.mkvs(vgp, mkv)
     _vres = {'data':{}, 'vgp':vgp} # data, state, tpname, tpath
     #print(app); print(request); print(g); print(_cfgs)

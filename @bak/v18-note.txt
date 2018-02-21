@@ -23,6 +23,9 @@ sec
 
 ----------------------------------------- 
 
+flask blueprint template folder
+https://stackoverflow.com/questions/7974771/flask-blueprint-template-folder
+
 jinja2 宏的简单使用总结(macro)
 http://www.cnblogs.com/linuxhui/p/5804380.html
 
