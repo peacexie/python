@@ -1,6 +1,6 @@
 
 import os, sys
-from flask import Blueprint, request, g, render_template
+from flask import Blueprint, request, g, render_template, abort
 from core import config
 #from _ctrls import blogCtrl
 #ctrl = blogCtrl.main(request, g, cfgs)
@@ -26,10 +26,10 @@ def view(app, group, cfgs, mkv):
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
-    d = vres(app, request, g)
-    #setattr(g, 'd', d) # 预留
+    d = vres(app, request, g) # setattr(g, 'd', d)
     #print(app); print(request); print(g);
-    return render_template(d['group']+'/'+d['tpname']+g.dir['tpext'], d=d)
+    tpfull = d['group']+'/'+d['tpname']+g.dir['tpext']
+    return render_template(tpfull, d=d)
 
 # res : data, state, tpname, code, message
 # mkvs, http(code,message), data:list,detail,ext/side*
@@ -37,13 +37,17 @@ def vres(app, request, g):
     tpath = g.dir['tpls'] + '/' + g.mkvs['group']
     ctrl = load(g, tpath)
     tpdef = tpname(g, tpath)
-    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpdef}
+    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpdef, 'code':0, 'message':''}
     if ctrl:
         cobj = ctrl.main(app, request, g)
         print(cobj)
     else:
         print(' xxxx2!!! ')
     #sys.exit()
+    if tpdef=='home/error':
+        res['code'] = 404
+        res['message'] = 'Template NOT Found!'
+        #abort(404, 'Template NOT Found!')
     res['data'] = {}
     return res 
 

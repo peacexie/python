@@ -7,15 +7,13 @@ from core import vop
 from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='views')
-
-'''
-@app.route('/')
-@app.route('/<mkv>')
-def route(mkv=''):
-    return render_template('root/home/index.htm')
-'''
-
 vop.run(app)
-
 #print(app.url_map)
 app.run()
+
+'''
+@app.errorhandler(404)  
+def not_found(e):  
+    return render_template("root/home/error.htm")
+'''
+

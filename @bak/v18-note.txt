@@ -23,6 +23,9 @@ sec
 
 ----------------------------------------- 
 
+http://www.bjhee.com/flask-1.html
+Flask入门系列
+
 https://www.douban.com/group/topic/12849267/
 Flask 定义404页面返回状态是200
 
