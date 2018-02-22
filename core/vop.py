@@ -29,8 +29,7 @@ def view(app, group, cfgs, mkv):
     d = vres(app, request, g)
     #setattr(g, 'd', d) # 预留
     #print(app); print(request); print(g);
-    #g.mkvs['group'] + '/home/index.htm'
-    return render_template(d['tpname']+'.htm', d=d)
+    return render_template(d['group']+'/'+d['tpname']+g.dir['tpext'], d=d)
 
 # res : data, state, tpname, code, message
 # mkvs, http(code,message), data:list,detail,ext/side*
@@ -38,7 +37,7 @@ def vres(app, request, g):
     tpath = g.dir['tpls'] + '/' + g.mkvs['group']
     ctrl = load(g, tpath)
     tpdef = tpname(g, tpath)
-    res = {'tpath':tpath, 'tpname':tpdef}
+    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpdef}
     if ctrl:
         cobj = ctrl.main(app, request, g)
         print(cobj)
@@ -60,16 +59,16 @@ def load(g, tpath):
 
 def tpname(g, tpath):
     tpname = g.mkvs['tpname']
-    tpdef = g.mkvs['tpname']
-    flag = os.path.exists(tpath + tpname + g.dir['tpext'])
-    if not flag:
-        tmp = tpath + tpdef + g.dir['tpext']
-        tpname = tpdef if(os.path.exists(tmp)) else 'root/home/error'
+    tpdef = g.mkvs['tpdef']
+    tpext = g.dir['tpext'] 
+    flag = os.path.exists(tpath + '/' + tpname + tpext)
+    if not flag: 
+        tmp = tpath + '/' + tpdef + tpext
+        tpname = tpdef if(os.path.exists(tmp)) else 'home/error'
+    print(tpname)
     return tpname
 
 def mkvs(group, mkv):
-    #group = 'root' if len(group)==0 else group
-    #mkv = 'home-index' if len(mkv)==0 else mkv
     vtype = 'index'
     if len(group)==0:     # /info
         group = 'root'
@@ -85,8 +84,8 @@ def mkvs(group, mkv):
     tmp = mkv.split('.') if mkv.find('.')>0 else mkv.split('-')
     view = tmp[2] if len(tmp)>=3 else ''
     mkvs = {'type':vtype, 'mod':tmp[0], 'key':tmp[1], 'view':view}
-    tpname = group +'/'+ tmp[0] +'/'+ ('detail' if mkv.find('.')>0 else tmp[1])
-    tpdef = group +'/'+ tmp[0] +'/'+ vtype
+    tpname = tmp[0] +'/'+ ('detail' if mkv.find('.')>0 else tmp[1])
+    tpdef = tmp[0] +'/'+ vtype
     exts = {'group':group, 'mkv':mkv, 'tpname':tpname, 'tpdef':tpdef}
     res = dict(mkvs, **exts)
     return res
