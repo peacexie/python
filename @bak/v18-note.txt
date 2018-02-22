@@ -21,6 +21,9 @@ tpl
 sec
 /tpl/mkv?
 
+PHP√Ê ‘Ã‚ºØ
+http://www.cnblogs.com/yjf512/archive/2012/02/03/2336423.html
+
 ----------------------------------------- 
 
 http://www.bjhee.com/flask-1.html
