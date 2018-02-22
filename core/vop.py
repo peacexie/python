@@ -2,8 +2,6 @@
 import os, sys
 from flask import Blueprint, request, g, render_template, abort
 from core import config
-#from _ctrls import blogCtrl
-#ctrl = blogCtrl.main(request, g, cfgs)
 
 def run(app):
     cfgs = config.init()
@@ -31,20 +29,18 @@ def view(app, group, cfgs, mkv):
     tpfull = d['group']+'/'+d['tpname']+g.dir['tpext']
     return render_template(tpfull, d=d)
 
-# res : data, state, tpname, code, message
-# mkvs, http(code,message), data:list,detail,ext/side*
+# res : group, tpath, tpname, code, message, data
 def vres(app, request, g):
     tpath = g.dir['tpls'] + '/' + g.mkvs['group']
     ctrl = load(g, tpath)
-    tpdef = tpname(g, tpath)
-    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpdef, 'code':0, 'message':''}
+    tpnow = tpname(g, tpath)
+    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':0, 'message':''}
     if ctrl:
         cobj = ctrl.main(app, request, g)
         print(cobj)
     else:
         print(' xxxx2!!! ')
-    #sys.exit()
-    if tpdef=='home/error':
+    if tpnow=='home/error':
         res['code'] = 404
         res['message'] = 'Template NOT Found!'
         #abort(404, 'Template NOT Found!')
@@ -62,19 +58,18 @@ def load(g, tpath):
     return item
 
 def tpname(g, tpath):
-    tpname = g.mkvs['tpname']
+    tpnow = g.mkvs['tpname']
     tpdef = g.mkvs['tpdef']
     tpext = g.dir['tpext'] 
-    flag = os.path.exists(tpath + '/' + tpname + tpext)
+    flag = os.path.exists(tpath + '/' + tpnow + tpext)
     if not flag: 
         tmp = tpath + '/' + tpdef + tpext
-        tpname = tpdef if(os.path.exists(tmp)) else 'home/error'
-    print(tpname)
-    return tpname
+        tpnow = tpdef if(os.path.exists(tmp)) else 'home/error'
+    return tpnow
 
 def mkvs(group, mkv):
     vtype = 'index'
-    if len(group)==0:     # /info
+    if len(group)==0:     # </root>/info
         group = 'root'
         mkv = 'home-' + ('index' if len(mkv)==0 else mkv)
     elif len(mkv)==0:     # /front/
@@ -87,9 +82,9 @@ def mkvs(group, mkv):
         mkv = mkv + '-index'
     tmp = mkv.split('.') if mkv.find('.')>0 else mkv.split('-')
     view = tmp[2] if len(tmp)>=3 else ''
-    mkvs = {'type':vtype, 'mod':tmp[0], 'key':tmp[1], 'view':view}
+    mkva = {'type':vtype, 'mod':tmp[0], 'key':tmp[1], 'view':view}
     tpname = tmp[0] +'/'+ ('detail' if mkv.find('.')>0 else tmp[1])
     tpdef = tmp[0] +'/'+ vtype
     exts = {'group':group, 'mkv':mkv, 'tpname':tpname, 'tpdef':tpdef}
-    res = dict(mkvs, **exts)
+    res = dict(mkva, **exts)
     return res

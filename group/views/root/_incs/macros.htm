@@ -21,12 +21,12 @@
 {% endmacro %}
 
 
-{% macro foot(muid='') %}
+{% macro foot(d) %}
+    <p>/root/home/layout.htm - {{ d.tpath }}/{{ d.tpname }}</p>
     <ul>
-        <li>Profile</li>
-        <li>Service</li>
-        <li>Product</li>
         <li>About</li>
+        <li>Service</li>
+        <li>Contact</li>
         <li>{{ muid }} (end)</li>
     </ul> 
 {% endmacro %}

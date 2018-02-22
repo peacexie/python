@@ -4,7 +4,11 @@
 <meta name="viewport" content="width=device-width"/>
 <title>{% block title %}{% endblock %}</title>
 
+<h1>
 {% block info %}{% endblock %}
+</h1>
+
+<hr>
 
 {% for itm in g %}
     <p>g.{{ itm }} = {{ g[itm] }}</p>
@@ -16,4 +20,5 @@
 
 <hr>
 
-<p>/root/home/layout.htm - {{ d.tpath }}/{{ d.tpname }}</p>
+{% from 'root/_incs/macros.htm' import foot %}
+<p>{{ foot(d) }}</p>

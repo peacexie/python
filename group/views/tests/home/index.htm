@@ -1,16 +1,6 @@
 
-<!doctype html>
-<meta name="viewport" content="width=device-width"/>
-<title>Hello from Flask</title>
+{% extends "root/_incs/layout.htm" %}
 
-{% for itm in g %}
-    <p>g.{{ itm }} = {{ g[itm] }}</p>
-{% endfor %}
+{% block title %}Home - index{% endblock %}
 
-<hr>
-
-<p>d = {{ d }}</p>
-
-<p>
-/tests/views/index.html - 4
-</p>
+{% block info %}Home - index{% endblock %}
