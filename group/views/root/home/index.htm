@@ -1,36 +1,6 @@
 
-<!doctype html>
-<meta name="viewport" content="width=device-width"/>
-<title>Hello from Flask</title>
+{% extends "root/_incs/layout.htm" %}
 
-<p>
-g.mkvs = {{ g.mkvs }}
-</p>
+{% block title %}Home - index{% endblock %}
 
-<p>
-g.sys = {{ g.sys }}
-</p>
-<p>
-g.dir = {{ g.dir }}
-</p>
-<p>
-g.cfgs = {{ g.cfgs }}
-</p>
-
-
-{% if name %}
-  <h1>Hello {{ name }}!</h1>
-{% else %}
-  <h1>Hello Python!</h1>
-{% endif %}
-
-{% if group %}
-    <p>Hello {{ group }}!</p>
-{% endif %}
-{% if mkv %}
-    <p>Hello {{ mkv }}!</p>
-{% endif %}
-
-<p>
-/tests/views/index.html - 4
-</p>
+{% block info %}Home - index{% info %}

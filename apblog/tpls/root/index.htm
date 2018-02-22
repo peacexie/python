@@ -1,41 +1,17 @@
 
 <!doctype html>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="viewport" content="width=device-width"/>
 <title>Hello from Flask</title>
 
-{% if _cfgs.mvks %}
-  <h1>Hello {{ _cfgs.mvks }}!</h1>
-{% else %}
-  <h1>Hello Python!</h1>
-{% endif %}
+{% for itm in g %}
+    <p>g.{{ itm }} = {{ g[itm] }}</p>
+{% endfor %}
+
+<hr>
+
+<p>d = {{ d }}</p>
 
 <p>
-g = {{ g }}
-</p>
-
-<p>
-_cfgs.envs = {{ _cfgs.envs }}
-</p>
-
-<p>
-_cfgs.sys = {{ _cfgs.sys }}
-</p>
-<p>
-_cfgs.path = {{ _cfgs.path }}
-</p>
-<p>
-_cfgs.db = {{ _cfgs.db }}
-</p>
-
-<p>
-_cfgs.mkvs = {{ _cfgs.mkvs }}
-</p>
-
-<p>
-_vres = {{ _vres }}
-</p>
-
-<p>
-/template/{{ _cfgs.mkvs.tpname }}.html
+/tests/views/index.html - 6
 </p>

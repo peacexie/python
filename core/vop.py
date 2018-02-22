@@ -26,13 +26,11 @@ def view(app, group, cfgs, mkv):
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
-    data = vres(app, request, g)
-    setattr(g, 'data', data)
+    d = vres(app, request, g)
+    #setattr(g, 'd', d) # 预留
     #print(app); print(request); print(g);
-    return render_template(g.mkvs['group'] + '/home/index.htm', data=data)
-    '''
-    return render_template('root/index.htm', _cfgs=_cfgs, _vres=_vres)
-    '''
+    #g.mkvs['group'] + '/home/index.htm'
+    return render_template(d['tpname']+'.htm', d=d)
 
 # res : data, state, tpname, code, message
 # mkvs, http(code,message), data:list,detail,ext/side*
@@ -71,7 +69,7 @@ def tpname(g, tpath):
 
 def mkvs(group, mkv):
     #group = 'root' if len(group)==0 else group
-    mkv = 'home-index' if len(mkv)==0 else mkv
+    #mkv = 'home-index' if len(mkv)==0 else mkv
     vtype = 'index'
     if len(group)==0:     # /info
         group = 'root'
@@ -89,6 +87,6 @@ def mkvs(group, mkv):
     mkvs = {'type':vtype, 'mod':tmp[0], 'key':tmp[1], 'view':view}
     tpname = group +'/'+ tmp[0] +'/'+ ('detail' if mkv.find('.')>0 else tmp[1])
     tpdef = group +'/'+ tmp[0] +'/'+ vtype
-    exts = {'group':group, mkv:mkv, 'tpname':tpname, 'tpdef':tpdef}
+    exts = {'group':group, 'mkv':mkv, 'tpname':tpname, 'tpdef':tpdef}
     res = dict(mkvs, **exts)
     return res

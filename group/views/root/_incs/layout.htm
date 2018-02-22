@@ -1,7 +1,10 @@
 
+
 <!doctype html>
 <meta name="viewport" content="width=device-width"/>
-<title>Hello from Flask</title>
+<title>{% block title %}{% endblock %}</title>
+
+{% block info %}{% endblock %}
 
 {% for itm in g %}
     <p>g.{{ itm }} = {{ g[itm] }}</p>
@@ -11,6 +14,6 @@
 
 <p>d = {{ d }}</p>
 
-<p>
-/tests/views/index.html - 4
-</p>
+<hr>
+
+<p>/root/home/layout.htm - {{ d.tpname }}</p>

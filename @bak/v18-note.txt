@@ -23,6 +23,9 @@ sec
 
 ----------------------------------------- 
 
+https://www.douban.com/group/topic/12849267/
+Flask 定义404页面返回状态是200
+
 flask blueprint template folder
 https://stackoverflow.com/questions/7974771/flask-blueprint-template-folder
 
