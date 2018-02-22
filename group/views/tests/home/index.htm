@@ -1,6 +1,26 @@
 
 <!doctype html>
+<meta name="viewport" content="width=device-width"/>
 <title>Hello from Flask</title>
+
+{% for itm in g %}
+    <p>g.{{ itm }} = {{ g[itm] }}</p>
+{% endfor %}
+
+<p>
+g.mkvs = {{ g.mkvs }}
+</p>
+
+<p>
+g.sys = {{ g.sys }}
+</p>
+<p>
+g.dir = {{ g.dir }}
+</p>
+<p>
+g.cfgs = {{ g.cfgs }}
+</p>
+
 
 {% if name %}
   <h1>Hello {{ name }}!</h1>

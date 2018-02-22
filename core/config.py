@@ -3,13 +3,13 @@ import os, sys, platform
 import configparser
 
 def init():
-    _cfgs = {}
-    _cfgs['envs'] = envs()
-    bcfg = ucfg(_cfgs['envs'])
+    cfgs = {}
+    cfgs['envs'] = envs()
+    bcfg = ucfg(cfgs['envs'])
     for key in bcfg: # app, dir, path, db, blog ... 
-        _cfgs[key] = bcfg[key]
-    sys.path.append(_cfgs['dir']['cpdir'])
-    return _cfgs
+        cfgs[key] = bcfg[key]
+    sys.path.append(cfgs['dir']['cpdir'])
+    return cfgs
 
 def envs():
     envs = {}
