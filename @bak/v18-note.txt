@@ -1,47 +1,42 @@
 
-actest
-apblog
-    cache
-    data
-    static
-    tpls(templates)
-...
-core
-import
-impui
 
-* pyquery
-* template
-* mysql/sqlite
 
-set
-part
-group
-tpl
-sec
-/tpl/mkv?
+Flaskçš„Jinja2æ¨¡æ¿å¼•æ“ â€” è¿‡æ»¤å™¨(3rd)
+http://www.ttlsa.com/python/flask-jinja2-template-engine-filter/
 
-PHPÃæÊÔÌâ¼¯
+Python flask çš„ jinja2 è‡ªå®šä¹‰è¿‡æ»¤å™¨çš„é—®é¢˜ï¼Œæ±‚åŠ©
+https://segmentfault.com/q/1010000010580589
+
+åˆ©ç”¨ Python ç‰¹æ€§åœ¨ Jinja2 æ¨¡æ¿ä¸­æ‰§è¡Œä»»æ„ä»£ç 
+http://www.360doc.com/content/16/0831/17/33759535_587313409.shtml
+
+Jinja2æ¨¡ç‰ˆè¯­è¨€è‡ªå®šä¹‰filterçš„ä½¿ç”¨
+https://www.cnblogs.com/pangblog/p/3260718.html
+
+Flaskçš„jinja2æ¨¡æ¿ä¸­è‡ªå®šä¹‰è¿‡æ»¤å™¨çš„ä½¿ç”¨
+http://blog.csdn.net/guoqianqian5812/article/details/72822029
+
+PHPé¢è¯•é¢˜é›†
 http://www.cnblogs.com/yjf512/archive/2012/02/03/2336423.html
 
 ----------------------------------------- 
 
 http://www.bjhee.com/flask-1.html
-FlaskÈëÃÅÏµÁĞ
+Flaskå…¥é—¨ç³»åˆ—
 
 https://www.douban.com/group/topic/12849267/
-Flask ¶¨Òå404Ò³Ãæ·µ»Ø×´Ì¬ÊÇ200
+Flask å®šä¹‰404é¡µé¢è¿”å›çŠ¶æ€æ˜¯200
 
 flask blueprint template folder
 https://stackoverflow.com/questions/7974771/flask-blueprint-template-folder
 
-jinja2 ºêµÄ¼òµ¥Ê¹ÓÃ×Ü½á(macro)
+jinja2 å®çš„ç®€å•ä½¿ç”¨æ€»ç»“(macro)
 http://www.cnblogs.com/linuxhui/p/5804380.html
 
-¹ØÓÚwin8ÏÂpip°²×°mysqlÕÒ²»µ½config-win.hÎÄ¼şµÄÒ»ÖÖ½â¾ö·½°¸
+å…³äºwin8ä¸‹pipå®‰è£…mysqlæ‰¾ä¸åˆ°config-win.hæ–‡ä»¶çš„ä¸€ç§è§£å†³æ–¹æ¡ˆ
 http://blog.csdn.net/bijiaoshenqi/article/details/44758055
 
-python3.5Á¬½ÓMySQL³öÏÖCannot open include file: 'config-win.h': No such file or directory ´íÎó½â¾ö°ì·¨
+python3.5è¿æ¥MySQLå‡ºç°Cannot open include file: 'config-win.h': No such file or directory é”™è¯¯è§£å†³åŠæ³•
 http://blog.csdn.net/qq_28291153/article/details/52931291
 
 
@@ -49,29 +44,29 @@ https://pypi.python.org/pypi/pyquery
 http://webpy.org/
 
 https://www.cnblogs.com/Sunday-fly/articles/7598909.html
-Python ¸÷ÖÖÀ©Õ¹°üµÄ°²×°
+Python å„ç§æ‰©å±•åŒ…çš„å®‰è£…
 
 ----------------------------------------- 
 
 http://python.jobbole.com/tag/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/
-Python - > Ä£°åÒıÇæ
+Python - > æ¨¡æ¿å¼•æ“
 
-Falcon£º¹¹½¨ÔÆAPIºÍÍøÂçÓ¦ÓÃºó¶ËµÄ¸ßĞÔÄÜPython¿ò¼Ü
+Falconï¼šæ„å»ºäº‘APIå’Œç½‘ç»œåº”ç”¨åç«¯çš„é«˜æ€§èƒ½Pythonæ¡†æ¶
 http://hao.jobbole.com/falcon/
 
-Flask£ºÒ»¸öÊ¹ÓÃPython±àĞ´µÄÇáÁ¿¼¶WebÓ¦ÓÃ¿ò¼Ü
+Flaskï¼šä¸€ä¸ªä½¿ç”¨Pythonç¼–å†™çš„è½»é‡çº§Webåº”ç”¨æ¡†æ¶
 http://hao.jobbole.com/flask/
 https://github.com/pallets --- down
 http://www.pythondoc.com/flask/quickstart.html --- docs
 
 http://blog.csdn.net/jim7424994/article/details/22675759
-½â¾öpython3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX
+è§£å†³python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX
 
 http://www.runoob.com/python3/python3-tutorial.html
-Python 3 ½Ì³Ì
+Python 3 æ•™ç¨‹
 
 https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000
-(ÁÎÑ©·å)Python½Ì³Ì
+(å»–é›ªå³°)Pythonæ•™ç¨‹
 
 http://study.163.com/course/introduction.htm?courseId=1004933008#/courseDetail?tab=1
-¿´ÎÄµµÑ§ÅÀ³æ(python3.6)
+çœ‹æ–‡æ¡£å­¦çˆ¬è™«(python3.6)

@@ -12,19 +12,19 @@ class main:
         self.g = g
         self.data = {}
 
-
     # 方法格式: {xxx}Act
     # xxx优先顺序 : mkvs.key > mkvs.type > '_def'
 
     def _detailAct(self):
         
         print('dir(self) ------------------- ')
-        res = {}
-        return res
+        data = {}
+        return data
 
     def _defAct(self):
-        res = {'_defAct_msg':'None Ctrl-Data'}
-        return res 
+        d = {} #{'tpname':'modi/actid'} # 指定模板
+        data = {'_defAct_msg':'None Ctrl-Data', 'd':d}
+        return data 
 
         #{'type': 'index', 'mod': 'home', 'key': 'typid'
 

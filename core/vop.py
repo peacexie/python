@@ -25,71 +25,53 @@ def reg(app, group, cfgs):
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
+    g.run = {}
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
-    d = vres(app, request, g) # setattr(g, 'd', d)
+    tpath = g.dir['tpls'] + '/' + g.mkvs['group']
+    d = tpname(g, tpath) # 数据结果
+    data = cdata(app, request, g, tpath)
+    if 'd' in data: # 返回res覆盖原有属性
+        d = dict(d, **data['d'])
+    d['data'] = data
     #print(app); print(request); print(g);    
     tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
     return render_template(tpfull, d=d)
 
-# 数据结果
-# res : group, tpath, tpname, code, message, data
-def vres(app, request, g):
-    g.run = {}
-    tpath = g.dir['tpls'] + '/' + g.mkvs['group']
-    ctrl = load(g, tpath)
-    tpnow = tpname(g, tpath)
-    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':0, 'message':''}
-    if(tpnow==''):
-        res['tpname'] = 'home/error'
-        res['code'] = 404
-        res['message'] = '[' + tpath + '/' + g.run['tpbak'] + '] Template NOT Found!'
-        #abort(404, 'Template NOT Found!')
-    if ctrl:
-        data = cdata(app, request, g, ctrl)
-    else:
-        data = {'__msg': 'None ['+g.run['Ctrl']+'] Class'}
-    res['data'] = data
-    return res 
-
-# 一个`Ctrl`的数据
-def cdata(app, request, g, ctrl):
-    cobj = ctrl.main(app, request, g)
-    tabs = g.mkvs['key'] +','+ g.mkvs['type'] + ',_def'
-    taba = tabs.split(',')
-    for fid in taba:
-        func = fid + 'Act'
-        if(func in dir(cobj)):
-            method = getattr(cobj, func) 
-            return method()
-    return {'__msg': 'None ['+tabs+'] Action'}
-
-# 加载`Ctrl`控制器
-def load(g, tpath):
+# 一个`Ctrl`控制器的数据
+def cdata(app, request, g, tpath):
     sys.path.append(tpath)
     file = g.mkvs['mod'] + 'Ctrl'
     g.run['Ctrl'] = file
     flag = os.path.exists(tpath+'/_ctrls/'+file+'.py')
     if not flag:
-        return False
+        return {'__msg': 'None ['+g.run['Ctrl']+'] Class'}
     items = __import__('_ctrls.' + file)
-    item = getattr(items, file)
-    return item
+    ctrl = getattr(items, file)
+    cobj = ctrl.main(app, request, g)
+    tabs = g.mkvs['key'] +','+ g.mkvs['type'] + ',_def'
+    taba = tabs.split(',')
+    for fid in taba:
+        func = fid + 'Act'
+        if func in dir(cobj):
+            method = getattr(cobj, func) 
+            return method()
+    return {'__msg': 'None ['+tabs+'] Action'}
 
 # 分析模板
 def tpname(g, tpath):
-    tpnow = g.mkvs['tpname']
     tpdef = g.mkvs['tpdef']
-    tpext = g.dir['tpext'] 
-    flag = os.path.exists(tpath + '/' + tpnow + tpext)
+    tpext = g.dir['tpext']
+    flag = os.path.exists(tpath + '/' + g.mkvs['tpname'] + tpext)
+    res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':g.mkvs['tpname'], 'code':0, 'message':''}
     if not flag: 
         if os.path.exists(tpath + '/' + tpdef + tpext):
-            tpnow = tpdef
+            res['tpname'] = tpdef
         else:
-            g.run['tpbak'] = tpdef
-            tpnow = ''
-    return tpnow
+            res['code'] = 404
+            res['message'] = '[' + tpath + '/' + tpdef + '] Template NOT Found!'
+    return res
 
 # 分析mkv
 def mkvs(group, mkv):
