@@ -4,11 +4,14 @@
 
 class main:
 
-    def __init__(self, app, request, g, _cfgs):
+    def __init__(self, app, request, g):
         self.app = app
         self.request = request
         self.g = g
-        self._cfgs = _cfgs
+
+    def do(self):
+        print(dir(self))
+        #print(acts)
 
     def _detailAct(self):
         res = {}

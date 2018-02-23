@@ -37,13 +37,16 @@ def vres(app, request, g):
     res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':0, 'message':''}
     if ctrl:
         cobj = ctrl.main(app, request, g)
-        print(cobj)
+        cres = cobj.do()   
+        #cls1 = pycls.cls1(); re = cls1.add(3,4);
+        #print(cobj)  
+        #print(dir(cobj))   
     else:
-        print(' xxxx2!!! ')
+        print(' xxxx2!!! ') 
     if tpnow=='home/error':
         res['code'] = 404
         res['message'] = 'Template NOT Found!'
-        #abort(404, 'Template NOT Found!')
+        #abort(404, 'Template NOT Found!') 
     res['data'] = {}
     return res 
 
