@@ -3,14 +3,17 @@ import os, sys
 from flask import Blueprint, request, g, render_template, abort
 from core import config
 
+# 按分组运行
 def run(app):
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
+        # 去掉内置group?
         reg(app, group, cfgs)
 
+# 注册分组
 def reg(app, group, cfgs):
     sview = Blueprint(group, '_'+group)
     @sview.route('/')
@@ -20,6 +23,7 @@ def reg(app, group, cfgs):
     gfix = '' if len(group)==0 else '/'+group
     app.register_blueprint(sview, url_prefix=gfix)
 
+# 一个分组的view显示
 def view(app, group, cfgs, mkv):
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
@@ -29,6 +33,7 @@ def view(app, group, cfgs, mkv):
     tpfull = d['group']+'/'+d['tpname']+g.dir['tpext']
     return render_template(tpfull, d=d)
 
+# 数据结果
 # res : group, tpath, tpname, code, message, data
 def vres(app, request, g):
     g.run = {}
@@ -40,28 +45,31 @@ def vres(app, request, g):
         res['tpname'] = 'home/error'
         res['code'] = 404
         res['message'] = '[' + tpath + '/' + g.run['tpbak'] + '] Template NOT Found!'
-        #abort(404, 'Template NOT Found!') 
+        #abort(404, 'Template NOT Found!')
     if ctrl:
-        cobj = ctrl.main(app, request, g)
-        data = cdata(cobj, g.mkvs)
+        data = cdata(app, request, g, ctrl)
     else:
-        data = {'__msg':'None Ctrl-Data'}
+        data = {'__msg': 'None ['+g.run['Ctrl']+'] Class'}
     res['data'] = data
     return res 
 
-def cdata(cobj, mkvs):
-    tabs = (mkvs['key'] +','+ mkvs['type'] + ',_def').split(',')
-    for fid in tabs:
+# 一个`Ctrl`的数据
+def cdata(app, request, g, ctrl):
+    cobj = ctrl.main(app, request, g)
+    tabs = g.mkvs['key'] +','+ g.mkvs['type'] + ',_def'
+    taba = tabs.split(',')
+    for fid in taba:
         func = fid + 'Act'
-        if(func in dir(cobj)): #'testvar'   in   dir()
+        if(func in dir(cobj)):
             method = getattr(cobj, func) 
             return method()
-        #print(func+',,,,, ')
-    return {'__msg':'None Ctrl-Data'}
+    return {'__msg': 'None ['+tabs+'] Action'}
 
+# 加载`Ctrl`控制器
 def load(g, tpath):
     sys.path.append(tpath)
     file = g.mkvs['mod'] + 'Ctrl'
+    g.run['Ctrl'] = file
     flag = os.path.exists(tpath+'/_ctrls/'+file+'.py')
     if not flag:
         return False
@@ -69,6 +77,7 @@ def load(g, tpath):
     item = getattr(items, file)
     return item
 
+# 分析模板
 def tpname(g, tpath):
     tpnow = g.mkvs['tpname']
     tpdef = g.mkvs['tpdef']
@@ -82,6 +91,7 @@ def tpname(g, tpath):
             tpnow = ''
     return tpnow
 
+# 分析mkv
 def mkvs(group, mkv):
     vtype = 'index'
     if len(group)==0:     # </root>/info

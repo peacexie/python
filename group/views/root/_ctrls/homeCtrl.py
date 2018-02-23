@@ -2,28 +2,19 @@
 #import os, sys, platform
 #import configparser
 
+# main名称固定
 class main:
 
+    # `__init__`一致格式
     def __init__(self, app, request, g):
         self.app = app
         self.request = request
         self.g = g
         self.data = {}
 
-    def do(self):
-        #func = getattr(self, '_detailAct') 
-        #func() 
-        func = self.method()
-        #print(acts)
 
-    def method(self):
-        mkvs = self.g.mkvs
-        tabs = (mkvs['key'] +','+ mkvs['type'] + ',_def').split(',')
-        for fid in tabs:
-            func = fid + 'Act'
-            print(func+',,,,, ')
-            #'testvar'   in   dir()
-        return 'xxxx'
+    # 方法格式: {xxx}Act
+    # xxx优先顺序 : mkvs.key > mkvs.type > '_def'
 
     def _detailAct(self):
         
