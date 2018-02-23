@@ -25,30 +25,39 @@ def view(app, group, cfgs, mkv):
     for key in cfgs:
         setattr(g, key, cfgs[key])
     d = vres(app, request, g) # setattr(g, 'd', d)
-    #print(app); print(request); print(g);
+    #print(app); print(request); print(g);    
     tpfull = d['group']+'/'+d['tpname']+g.dir['tpext']
     return render_template(tpfull, d=d)
 
 # res : group, tpath, tpname, code, message, data
 def vres(app, request, g):
+    g.run = {}
     tpath = g.dir['tpls'] + '/' + g.mkvs['group']
     ctrl = load(g, tpath)
     tpnow = tpname(g, tpath)
     res = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':0, 'message':''}
+    if(tpnow==''):
+        res['tpname'] = 'home/error'
+        res['code'] = 404
+        res['message'] = '[' + tpath + '/' + g.run['tpbak'] + '] Template NOT Found!'
+        #abort(404, 'Template NOT Found!') 
     if ctrl:
         cobj = ctrl.main(app, request, g)
-        cres = cobj.do()   
-        #cls1 = pycls.cls1(); re = cls1.add(3,4);
-        #print(cobj)  
-        #print(dir(cobj))   
+        data = cdata(cobj, g.mkvs)
     else:
-        print(' xxxx2!!! ') 
-    if tpnow=='home/error':
-        res['code'] = 404
-        res['message'] = 'Template NOT Found!'
-        #abort(404, 'Template NOT Found!') 
-    res['data'] = {}
+        data = {'__msg':'None Ctrl-Data'}
+    res['data'] = data
     return res 
+
+def cdata(cobj, mkvs):
+    tabs = (mkvs['key'] +','+ mkvs['type'] + ',_def').split(',')
+    for fid in tabs:
+        func = fid + 'Act'
+        if(func in dir(cobj)): #'testvar'   in   dir()
+            method = getattr(cobj, func) 
+            return method()
+        #print(func+',,,,, ')
+    return {'__msg':'None Ctrl-Data'}
 
 def load(g, tpath):
     sys.path.append(tpath)
@@ -66,8 +75,11 @@ def tpname(g, tpath):
     tpext = g.dir['tpext'] 
     flag = os.path.exists(tpath + '/' + tpnow + tpext)
     if not flag: 
-        tmp = tpath + '/' + tpdef + tpext
-        tpnow = tpdef if(os.path.exists(tmp)) else 'home/error'
+        if os.path.exists(tpath + '/' + tpdef + tpext):
+            tpnow = tpdef
+        else:
+            g.run['tpbak'] = tpdef
+            tpnow = ''
     return tpnow
 
 def mkvs(group, mkv):

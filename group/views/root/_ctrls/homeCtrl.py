@@ -8,18 +8,35 @@ class main:
         self.app = app
         self.request = request
         self.g = g
+        self.data = {}
 
     def do(self):
-        print(dir(self))
+        #func = getattr(self, '_detailAct') 
+        #func() 
+        func = self.method()
         #print(acts)
 
+    def method(self):
+        mkvs = self.g.mkvs
+        tabs = (mkvs['key'] +','+ mkvs['type'] + ',_def').split(',')
+        for fid in tabs:
+            func = fid + 'Act'
+            print(func+',,,,, ')
+            #'testvar'   in   dir()
+        return 'xxxx'
+
     def _detailAct(self):
+        
+        print('dir(self) ------------------- ')
         res = {}
         return res
 
     def _defAct(self):
-        res = {}
+        res = {'_defAct_msg':'None Ctrl-Data'}
         return res 
+
+        #{'type': 'index', 'mod': 'home', 'key': 'typid'
+
 
 
 '''
