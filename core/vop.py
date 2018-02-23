@@ -30,7 +30,7 @@ def view(app, group, cfgs, mkv):
         setattr(g, key, cfgs[key])
     d = vres(app, request, g) # setattr(g, 'd', d)
     #print(app); print(request); print(g);    
-    tpfull = d['group']+'/'+d['tpname']+g.dir['tpext']
+    tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
     return render_template(tpfull, d=d)
 
 # 数据结果
