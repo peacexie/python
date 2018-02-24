@@ -3,9 +3,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>{% block title %}{% endblock %}</title>
 
-<h1>
 {% block info %}{% endblock %}
-</h1>
 
 <hr>
 
@@ -19,5 +17,5 @@
 
 <hr>
 
-{% from 'root/_incs/macros.htm' import foot %}
+{% from 'root/_incs/mac_base.htm' import foot %}
 {{ foot(d) }}

@@ -38,7 +38,7 @@ def view(app, group, cfgs, mkv):
     d['data'] = data
     if d['code']>0:
         verr(g, d)
-    #print(app); print(request); print(g);  
+    #print(app); print(request); print(g);   
     tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
     return render_template(tpfull, d=d)
 
@@ -52,10 +52,10 @@ def verr(g, d):
 def cdata(app, request, g, tpath):
     sys.path.append(tpath)
     file = g.mkvs['mod'] + 'Ctrl'
-    g.run['Ctrl'] = file
     flag = os.path.exists(tpath+'/_ctrls/'+file+'.py')
     if not flag:
-        return {'__msg': 'None ['+g.run['Ctrl']+'] Class'}
+        return {'__msg': 'None ['+file+'] Class'}
+    g.run['Ctrl'] = file
     items = __import__('_ctrls.' + file)
     ctrl = getattr(items, file)
     cobj = ctrl.main(app, request, g)
@@ -64,6 +64,7 @@ def cdata(app, request, g, tpath):
     for fid in taba:
         func = fid + 'Act'
         if func in dir(cobj):
+            g.run['Act'] = func
             method = getattr(cobj, func) 
             return method()
     return {'__msg': 'None ['+tabs+'] Action'}

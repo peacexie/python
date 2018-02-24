@@ -1,6 +1,9 @@
 
-{% extends "root/_incs/layout.htm" %}
+{% extends "root/_incs/lay_info.htm" %}
 
-{% block title %}Info - Flask{% endblock %}
+{% block title %}Info:{{ d.code }} - {{ d.message }}{% endblock %}
 
-{% block info %}Info - Info{% info %}
+{% block info %}
+<h1>Info:{{ d.code }}</h1>
+<p>{{ d.message }}</p>
+{% endblock %}

@@ -1,6 +1,9 @@
 
-{% extends "root/_incs/layout.htm" %}
+{% extends "root/_incs/lay_info.htm" %}
 
-{% block title %}Error - Flask{% endblock %}
+{% block title %}Error:{{ d.code }} - {{ d.message }}{% endblock %}
 
-{% block info %}Error: {{ d.message }}{% endblock %}
+{% block info %}
+<h1>Error:{{ d.code }}</h1>
+<p>{{ d.message }}</p>
+{% endblock %}
