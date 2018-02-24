@@ -7,7 +7,7 @@ from core import vop
 from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='views')
-vop.run(app)
+vop.vrun(app)
 #print(app.url_map)
 app.run()
 

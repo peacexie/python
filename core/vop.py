@@ -4,17 +4,17 @@ from flask import Blueprint, request, g, render_template, abort
 from core import config
 
 # 按分组运行
-def run(app):
+def vrun(app):
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         # 去掉内置group?
-        reg(app, group, cfgs)
+        vreg(app, group, cfgs)
 
 # 注册分组
-def reg(app, group, cfgs):
+def vreg(app, group, cfgs):
     sview = Blueprint(group, '_'+group)
     @sview.route('/')
     @sview.route('/<mkv>')
@@ -33,11 +33,20 @@ def view(app, group, cfgs, mkv):
     d = tpname(g, tpath) # 数据结果
     data = cdata(app, request, g, tpath)
     if 'd' in data: # 返回res覆盖原有属性
-        d = dict(d, **data['d'])
+        del data['d']
+        d = dict(d, **data)
     d['data'] = data
-    #print(app); print(request); print(g);    
+    if d['code']>0:
+        verr(g, d)
+    #print(app); print(request); print(g);  
     tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
     return render_template(tpfull, d=d)
+
+# 错误处理
+def verr(g, d):
+    if g.sys['debug']=='False':
+        abort(404, d['message'])
+    d['tpname'] = 'home/error'
 
 # 一个`Ctrl`控制器的数据
 def cdata(app, request, g, tpath):
