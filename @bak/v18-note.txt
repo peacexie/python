@@ -1,5 +1,7 @@
 
 
+http://blog.csdn.net/qq_29287973/article/details/52495042
+【python学习笔记】flask实现简单的接收json返回json的接口
 
 Flask的Jinja2模板引擎 — 过滤器(3rd)
 http://www.ttlsa.com/python/flask-jinja2-template-engine-filter/
