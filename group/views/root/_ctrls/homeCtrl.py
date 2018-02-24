@@ -13,7 +13,7 @@ class main:
         self.data = {}
 
     # 方法格式: {xxx}Act
-    # xxx优先顺序 : mkvs.key > mkvs.type > '_def'
+    # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
 
     def indexAct(self):
         data = {'indexAct_msg':'from indexAct'}
@@ -26,7 +26,9 @@ class main:
 
     # 默认非`detail`方法
     def _defAct(self):
-        d = {} #{'tpname':'modi/actid'} # 指定模板
+        d = {'tpname':'home/info'} # 指定模板
+        #d = {'code':404} # 显示错误访问
+        d = {}
         data = {'_defAct_msg':'from _defAct', 'd':d}
         return data 
 

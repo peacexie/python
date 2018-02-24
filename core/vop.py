@@ -10,7 +10,6 @@ def vrun(app):
         app.config[key.upper()] = cfgs['sys'][key]
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
-        # 去掉内置group?
         vreg(app, group, cfgs)
 
 # 注册分组
@@ -25,7 +24,7 @@ def vreg(app, group, cfgs):
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
-    g.run = {} #; print(request); print(g);
+    g.run = {} #; print(request); print(g); 
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
@@ -33,15 +32,18 @@ def view(app, group, cfgs, mkv):
     d = tpname(g, tpath) # 数据结果
     data = cdata(app, request, g, tpath)
     if 'd' in data: # 返回res覆盖原有属性
+        d = dict(d, **data['d'])
         del data['d']
-        d = dict(d, **data)
     d['data'] = data
     verr(g, d)
-    #tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
     return render_template(d['full'], d=d)
 
 # 错误处理
 def verr(g, d):
+    if len(d['tpname'])==0:
+        d['code'] = 404
+        tpname = g.mkvs['tpdef'] if len(g.mkvs['tpname'])==0 else g.mkvs['tpname']
+        d['message'] = '[' + d['tpath'] + '/' + tpname + '] Template NOT Found!'
     if d['group']=='root' and g.mkvs['mkv']=='home-error':
         d['code'] = 403
         d['message'] = '[/error] HTTP 403 Forbidden!'
@@ -57,7 +59,7 @@ def verr(g, d):
         d['full'] = 'root' + '/' + tpname + g.dir['tpext']
     #return d 
 
-# 一个`Ctrl`控制器的数据
+# 一个`Ctrl`控制器的数据 
 def cdata(app, request, g, tpath):
     sys.path.append(tpath)
     file = g.mkvs['mod'] + 'Ctrl'
@@ -68,7 +70,7 @@ def cdata(app, request, g, tpath):
     items = __import__('_ctrls.' + file)
     ctrl = getattr(items, file)
     cobj = ctrl.main(app, request, g)
-    tabs = g.mkvs['key'] +','+ g.mkvs['type'] + ',_def'
+    tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'
     taba = tabs.split(',')
     for fid in taba:
         func = fid + 'Act'
@@ -88,13 +90,12 @@ def tpname(g, tpath):
         if os.path.exists(tpath + '/' + tpdef + tpext):
             res['tpname'] = tpdef
         else:
-            res['code'] = 404
-            res['message'] = '[' + tpath + '/' + tpdef + '] Template NOT Found!'
+            res['tpname'] = ''
     return res
 
 # 分析mkv
 def mkvs(group, mkv):
-    vtype = 'index'
+    vtype = 'mhome'
     if len(group)==0:     # </root>/info
         group = 'root'
         hmod = mkv.find('.')>0 or mkv.find('-')>0
