@@ -25,7 +25,7 @@ def vreg(app, group, cfgs):
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
-    g.run = {}
+    g.run = {} #; print(request); print(g);
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
@@ -36,17 +36,26 @@ def view(app, group, cfgs, mkv):
         del data['d']
         d = dict(d, **data)
     d['data'] = data
-    if d['code']>0:
-        verr(g, d)
-    #print(app); print(request); print(g);   
-    tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
-    return render_template(tpfull, d=d)
+    verr(g, d)
+    #tpfull = d['group'] + '/' + d['tpname'] + g.dir['tpext']
+    return render_template(d['full'], d=d)
 
 # 错误处理
 def verr(g, d):
-    if g.sys['debug']=='False':
-        abort(404, d['message'])
-    d['tpname'] = 'home/error'
+    if d['group']=='root' and g.mkvs['mkv']=='home-error':
+        d['code'] = 403
+        d['message'] = '[/error] HTTP 403 Forbidden!'
+    if d['code']>=400:
+        if g.sys['debug']=='False':
+            abort(d['code'], d['message'])
+        tpname = 'home/error'
+    elif d['code']>=300:
+        tpname = 'home/info'
+    if d['code']<300:
+        d['full'] = d['group'] + '/' + d['tpname'] + g.dir['tpext']
+    else:
+        d['full'] = 'root' + '/' + tpname + g.dir['tpext']
+    #return d 
 
 # 一个`Ctrl`控制器的数据
 def cdata(app, request, g, tpath):
@@ -88,7 +97,8 @@ def mkvs(group, mkv):
     vtype = 'index'
     if len(group)==0:     # </root>/info
         group = 'root'
-        mkv = 'home-' + ('index' if len(mkv)==0 else mkv)
+        hmod = mkv.find('.')>0 or mkv.find('-')>0
+        mkv = mkv if hmod else 'home-' + ('index' if len(mkv)==0 else mkv)
     elif len(mkv)==0:     # /front/
         mkv = 'home-index'
     elif mkv.find('.')>0: # /front/news.nid

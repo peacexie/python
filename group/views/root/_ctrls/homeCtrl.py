@@ -15,64 +15,22 @@ class main:
     # 方法格式: {xxx}Act
     # xxx优先顺序 : mkvs.key > mkvs.type > '_def'
 
-    def _detailAct(self):
-        
-        print('dir(self) ------------------- ')
-        data = {}
+    def indexAct(self):
+        data = {'indexAct_msg':'from indexAct'}
         return data
 
+    # `detail`方法
+    def _detailAct(self):
+        data = {'_detailAct_msg':'from _detailAct'}
+        return data
+
+    # 默认非`detail`方法
     def _defAct(self):
         d = {} #{'tpname':'modi/actid'} # 指定模板
-        data = {'_defAct_msg':'None Ctrl-Data', 'd':d}
+        data = {'_defAct_msg':'from _defAct', 'd':d}
         return data 
-
-        #{'type': 'index', 'mod': 'home', 'key': 'typid'
-
 
 
 '''
-
-class topicCtrl{
-    
-    public $ucfg = array();
-    public $vars = array();
-
-    //function __destory(){  }
-    function __construct($ucfg=array(),$vars=array()){ 
-        $this->ucfg = $ucfg;
-        $this->vars = $vars;
-    }
-
-    // _detailAct
-    function _detailAct(){
-        global $_cbase;
-        $m = $this->ucfg['mod'];
-        $k = $this->ucfg['key'];
-        $v = $this->ucfg['view'];
-        if(empty($this->vars['tplname'])){
-            $tpl = $this->ucfg['tplname'];
-        }else{
-            $dir = "/{$_cbase['tpl']['tpl_dir']}/u_topic";
-            $tpl = $this->vars['tplname'];
-            if($v){
-                if(file_exists(DIR_SKIN."$dir/$tpl~$v.htm")){
-                    $tpl = "$tpl~$v";
-                }else{
-                    $tpl = "$tpl~detail";
-                }
-            } // ?topic.2015-9c-p481.vtechs/7awse21
-            $tpl = 'u_topic/'.$tpl; 
-        } //echo "(($tpl))";  
-        $re['newtpl'] = $tpl; // 模板
-        return $re;
-    }
-
-    // _defAct
-    function xxx_defAct(){
-        $re['newtpl'] = 'u_topic/_index/stype'; // 模板
-        return $re;
-    }
-    
-}
 
 '''
