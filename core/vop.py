@@ -14,7 +14,7 @@ def vrun(app):
     # reg-funcs
     '''
     @app.errorhandler(404)  
-    def not_found(e):  
+    def not_found(e):    
         return render_template("root/home/error.htm")
     '''
     @app.before_request
@@ -22,8 +22,8 @@ def vrun(app):
         dbop.conn(cfgs)
     @app.teardown_request
     def teardown_request(exception):
-        if hasattr(g, '_db'):
-            g._db.close()
+        if hasattr(g, 'db'):
+            g.db.close()
 
 # 注册分组
 def vreg(app, group, cfgs):

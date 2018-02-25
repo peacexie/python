@@ -19,7 +19,7 @@ class main:
     def indexAct(self):
         #db = dbop.conn(cfgs)
         data = {}
-        cur = g._db.execute('SELECT title,text FROM entries ORDER BY id DESC')
+        cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
         data['list'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
         data['d'] = {} #{'tpname':'xml'} # 指定模板
         return data

@@ -3,10 +3,11 @@ from flask import g
 import sqlite3
 from contextlib import closing
 
-def conn(cfgs):
-    db = getattr(g, '_db', None)
+def conn(cfgs, type='sqlite'):
+    cfg = cfgs['dbs']
+    db = getattr(g, 'db', None)
     if db is None:
-        db = g._db = sqlite3.connect('./data' + cfgs['blog']['file'])
+        db = g.db = sqlite3.connect('./data' + cfg['file'])
     return db
 
 def init_sqlite(sql):

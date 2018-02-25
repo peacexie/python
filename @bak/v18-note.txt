@@ -4,6 +4,9 @@ static, url(xx), db, json(ok), xml(?)
 
 ----------------------------------------- 
 
+http://www.runoob.com/python/python-mysql.html
+python操作mysql数据库
+
 http://www.jb51.net/article/115659.htm
 Python实现对象转换为xml的方法示例
 
