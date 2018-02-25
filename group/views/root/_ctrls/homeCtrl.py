@@ -16,7 +16,7 @@ class main:
     # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
 
     def indexAct(self):
-        d = {'tpname':'jsonp'} # 指定模板
+        d = {} #{'tpname':'xml'} # 指定模板
         data = {'indexAct_msg':'from indexAct', 'd':d}
         return data
 

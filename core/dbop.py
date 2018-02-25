@@ -2,8 +2,8 @@
 import sqlite3
 from contextlib import closing
 
-def conn(_cfgs):
-    return sqlite3.connect('./data' + _cfgs['blog']['file'])
+def conn(cfgs):
+    return sqlite3.connect('./data' + cfgs['blog']['file'])
 
 def init_sqlite(sql):
     with closing(connect_db()) as db:

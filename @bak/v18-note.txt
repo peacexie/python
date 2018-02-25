@@ -1,8 +1,11 @@
 
 
-static, url(xx), db, json(ok)
+static, url(xx), db, json(ok), xml(?)
 
 ----------------------------------------- 
+
+http://www.jb51.net/article/115659.htm
+Python实现对象转换为xml的方法示例
 
 https://segmentfault.com/q/1010000002674957?_ea=178260
 Python flask处理多栏json数据

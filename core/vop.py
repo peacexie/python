@@ -1,7 +1,7 @@
 
 import os, sys, json
 from flask import Blueprint, request, g, render_template, abort
-from core import config
+from core import config, dbop, parse
 
 # 按分组运行
 def vrun(app):
@@ -11,6 +11,14 @@ def vrun(app):
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         vreg(app, group, cfgs)
+    # reg-funcs
+    @app.before_request
+    def before_request():
+        g.db = dbop.conn(cfgs)
+    @app.teardown_request
+    def teardown_request(exception):
+        print('xxx')
+        #g.db.close()
 
 # 注册分组
 def vreg(app, group, cfgs):
@@ -21,11 +29,12 @@ def vreg(app, group, cfgs):
         return view(app, group, cfgs, mkv)
     gfix = '' if len(group)==0 else '/'+group
     app.register_blueprint(sview, url_prefix=gfix)
+    # reg-filters
     app.jinja_env.filters['url'] = jef_url
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
-    g.run = {} #; print(request); print(g);  
+    g.run = {} #; print(g.db); print(g);  
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
@@ -35,6 +44,14 @@ def view(app, group, cfgs, mkv):
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
+
+    '''
+    #db = dbop.conn(cfgs)  
+    cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
+    d['entries'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    #return render_template('root/blog/lists.htm', entries=entries)
+    '''
+
     d['data'] = data
     verr(g, d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
@@ -44,7 +61,9 @@ def view(app, group, cfgs, mkv):
 
 def vfmt(d, fmt):
     if fmt=='xml':
-        s = 'Coming Soon!'
+        xml = parse.convXml.collectionToXML(d)
+        s = parse.convXml.getXmlString(xml)
+        #s = 'Coming Soon!'
     else: # json/jsonp(有callback)
         s = json.dumps(d, ensure_ascii=False)
         cb = request.args.get('callback')
