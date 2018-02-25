@@ -1,7 +1,7 @@
 #coding=UTF-8
 #https://stackoverflow.com/questions/7974771/flask-blueprint-template-folder
 
-import sys, io
+import sys
 sys.path.append("../")
 from core import vop
 from flask import Flask
@@ -16,4 +16,3 @@ app.run()
 db, static, url, dir
 
 '''
-

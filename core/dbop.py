@@ -8,7 +8,6 @@ def conn(cfgs):
     if db is None:
         db = g._db = sqlite3.connect('./data' + cfgs['blog']['file'])
     return db
-    #return sqlite3.connect('./data' + cfgs['blog']['file'])
 
 def init_sqlite(sql):
     with closing(connect_db()) as db:
@@ -17,7 +16,6 @@ def init_sqlite(sql):
         # ValueError: script argument must be unicode.
         db.cursor().executescript(sql)
         db.commit()
-
 '''
 dbsql = '\
 drop table if exists entries;\
