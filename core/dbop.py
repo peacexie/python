@@ -1,9 +1,14 @@
 
+from flask import g
 import sqlite3
 from contextlib import closing
 
 def conn(cfgs):
-    return sqlite3.connect('./data' + cfgs['blog']['file'])
+    db = getattr(g, '_db', None)
+    if db is None:
+        db = g._db = sqlite3.connect('./data' + cfgs['blog']['file'])
+    return db
+    #return sqlite3.connect('./data' + cfgs['blog']['file'])
 
 def init_sqlite(sql):
     with closing(connect_db()) as db:

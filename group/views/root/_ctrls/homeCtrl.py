@@ -1,4 +1,5 @@
 
+from flask import g
 #import os, sys, platform
 #import configparser
 
@@ -16,8 +17,11 @@ class main:
     # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
 
     def indexAct(self):
-        d = {} #{'tpname':'xml'} # 指定模板
-        data = {'indexAct_msg':'from indexAct', 'd':d}
+        #db = dbop.conn(cfgs)
+        data = {}
+        cur = g._db.execute('SELECT title,text FROM entries ORDER BY id DESC')
+        data['list'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+        data['d'] = {} #{'tpname':'xml'} # 指定模板
         return data
 
     # `detail`方法

@@ -15,8 +15,5 @@ app.run()
 '''
 db, static, url, dir
 
-@app.errorhandler(404)  
-def not_found(e):  
-    return render_template("root/home/error.htm")
 '''
 

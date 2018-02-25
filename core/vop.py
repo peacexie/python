@@ -12,13 +12,18 @@ def vrun(app):
     for group in groups:
         vreg(app, group, cfgs)
     # reg-funcs
+    '''
+    @app.errorhandler(404)  
+    def not_found(e):  
+        return render_template("root/home/error.htm")
+    '''
     @app.before_request
     def before_request():
-        g.db = dbop.conn(cfgs)
+        dbop.conn(cfgs)
     @app.teardown_request
     def teardown_request(exception):
-        print('xxx')
-        #g.db.close()
+        if hasattr(g, '_db'):
+            g._db.close()
 
 # 注册分组
 def vreg(app, group, cfgs):
@@ -29,7 +34,7 @@ def vreg(app, group, cfgs):
         return view(app, group, cfgs, mkv)
     gfix = '' if len(group)==0 else '/'+group
     app.register_blueprint(sview, url_prefix=gfix)
-    # reg-filters
+    # reg-filters 
     app.jinja_env.filters['url'] = jef_url
 
 # 一个分组的view显示
@@ -44,14 +49,6 @@ def view(app, group, cfgs, mkv):
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
-
-    '''
-    #db = dbop.conn(cfgs)  
-    cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
-    d['entries'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    #return render_template('root/blog/lists.htm', entries=entries)
-    '''
-
     d['data'] = data
     verr(g, d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
