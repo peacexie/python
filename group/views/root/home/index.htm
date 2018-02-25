@@ -6,4 +6,16 @@
 {% block info %}
 <h1>Hi, Python Flask!</h1>
 <p>Home - index</p>
+
+url = {{ '/' | url() }} <br>
+url = {{ './' | url() }} <br>
+url = {{ 'home-index' | url('a=b') }} <br>
+url = {{ '/tests/home-index' | url('c=d') }} <br>
+url = {{ 'home-index?afc=2' | url() }} <br>
+
+<hr>
+
+../front/home-index?afc=2
+home-index?afc=2
+
 {% endblock %}

@@ -1,6 +1,6 @@
 
-import os, sys
-from flask import Blueprint, request, g, render_template, abort, jsonify
+import os, sys, json
+from flask import Blueprint, request, g, render_template, abort
 from core import config
 
 # 按分组运行
@@ -21,6 +21,7 @@ def vreg(app, group, cfgs):
         return view(app, group, cfgs, mkv)
     gfix = '' if len(group)==0 else '/'+group
     app.register_blueprint(sview, url_prefix=gfix)
+    app.jinja_env.filters['url'] = jef_url
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
@@ -35,16 +36,24 @@ def view(app, group, cfgs, mkv):
         d = dict(d, **data['d'])
         del data['d']
     d['data'] = data
-    s=['张三','年龄','姓名']
-    return jsonify(s) 
     verr(g, d)
-    return render_template(d['full'], d=d)
+    if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
+        return vfmt(d, d['tpname']) # head怎么改变?
+    else:
+        return render_template(d['full'], d=d)
+
+def vfmt(d, fmt):
+    if fmt=='xml':
+        s = 'Coming Soon!'
+    else: # json/jsonp(有callback)
+        s = json.dumps(d, ensure_ascii=False)
+        cb = request.args.get('callback')
+        if cb:
+            s = cb + '(' + s + ');'
+    return s
 
 # 错误处理
 def verr(g, d):
-    #from flask import jsonify
-    #s=['张三','年龄','姓名']  
-    #return jsonify(s) 
     if len(d['tpname'])==0:
         d['code'] = 404
         d['message'] = '[' + d['tpath'] + '/' + d['tpdef'] + '] Template NOT Found!'
@@ -122,3 +131,17 @@ def mkvs(group, mkv):
     exts = {'group':group, 'mkv':mkv, 'tpname':tpnow, 'tpdef':tpdef}
     res = dict(mkva, **exts)
     return res
+
+# jinja_env.filters
+# 暂无意义, 直接这样写: mod-key?parms 或 ../group/mod-key?parms
+def jef_url(mkv, p=''):
+    if mkv=='/':
+        mkv = '/root/'
+    elif mkv=='./':
+        mkv = '/' + g.mkvs['group'] + '/'
+    elif mkv.find('/')<0: # mkv
+        mkv = '/' + g.mkvs['group'] + '/' + mkv
+    #else: # /gid/mkv 
+    #    mkv = mkv
+    mkv = mkv.replace('/root/', '/')
+    return mkv + ('?'+p  if len(p)>0 else '')

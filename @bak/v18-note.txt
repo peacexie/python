@@ -1,5 +1,12 @@
 
 
+static, url(xx), db, json(ok)
+
+----------------------------------------- 
+
+https://segmentfault.com/q/1010000002674957?_ea=178260
+Python flask处理多栏json数据
+
 http://blog.csdn.net/qq_29287973/article/details/52495042
 【python学习笔记】flask实现简单的接收json返回json的接口
 
