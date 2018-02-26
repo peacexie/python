@@ -1,21 +1,26 @@
 
 import os, sys, json
-from flask import Blueprint, request, g, render_template, abort
+from flask import Flask, Blueprint, request, g, render_template, abort
 from core import config, dbop, parse
 
-# 按分组运行
-def vrun(app):
-    
+def app():
+    udir = os.path.basename(os.getcwd())
+    app = Flask(__name__, template_folder='../'+udir+'/views')
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
+    gmap(app, cfgs) #print(app.url_map)
+    return app
+
+# 注册分组
+def gmap(app, cfgs):
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
-        vreg(app, group, cfgs)
+        greg(app, group, cfgs)
     # reg-funcs
     ''' 
     @app.errorhandler(404)  
-    def not_found(e):    
+    def not_found(e):  
         return render_template("root/home/error.htm")
     '''
     @app.before_request
@@ -25,10 +30,9 @@ def vrun(app):
     def teardown_request(exception):
         if hasattr(g, 'db'):
             g.db.close()
-    app.run()
 
-# 注册分组
-def vreg(app, group, cfgs):
+# 注册Blueprint
+def greg(app, group, cfgs):
     sview = Blueprint(group, '_'+group)
     @sview.route('/')
     @sview.route('/<mkv>')
