@@ -5,6 +5,7 @@ from core import config, dbop, parse
 
 # 按分组运行
 def vrun(app):
+    
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
@@ -12,7 +13,7 @@ def vrun(app):
     for group in groups:
         vreg(app, group, cfgs)
     # reg-funcs
-    '''
+    ''' 
     @app.errorhandler(404)  
     def not_found(e):    
         return render_template("root/home/error.htm")
@@ -24,6 +25,7 @@ def vrun(app):
     def teardown_request(exception):
         if hasattr(g, 'db'):
             g.db.close()
+    app.run()
 
 # 注册分组
 def vreg(app, group, cfgs):
@@ -44,13 +46,13 @@ def view(app, group, cfgs, mkv):
     for key in cfgs:
         setattr(g, key, cfgs[key])
     tpath = g.dir['tpls'] + '/' + g.mkvs['group']
-    d = tpname(g, tpath) # 模板和基本数据
-    data = cdata(app, request, g, tpath)
+    d = tpname(tpath) # 模板和基本数据
+    data = cdata(app, tpath)
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
     d['data'] = data
-    verr(g, d)
+    verr(d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
         return vfmt(d, d['tpname']) # head怎么改变?
     else:
@@ -69,7 +71,7 @@ def vfmt(d, fmt):
     return s
 
 # 错误处理
-def verr(g, d):
+def verr(d):
     if len(d['tpname'])==0:
         d['code'] = 404
         d['message'] = '[' + d['tpath'] + '/' + d['tpdef'] + '] Template NOT Found!'
@@ -89,7 +91,7 @@ def verr(g, d):
     #return d 
 
 # 一个`Ctrl`控制器的数据 
-def cdata(app, request, g, tpath):
+def cdata(app, tpath):
     sys.path.append(tpath)
     file = g.mkvs['mod'] + 'Ctrl'
     flag = os.path.exists(tpath+'/_ctrls/'+file+'.py')
@@ -98,7 +100,7 @@ def cdata(app, request, g, tpath):
     g.run['Ctrl'] = file
     items = __import__('_ctrls.' + file)
     ctrl = getattr(items, file)
-    cobj = ctrl.main(app, request, g)
+    cobj = ctrl.main(app)
     tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'
     taba = tabs.split(',')
     for fid in taba:
@@ -110,7 +112,7 @@ def cdata(app, request, g, tpath):
     return {'__msg': 'None ['+tabs+'] Action'}
 
 # 分析模板和基本数据
-def tpname(g, tpath):
+def tpname(tpath):
     tpnow = g.mkvs['tpname']
     tpdef = g.mkvs['tpdef']
     tpext = g.dir['tpext']

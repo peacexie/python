@@ -1,16 +1,13 @@
 
-from flask import g
 #import os, sys, platform
-#import configparser
+from flask import request, g
 
 # main名称固定
 class main:
 
     # `__init__`一致格式
-    def __init__(self, app, request, g):
+    def __init__(self, app):
         self.app = app
-        self.request = request
-        self.g = g
         self.data = {}
 
     # 方法格式: {xxx}Act

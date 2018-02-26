@@ -1,6 +1,6 @@
 
 from flask import g
-import sqlite3
+import pymysql, sqlite3 # pymsql, MySQLdb, 
 from contextlib import closing
 
 def conn(cfgs, type='sqlite'):

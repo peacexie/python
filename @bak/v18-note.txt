@@ -1,8 +1,12 @@
-
-
-static, url(xx), db, json(ok), xml(?)
+﻿
 
 ----------------------------------------- 
+
+https://www.cnblogs.com/wt11/p/6141225.html
+Python中操作mysql的pymysql模块详解
+
+http://blog.csdn.net/zhanglh046/article/details/71056689
+python 3.x 不再支持MySQLdb　模块
 
 http://www.runoob.com/python/python-mysql.html
 python操作mysql数据库
