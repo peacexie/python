@@ -1,5 +1,6 @@
 
 #import os, sys, platform
+import copy
 from flask import request, g
 from core import dbop
 
@@ -17,15 +18,17 @@ class main:
 
     def indexAct(self):
         data = {}
-        #db = dbop.conn(cfgs)
-        db = dbop.dbm()
-        data['list'] = db.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
-
-        return data
-        
-        cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
-        data['list'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-        data['d'] = {} #{'tpname':'xml'} # 指定模板
+        # imcat
+        db1 = dbop.dbm()
+        data['catalog'] = db1.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
+        # blog
+        cdb = copy.deepcopy(g.cdb)
+        cdb['type'] = 'sqlite3'
+        cdb['name'] = g.blog['file']
+        db2 = dbop.dbm(cdb)
+        data['blog'] = db2.get('SELECT title,text FROM entries ORDER BY id DESC', (), 3)
+        # 
+        data['d'] = {} #{'tpname':'json'} # 指定模板
         return data
 
     # `detail`方法

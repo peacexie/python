@@ -1,4 +1,15 @@
-﻿
+
+'''
+
+* root:
+ - url : error, static
+ - json, xml
+ - blog + catalog
+ - 
+
+db, static, url, dir
+'''
+
 tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 ----------------------------------------- 

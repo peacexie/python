@@ -1,22 +1,22 @@
 
 from flask import g
-import pymysql, sqlite3
+import pymysql, sqlite3 #, pymssql, 
 #from contextlib import closing
 
 class dbm:
     def __init__(self, cfgs={}):
-        #self.conn = conn
-        self.cfgs = cfgs if cfgs else g.cdb
+        cfgs = cfgs if cfgs else g.cdb
+        self.cfgs = cfgs
 
     def dbcon(self):
-        if hasattr(self, 'cur'):
+        if hasattr(self, 'cur'): #hasattr(self, 'cur'): self.key in self.curs
             return self.cur
         if self.cfgs['type']=='sqlite3':
-            self.conn = sqlite3.connect(self.cfgs['host'])
+            self.con = sqlite3.connect(self.cfgs['name'])
         else:
             drive = __import__(self.cfgs['type']) #g.db['type']
-            self.conn = drive.connect(host=self.cfgs['host'], user=self.cfgs['user'], password=self.cfgs['pass'], database=self.cfgs['name'], charset="utf8")
-        cur = self.conn.cursor()
+            self.con = drive.connect(host=self.cfgs['host'], user=self.cfgs['user'], password=self.cfgs['pass'], database=self.cfgs['name'], charset="utf8")
+        cur = self.con.cursor()
         if not cur:
             raise(NameError, "Database Error!")
         else:
@@ -25,7 +25,7 @@ class dbm:
 
     def close(self):
         self.cur.close()
-        self.conn.close()
+        self.con.close()
 
     def table(self, tbname, sql=1):
         pre = self.cfgs['tbpre']
@@ -70,20 +70,13 @@ def xxx_close():
     if hasattr(g, 'db'):
         g.db.close()
 
-def conn(cfgs, type='sqlite'):
+def xx_conn(cfgs, type='sqlite'):
+    return ''
     cfg = cfgs['cdb']
     db = getattr(g, 'db', None)
     if db is None:
         db = g.db = sqlite3.connect('./data' + cfgs['blog']['file'])
     return db
-
-def init_sqlite(sql):
-    with closing(connect_db()) as db:
-        #with app.open_resource('./schema.sql') as f: 
-        #    db.cursor().executescript(f.read()) 
-        # ValueError: script argument must be unicode.
-        db.cursor().executescript(sql)
-        db.commit()
 
 # '''
 
@@ -95,18 +88,5 @@ create table entries (\
     title string not null,\
     text string not null\
 );\
-
-#coding=utf-8 
-# sqlserver的连接
-import pymssql
-
-def main():
-
-    ms = MSSQL(host="127.0.0.1:1541",user="sa",pwd="写你的密码",db="写你的数据库")
-    resList = ms.ExecQuery("SELECT * FROM students")
-    print(resList)
-
-if __name__ == '__main__':
-    main()
 
 '''

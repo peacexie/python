@@ -1,7 +1,7 @@
 
 import os, sys, json
 from flask import Flask, Blueprint, request, g, render_template, abort
-from core import config, dbop, parse
+from core import config, parse # dbop, 
 
 def app():
     udir = os.path.basename(os.getcwd())
@@ -9,20 +9,21 @@ def app():
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
-    gmap(app, cfgs) #print(app.url_map)
+    groups = cfgs['sys']['groups'].split(',')
+    for group in groups:
+        breg(app, group, cfgs)
+    areg(app, cfgs) #print(app.url_map)
     return app
 
 # 注册分组
-def gmap(app, cfgs):
-    groups = cfgs['sys']['groups'].split(',')
-    for group in groups:
-        greg(app, group, cfgs)
+def areg(app, cfgs):
+    # reg-filters 
+    app.jinja_env.filters['url'] = jef_url
     # reg-funcs 
     ''' 
     @app.errorhandler(404)  
     def not_found(e):      
         return render_template("root/home/error.htm")
-    '''
     @app.before_request
     def before_request():
         dbop.conn(cfgs)
@@ -30,9 +31,10 @@ def gmap(app, cfgs):
     def teardown_request(exception):
         if hasattr(g, 'db'):
             g.db.close()
+    '''
 
 # 注册Blueprint
-def greg(app, group, cfgs):
+def breg(app, group, cfgs):
     sview = Blueprint(group, '_'+group)
     @sview.route('/')
     @sview.route('/<mkv>')
@@ -40,8 +42,6 @@ def greg(app, group, cfgs):
         return view(app, group, cfgs, mkv)
     gfix = '' if len(group)==0 else '/'+group
     app.register_blueprint(sview, url_prefix=gfix)
-    # reg-filters 
-    app.jinja_env.filters['url'] = jef_url
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
