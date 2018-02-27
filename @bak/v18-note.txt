@@ -14,6 +14,10 @@ tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 ----------------------------------------- 
 
+https://www.cnblogs.com/jonyq/p/5929073.html
+python xml解析和生成
+
+
 https://www.cnblogs.com/wt11/p/6141225.html
 Python中操作mysql的pymysql模块详解
 

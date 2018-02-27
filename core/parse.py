@@ -2,6 +2,19 @@
 
 '''
     convXml
+
+def dict_to_xml(input_dict,root_tag,node_tag):
+    """ 定义根节点root_tag，定义第二层节点node_tag
+    第三层中将字典中键值对对应参数名和值
+       return: xml的tree结构 """
+    root_name = ET.Element(root_tag)
+    for (k, v) in input_dict.items():
+        node_name = ET.SubElement(root_name, node_tag)
+        for (key, val) in sorted(v.items(), key=lambda e:e[0], reverse=True):
+            key = ET.SubElement(node_name, key)
+            key.text = val
+    return root_name
+
 '''
 
 
