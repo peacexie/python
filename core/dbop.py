@@ -3,22 +3,90 @@ from flask import g
 import pymysql, sqlite3
 #from contextlib import closing
 
+class dbm:
+    def __init__(self, cfgs={}):
+        #self.conn = conn
+        self.cfgs = cfgs if cfgs else g.cdb
+
+    def dbcon(self):
+        if hasattr(self, 'cur'):
+            return self.cur
+        if self.cfgs['type']=='sqlite3':
+            self.conn = sqlite3.connect(self.cfgs['host'])
+        else:
+            drive = __import__(self.cfgs['type']) #g.db['type']
+            self.conn = drive.connect(host=self.cfgs['host'], user=self.cfgs['user'], password=self.cfgs['pass'], database=self.cfgs['name'], charset="utf8")
+        cur = self.conn.cursor()
+        if not cur:
+            raise(NameError, "Database Error!")
+        else:
+            self.cur = cur
+            return cur
+
+    def close(self):
+        self.cur.close()
+        self.conn.close()
+
+    def table(self, tbname, sql=1):
+        pre = self.cfgs['tbpre']
+        fix = self.cfgs['tbfix']
+        if sql: # {base_catalog}
+            return tbname.replace('{', pre).replace('}', fix)
+        else:
+            return pre + tbname + fix
+
+    def get(self, sql, parms=(), re=None): # re = 1,n,None
+        cur = self.dbcon()
+        cur.execute(self.table(sql), parms)
+        if not re:
+            res = cur.fetchall()
+        elif re==1:
+            res = cur.fetchone()
+        else:
+            res = cur.fetchmany(re)
+        self.close()
+        return res
+
+    def exe(self, sql, parms=(), mod=None):
+        cur = self.dbcon()
+        if type(a) == list :
+            res = cur.executemany(self.table(sql), parms)
+        else:
+            res = cur.execute(self.table(sql), parms)
+        self.conn.commit()
+        self.close()
+        return res
+
+    def script(self, sql, parms=''):
+        self.exe(sql)
+
+
 # get(1,n,None), exe(sql,parms), batch
+
+def x_dbc(cfgs={}):  
+    return dbm(cfgs)
+
+def xxx_close():
+    if hasattr(g, 'db'):
+        g.db.close()
 
 def conn(cfgs, type='sqlite'):
     cfg = cfgs['cdb']
     db = getattr(g, 'db', None)
     if db is None:
-        db = g.db = sqlite3.connect('./data' + cfg['file'])
+        db = g.db = sqlite3.connect('./data' + cfgs['blog']['file'])
     return db
 
 def init_sqlite(sql):
     with closing(connect_db()) as db:
-        #with app.open_resource('./schema.sql') as f:
+        #with app.open_resource('./schema.sql') as f: 
         #    db.cursor().executescript(f.read()) 
         # ValueError: script argument must be unicode.
         db.cursor().executescript(sql)
         db.commit()
+
+# '''
+
 '''
 dbsql = '\
 drop table if exists entries;\
@@ -31,56 +99,6 @@ create table entries (\
 #coding=utf-8 
 # sqlserver的连接
 import pymssql
-
-class MSSQL:
-    def __init__(self,host,user,pwd,db):
-        self.host = host
-        self.user = user
-        self.pwd = pwd
-        self.db = db
-
-    def __GetConnect(self):
-        """
-        得到连接信息
-        返回: conn.cursor()
-        """
-        if not self.db:
-            raise(NameError,"没有设置数据库信息")
-        self.conn = pymssql.connect(host=self.host,user=self.user,password=self.pwd,database=self.db,charset="utf8")
-        cur = self.conn.cursor()
-        if not cur:
-            raise(NameError,"连接数据库失败")
-        else:
-            return cur
-
-    def ExecQuery(self,sql):
-        """
-        执行查询语句
-        返回的是一个包含tuple的list，list的元素是记录行，tuple的元素是每行记录的字段
-
-        """
-        cur = self.__GetConnect()
-        cur.execute(sql)
-        resList = cur.fetchall()
-
-        #查询完毕后必须关闭连接
-        self.conn.close()
-        return resList
-
-    def ExecNonQuery(self,sql):
-        """
-        执行非查询语句
-
-        调用示例：
-            cur = self.__GetConnect()
-            cur.execute(sql)
-            self.conn.commit()
-            self.conn.close()
-        """
-        cur = self.__GetConnect()
-        cur.execute(sql)
-        self.conn.commit()
-        self.conn.close()
 
 def main():
 

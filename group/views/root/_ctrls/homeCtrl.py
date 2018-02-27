@@ -1,6 +1,7 @@
 
 #import os, sys, platform
 from flask import request, g
+from core import dbop
 
 # main名称固定
 class main:
@@ -12,10 +13,16 @@ class main:
 
     # 方法格式: {xxx}Act
     # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
+    # imcat, blog
 
     def indexAct(self):
-        #db = dbop.conn(cfgs)
         data = {}
+        #db = dbop.conn(cfgs)
+        db = dbop.dbm()
+        data['list'] = db.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
+
+        return data
+        
         cur = g.db.execute('SELECT title,text FROM entries ORDER BY id DESC')
         data['list'] = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
         data['d'] = {} #{'tpname':'xml'} # 指定模板

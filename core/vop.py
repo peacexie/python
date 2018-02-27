@@ -17,10 +17,10 @@ def gmap(app, cfgs):
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         greg(app, group, cfgs)
-    # reg-funcs
+    # reg-funcs 
     ''' 
     @app.errorhandler(404)  
-    def not_found(e):  
+    def not_found(e):      
         return render_template("root/home/error.htm")
     '''
     @app.before_request
