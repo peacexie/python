@@ -1,6 +1,8 @@
 
 '''
 
+E:/Peace/webs/peace/python/trunk/apblog/data/apblog.db
+
 jinja_env.filters
 
 jef.url, jef.db, jef.dv(tab, where, param), 
