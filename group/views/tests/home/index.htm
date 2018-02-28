@@ -4,8 +4,8 @@
 {% block title %}Home - index{% endblock %}
 
 {% block info %}
-<h1>Hi, Python Flask!</h1>
-<p>Home - index</p>
+<h1>Hi, {{d.data.name|default('Python Flask')}}!</h1>
+<p>Home - index</p> {{d.data}}
 
 
 url = {{ '/' | url() }} <br>

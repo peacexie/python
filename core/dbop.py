@@ -3,7 +3,6 @@ from flask import g
 import pymysql, sqlite3 #, pymssql, 
 #from contextlib import closing
 
-
 class dbm:
     def __init__(self, cfgs={}):
         cfgs = cfgs if cfgs else g.cdb
@@ -64,14 +63,3 @@ class dbm:
     def script(self, sql, parms=''):
         self.exe(sql)
 
-
-'''
-dbsql = '\
-drop table if exists entries;\
-create table entries (\
-    id integer primary key autoincrement,\
-    title string not null,\
-    text string not null\
-);\
-
-'''
