@@ -7,6 +7,9 @@
 <h1>Hi, {{ d.data.name|default('Python Flask')|safe }}!</h1>
 <p>Home - index</p>
 
+{% set dd={'aa':'bb', 'cc':'dd'} %}
+<p>dd.aa = {{ dd.aa }}</p>
+
 url = {{ '/' | url() }} <br>
 url = {{ './' | url() }} <br>
 url = {{ 'home-index' | url('a=b') }} <br>
