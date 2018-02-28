@@ -21,14 +21,17 @@ class main:
         # imcat
         db1 = dbop.dbm()
         data['catalog'] = db1.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
+        data['advs'] = db1.get("SELECT * FROM {base_model} WHERE pid=%s", ('advs',), 2)
         # blog
-        cdb = copy.deepcopy(g.cdb)
-        cdb['type'] = 'sqlite3'
-        cdb['name'] = g.blog['file']
+        cdb = dict(copy.deepcopy(g.cdb), **g.blog)
         db2 = dbop.dbm(cdb)
-        data['blog'] = db2.get('SELECT title,text FROM entries ORDER BY id DESC', (), 3)
+        data['blog'] = db2.get('SELECT title,detail FROM article ORDER BY id DESC', (), 1)
         # 
         data['d'] = {} #{'tpname':'json'} # 指定模板
+        data['d'] = {'tpname':'xml'} # 指定模板
+        # 
+        db1.close()
+        db2.close()
         return data
 
     # `detail`方法

@@ -65,8 +65,10 @@ def view(app, group, cfgs, mkv):
 def vfmt(d, fmt):
     if fmt=='xml':
         xml = parse.convXml.collectionToXML(d)
+        #print(xml)
         s = parse.convXml.getXmlString(xml)
-        #s = 'Coming Soon!'
+        #s = parse.convXml2(d)
+        #s = 'Coming Soon!'  
     else: # json/jsonp(有callback)
         s = json.dumps(d, ensure_ascii=False)
         cb = request.args.get('callback')
