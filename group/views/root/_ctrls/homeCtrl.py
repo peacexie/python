@@ -27,8 +27,10 @@ class main:
         db2 = dbop.dbm(cdb)
         data['blog'] = db2.get('SELECT title,detail FROM article ORDER BY id DESC', (), 1)
         # 
-        data['d'] = {} #{'tpname':'json'} # 指定模板
-        data['d'] = {'tpname':'xml'} # 指定模板
+        data['d'] = {}
+        data['d'] = {'tpname':'json'} # 指定模板
+        #data['d'] = {'tpname':'xml'} # 指定模板
+
         # 
         db1.close()
         db2.close()

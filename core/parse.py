@@ -1,102 +1,92 @@
 # -*- coding:UTF-8 -*-
 
-'''
-    convXml
-'''
-
+import json
 import xml.etree.ElementTree as elmTree
 import xml.dom.minidom as minidom
 
+def d2xml(d):
+    xml = convXml.collectionToXML(d)
+    return convXml.getXmlString(xml)
+
+def d2json(d, cb):
+    s = json.dumps(d, ensure_ascii=False)
+    if cb:
+        s = cb + '(' + s + ');'
+    return s
 
 '''
-  Created on 2010-4-20
-  @author: 忧里修斯
+  @author: 忧里修斯 @2010-4-20
   http://www.jb51.net/article/115659.htm
   Python实现对象转换为xml的方法示例
 '''
+
 class convXml(object):
-    '''
-      实现Python对象与xml之间的相互转换
-    '''
-    root = None#根节点
+
+    root = None #根节点
 
     def __init__(self):
         pass
 
-    @staticmethod
+    @staticmethod # 创建根节点
     def createRoot(rootTag):
-        '''
-          创建根节点
-        '''
         root = elmTree.Element(rootTag)
         return root
 
-    @staticmethod
+    @staticmethod # 根据节点返回格式化的xml字符串
     def getXmlString(element, cset='utf-8'):
-        '''
-          根据节点返回格式化的xml字符串
-        '''
         try:
             str0 = elmTree.tostring(element, cset)
-            #print(str0) 
             reparsed = minidom.parseString(str0)
             return reparsed.toprettyxml(indent=" ", encoding=cset)
         except:
             print('getXmlString:传入的节点不能正确转换为xml，请检查传入的节点是否正确')
             return ''
     
-    @staticmethod
+    @staticmethod # 根据传入的对象的实例，根据对象的属性生成节点，返回由节点组成的列表
     def classToElements(classobj, rootTag=None):
-        '''
-          根据传入的对象的实例，根据对象的属性生成节点，返回由节点组成的列表
-          classobj：对象的实例
-          rootTag：根节点名称
-        '''
+
         attrs = None #保存对象的属性集
         elelist = [] #节点列表
+
         try:
             attrs = classobj.__dict__.keys()#获取该对象的所有属性(即成员变量)
         except:
-            #elelist.append(classobj)
             print('classToElements:传入的对象非法，不能正确获取对象的属性')
-            #print(classobj)
         if attrs != None and len(attrs) > 0:#属性存在
             for attr in attrs:
                 attrvalue = getattr(classobj, attr)#属性值
                 #属性节点
                 attrE = elmTree.Element(attr)
                 attrE.text = attrvalue
+
                 #加入节点列表
                 elelist.append(attrE)
         return elelist
     
-    @staticmethod
+    @staticmethod # Python自定义模型类转换成xml，转换成功返回的是xml根节点，否则返回None
     def classToXML(classobj, rootTag=None):
-        '''
-          Python自定义模型类转换成xml，转换成功返回的是xml根节点，否则返回None
-          classobj：对象的实例
-          rootTag：根节点名称
-        '''
         try:
             classname = classobj.__class__.__name__ #类名
             if rootTag != None:
                 root = convXml.createRoot(rootTag)
             else:
                 root = convXml.createRoot(classname)
-                elelist = convXml.classToElements(classobj, rootTag)
+
+            if type(classobj)==int or type(classobj)==str:
+                root.text = str(classobj)
+                return root
+
+            elelist = convXml.collectionToXML(classobj, rootTag) 
             for ele in elelist:
                 root.append(ele)
+
             return root
         except:
-            #return classobj
             print('classToXML:转换出错，请检查的传入的对象是否正确')
             return None
-    
-    @staticmethod
+
+    @staticmethod # 集合（列表、元组、字典）转换为xml，转换成功返回的是xml根节点，否则返回None
     def collectionToXML(listobj, rootTag='root'):
-        '''
-          集合（列表、元组、字典）转换为xml，转换成功返回的是xml根节点，否则返回None
-        '''
         try:
             classname = listobj.__class__.__name__ #类名
             root = convXml.createRoot(rootTag)
@@ -109,79 +99,12 @@ class convXml(object):
                 if len(listobj) >= 0:
                     for key in listobj:#迭代字典中的对象
                         obj = listobj[key]
-                        itemE = convXml.classToXML(obj)
-                        itemE.set('key', key)
+                        itemE = convXml.classToXML(obj, key)
                         root.append(itemE)
             else:
-                #root.append(listobj)
                 print('listToXML：转换错误，传入的对象：'+classname+'不是集合类型')
             return root
         except:
             print('collectionToXML：转换错误，集合转换成xml失败')
             return None
-
-
-
-
-
-
-# coding = 'utf-8'
-#import time
-
-#start = time.clock()  # 记录处理开始时间；与最后一行一起使用，来判断输出运行时间。
-
-def read_xml(in_path):
-    """读取并解析xml文件
-       in_path: xml路径
-       return: tree"""
-    tree = elmTree.parse(in_path)
-    return tree
-
-def creat_dict(root):
-    """xml生成为dict：，
-    将tree中个节点添加到list中，将list转换为字典dict_init
-    叠加生成多层字典dict_new"""
-    dict_new = {}
-    for key, valu in enumerate(root):
-        dict_init = {}
-        list_init = []
-        for item in valu:
-            list_init.append([item.tag, item.text])
-            for lists in list_init:
-                dict_init[lists[0]] = lists[1]
-        dict_new[key] = dict_init
-    return dict_new
-
-def dict_to_xml(input_dict,root_tag,node_tag):
-    """ 定义根节点root_tag，定义第二层节点node_tag
-    第三层中将字典中键值对对应参数名和值
-       return: xml的tree结构 """
-    root_name = elmTree.Element(root_tag)
-    for (k, v) in input_dict.items():
-        node_name = elmTree.SubElement(root_name, node_tag)
-        for (key, val) in sorted(v.items(), key=lambda e:e[0], reverse=True):
-            key = elmTree.SubElement(node_name, key)
-            key.text = val
-    return root_name
-
-
-def out_xml(root):
-    """格式化root转换为xml文件"""
-    rough_string = elmTree.tostring(root, 'utf-8')
-    reared_content = minidom.parseString(rough_string)
-    with open(out_file, 'w+') as fs:
-        reared_content.writexml(fs, addindent=" ", newl="\n", encoding="utf-8")
-    return True
-
-'''
-if __name__ == '__main__':
-    in_files = r"D:\baspool_read.xml"
-    out_file = r"D:\baspool_out.xml"
-    tree = read_xml(in_files)
-    node_new = creat_dict(tree.getroot())  # 将xml转换为dict
-    root = dict_to_xml(node_new, "baspools", "bas")  # 将dict转换为xml
-    out_xml(root)     # 输出xml到out_files
-end = time.clock()
-print("read: %f s" % (end - start))
-'''
 

@@ -1,5 +1,5 @@
 
-import os, sys, json
+import os, sys
 from flask import Flask, Blueprint, request, g, render_template, abort
 from core import config, parse # dbop, 
 
@@ -58,23 +58,10 @@ def view(app, group, cfgs, mkv):
     d['data'] = data
     verr(d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
-        return vfmt(d, d['tpname']) # head怎么改变?
+        cb = request.args.get('callback') # head怎么改变?
+        return parse.d2xml(d) if d['tpname']=='xml' else parse.d2json(d, cb)
     else:
         return render_template(d['full'], d=d)
-
-def vfmt(d, fmt):
-    if fmt=='xml':
-        xml = parse.convXml.collectionToXML(d)
-        #print(xml)
-        s = parse.convXml.getXmlString(xml)
-        #s = parse.convXml2(d)
-        #s = 'Coming Soon!'  
-    else: # json/jsonp(有callback)
-        s = json.dumps(d, ensure_ascii=False)
-        cb = request.args.get('callback')
-        if cb:
-            s = cb + '(' + s + ');'
-    return s
 
 # 错误处理
 def verr(d):

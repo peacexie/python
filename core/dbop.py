@@ -14,10 +14,18 @@ class dbm:
         cfgs = self.cfgs
         if cfgs['type']=='sqlite3':
             self.con = sqlite3.connect(cfgs['name'])
+            def dict_factory(cursor, row): 
+                d = {} 
+                for idx, col in enumerate(cursor.description): 
+                    d[col[0]] = row[idx] 
+                return d
+            self.con.row_factory = dict_factory
+            self.cur = self.con.cursor()
         else:
             drive = __import__(self.cfgs['type']) #g.db['type']
             self.con = drive.connect(host=cfgs['host'], user=cfgs['user'], password=cfgs['pass'], database=cfgs['name'], charset="utf8")
-        self.cur = self.con.cursor()
+            self.cur = self.con.cursor(cursor=drive.cursors.DictCursor)
+
         if not self.cur:
             raise(NameError, "Database Error!")
 

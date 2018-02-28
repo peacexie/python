@@ -3,7 +3,8 @@
 
 * root:
  - url : error, static
- - json, xml
+ - json, xml, jsonp
+ - db : n
  - blog + catalog
  - 
 
@@ -14,10 +15,12 @@ tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 
 
+----------------------------------------- 
+
+
 https://www.oschina.net/question/2891846_2210180
 adminer 4.2.5版本打开Sqlite提示“Implement login() method to use SQLite.”
 
------------------------------------------ 
 
 https://www.cnblogs.com/jonyq/p/5929073.html
 python xml解析和生成
