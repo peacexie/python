@@ -39,7 +39,7 @@ class convXml(object):
             reparsed = minidom.parseString(str0)
             return reparsed.toprettyxml(indent=" ", encoding=cset)
         except:
-            print('getXmlString:传入的节点不能正确转换为xml，请检查传入的节点是否正确')
+            print('getXmlString: Error Node, Cant NOT convert to xml')
             return ''
     
     @staticmethod # 根据传入的对象的实例，根据对象的属性生成节点，返回由节点组成的列表
@@ -51,7 +51,7 @@ class convXml(object):
         try:
             attrs = classobj.__dict__.keys()#获取该对象的所有属性(即成员变量)
         except:
-            print('classToElements:传入的对象非法，不能正确获取对象的属性')
+            print('classToElements: Error object, Can NOT get the attribute.')
         if attrs != None and len(attrs) > 0:#属性存在
             for attr in attrs:
                 attrvalue = getattr(classobj, attr)#属性值
@@ -82,7 +82,7 @@ class convXml(object):
 
             return root
         except:
-            print('classToXML:转换出错，请检查的传入的对象是否正确')
+            print('classToXML: Error Convert, Error object.')
             return None
 
     @staticmethod # 集合（列表、元组、字典）转换为xml，转换成功返回的是xml根节点，否则返回None
@@ -102,9 +102,9 @@ class convXml(object):
                         itemE = convXml.classToXML(obj, key)
                         root.append(itemE)
             else:
-                print('listToXML：转换错误，传入的对象：'+classname+'不是集合类型')
+                print('listToXML: Convert Error, '+classname+' NOT collection type.')
             return root
         except:
-            print('collectionToXML：转换错误，集合转换成xml失败')
+            print('collectionToXML: Convert Error, collection convert to xml fail.')
             return None
 

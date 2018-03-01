@@ -4,7 +4,7 @@
 {% block title %}Home - index{% endblock %}
 
 {% block info %}
-<h1>Hi, {{ d.data.name|default('Python Flask')|safe }}!</h1>
+<h1>Hi, {{ d.data.name|d('Python Flask', true)|e }}!</h1>
 <p>Home - index</p>
 
 {% set dd={'aa':'bb', 'cc':'dd'} %}

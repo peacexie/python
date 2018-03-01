@@ -19,8 +19,8 @@ class main:
     def indexAct(self):
         data = {}
         name = request.args.get('name')
-        if name:
-            data['name'] = name
+        #/if name:
+        data['name'] = name
         # imcat
         db1 = dbop.dbm()
         data['catalog'] = db1.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)

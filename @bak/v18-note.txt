@@ -5,6 +5,9 @@ E:/Peace/webs/peace/python/trunk/apblog/data/apblog.db
 
 jinja_env.filters
 
+None          --- ok
+http:状态码   --- ok
+自定过滤器    --- ... 
 jef.url, jef.db, jef.dv(tab, where, param), 
 
 * root:
@@ -20,6 +23,15 @@ db, static, url, dir
 tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 ----------------------------------------- 
+
+https://www.jianshu.com/p/b09e1884048a
+如何自定义Flask中的响应类
+
+https://www.jianshu.com/p/0ced03604e24
+Flask框架——请求、应答与会话 ：Request/Response/Session
+
+Flask入门系列(五)–错误处理及消息闪现
+http://www.bjhee.com/flask-5.html
 
 https://www.oschina.net/question/2891846_2210180
 adminer 4.2.5版本打开Sqlite提示“Implement login() method to use SQLite.”

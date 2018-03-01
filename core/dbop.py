@@ -9,24 +9,33 @@ class dbm:
         self.cfgs = cfgs
         self.dbcon()
 
+    def dbcur_comm(self, cfgs):
+        drive = __import__(cfgs['type'])
+        host = cfgs['host']; user = cfgs['user']; pwd = cfgs['pass']; name = cfgs['name']
+        self.con = drive.connect(host=host, user=user, password=pwd, database=name, charset="utf8")
+        self.cur = self.con.cursor(cursor=drive.cursors.DictCursor)
+
+    def dbcur_sqlite3(self, cfgs):
+        self.con = sqlite3.connect(cfgs['name'])
+        def cur_dict(cursor, row): 
+            d = {} 
+            for idx, col in enumerate(cursor.description): 
+                d[col[0]] = row[idx] 
+            return d
+        self.con.row_factory = cur_dict
+        self.cur = self.con.cursor()
+
     def dbcon(self):
         cfgs = self.cfgs
-        if cfgs['type']=='sqlite3':
-            self.con = sqlite3.connect(cfgs['name'])
-            def dict_factory(cursor, row): 
-                d = {} 
-                for idx, col in enumerate(cursor.description): 
-                    d[col[0]] = row[idx] 
-                return d
-            self.con.row_factory = dict_factory
-            self.cur = self.con.cursor()
+        func = 'dbcur_' + cfgs['type']
+        if func in dir(self):
+            method = getattr(self, func) 
+            method(cfgs)
         else:
-            drive = __import__(self.cfgs['type']) #g.db['type']
-            self.con = drive.connect(host=cfgs['host'], user=cfgs['user'], password=cfgs['pass'], database=cfgs['name'], charset="utf8")
-            self.cur = self.con.cursor(cursor=drive.cursors.DictCursor)
-
+           self.dbcur_comm(cfgs)
         if not self.cur:
-            raise(NameError, "Database Error!")
+            print('Database Error!')
+            #raise(NameError, "Database Error!")
 
     def close(self):
         self.cur.close()

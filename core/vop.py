@@ -59,11 +59,14 @@ def view(app, group, cfgs, mkv):
     verr(d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
         cb = request.args.get('callback') # head怎么改变?
-        return parse.d2xml(d) if d['tpname']=='xml' else parse.d2json(d, cb)
+        res = parse.d2xml(d) if d['tpname']=='xml' else parse.d2json(d, cb)
+        ctype = {'Content-Type':'application/'+d['tpname']+';charset=utf-8'}
+        return res, 200, ctype
     else:
-        return render_template(d['full'], d=d)
+        code = d['code'] if d['code'] else 200
+        return render_template(d['full'], d=d), code
 
-# 错误处理
+# 错误处理,
 def verr(d):
     if len(d['tpname'])==0:
         d['code'] = 404
