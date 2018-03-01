@@ -1,7 +1,7 @@
 
 import os, sys
 from flask import Flask, Blueprint, request, g, render_template, abort
-from core import config, parse # dbop, 
+from core import config, dbop, jef, parse
 
 def app():
     udir = os.path.basename(os.getcwd())
@@ -18,19 +18,21 @@ def app():
 # 注册分组
 def areg(app, cfgs):
     # reg-filters 
-    app.jinja_env.filters['url'] = jef_url
+    app.jinja_env.filters['url'] = jef.url
+    #app.jinja_env.filters['db'] = jef_db #dbop.dbm(cfgs['cdb'])
     # reg-funcs 
+    @app.before_request
+    def before_request():
+        g.db = dbop.dbm(cfgs['cdb'])
+    def teardown_request(exception):
+        if hasattr(g, 'db'):
+            g.db.close()
     ''' 
     @app.errorhandler(404)  
     def not_found(e):      
         return render_template("root/home/error.htm")
-    @app.before_request
-    def before_request():
-        dbop.conn(cfgs)
     @app.teardown_request
-    def teardown_request(exception):
-        if hasattr(g, 'db'):
-            g.db.close()
+
     '''
 
 # 注册Blueprint
@@ -144,17 +146,3 @@ def mkvs(group, mkv):
     exts = {'group':group, 'mkv':mkv, 'tpname':tpnow, 'tpdef':tpdef}
     res = dict(mkva, **exts)
     return res
-
-# jinja_env.filters
-# 暂无意义, 直接这样写: mod-key?parms 或 ../group/mod-key?parms
-def jef_url(mkv, p=''):
-    if mkv=='/':
-        mkv = '/root/'
-    elif mkv=='./':
-        mkv = '/' + g.mkvs['group'] + '/'
-    elif mkv.find('/')<0: # mkv
-        mkv = '/' + g.mkvs['group'] + '/' + mkv
-    #else: # /gid/mkv 
-    #    mkv = mkv
-    mkv = mkv.replace('/root/', '/')
-    return mkv + ('?'+p  if len(p)>0 else '')

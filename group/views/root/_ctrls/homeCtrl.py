@@ -24,7 +24,7 @@ class main:
         # imcat
         db1 = dbop.dbm()
         data['catalog'] = db1.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
-        data['advs'] = db1.get("SELECT * FROM {base_model} WHERE pid=%s", ('advs',), 2)
+        data['advs'] = g.db.get("SELECT * FROM {base_model} WHERE pid=%s", ('advs',), 2)
         # blog
         cdb = dict(copy.deepcopy(g.cdb), **g.blog)
         db2 = dbop.dbm(cdb)
