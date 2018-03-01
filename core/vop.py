@@ -61,10 +61,9 @@ def view(app, group, cfgs, mkv):
         cb = request.args.get('callback') # head怎么改变?
         res = parse.d2xml(d) if d['tpname']=='xml' else parse.d2json(d, cb)
         ctype = {'Content-Type':'application/'+d['tpname']+';charset=utf-8'}
-        return res, 200, ctype
+        return res, d['code'], ctype
     else:
-        code = d['code'] if d['code'] else 200
-        return render_template(d['full'], d=d), code
+        return render_template(d['full'], d=d), d['code']
 
 # 错误处理,
 def verr(d):
@@ -113,7 +112,7 @@ def tpname(tpath):
     tpdef = g.mkvs['tpdef']
     tpext = g.dir['tpext']
     flag = os.path.exists(tpath + '/' + tpnow + tpext)
-    d = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':0, 'message':''}
+    d = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':200, 'message':''}
     if not flag: 
         if os.path.exists(tpath + '/' + tpdef + tpext):
             d['tpname'] = tpdef
