@@ -17,6 +17,20 @@ url = "http://txmao.txjia.com/chn.php?cargo"
 html = urlpy.page(url)
 #print(html)
 
+
+url = "http://z6m.me"
+z6m = urlpy.page(url)
+itms = urlpy.list(z6m, 'pics')
+print(itms)
+#urlpy.save(list, 'tmpic', 'http://z6m.me');
+for itm in itms:
+    url = itm[0]
+    if url.find('://')<=0:
+        url = base+url
+    file = urlpy.svurl(url, 'pics') # path
+    print(file)
+
+
 print('')
 str = urlpy.block(html, '<div class="pgf_menu">', '</div>')
 print(str)

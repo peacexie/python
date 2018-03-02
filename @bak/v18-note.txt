@@ -1,6 +1,8 @@
 
 '''
 
+爬虫, 系统管理
+
 E:/Peace/webs/peace/python/trunk/apblog/data/apblog.db
 
 jinja_env.filters
@@ -23,6 +25,9 @@ db, static, url, dir
 tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 ----------------------------------------- 
+
+https://www.cnblogs.com/to-be-rich/p/7580693.html
+python_清理占用内存的脚本
 
 https://www.jianshu.com/p/b09e1884048a
 如何自定义Flask中的响应类

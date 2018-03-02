@@ -1,14 +1,16 @@
 
-import os, sys
+import os, sys, time
 from flask import Flask, Blueprint, request, g, render_template, abort
 from core import config, dbop, jef, parse
 
 def app():
+    init = time.time()
     udir = os.path.basename(os.getcwd())
     app = Flask(__name__, template_folder='../'+udir+'/views')
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
+    cfgs['sys']['init'] = init
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         breg(app, group, cfgs)
@@ -23,6 +25,8 @@ def areg(app, cfgs):
     # reg-funcs 
     @app.before_request
     def before_request():
+        cfgs['run']['timer'] = time.time()
+        g.time = time
         g.db = dbop.dbm(cfgs['cdb'])
     def teardown_request(exception):
         if hasattr(g, 'db'):

@@ -16,12 +16,17 @@ url = {{ 'home-index' | url('a=b') }} <br>
 url = {{ '/tests/home-index' | url('c=d') }} <br>
 url = {{ 'home-index?afc=2' | url() }} <br>
 
-{% set docs=g.db.get("SELECT * FROM {base_model} WHERE pid=%s", ('docs',), 2) %}
-<p>docs.2 = {{ docs }}</p>
+{% set arcs=g.db.get("SELECT title,detail FROM {article} WHERE id>2 ORDER BY id DESC", (), 2) %}
+<p>arcs.2 = {{ arcs }}</p>
 
 <hr>
 
 ../front/home-index?afc=2
 home-index?afc=2
+
+<br />timer: 
+{% print(g.time.time()-g.run['timer']) %}
+<br>
+{% print(g.time.time()-g.sys['init']) %}
 
 {% endblock %}

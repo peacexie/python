@@ -1,6 +1,6 @@
 
 from flask import g
-import pymysql, sqlite3 #, pymssql, 
+import imp # 动态加载: pymysql, sqlite3, pymssql ... 
 #from contextlib import closing
 
 class dbm:
@@ -16,7 +16,7 @@ class dbm:
         self.cur = self.con.cursor(cursor=drive.cursors.DictCursor)
 
     def dbcur_sqlite3(self, cfgs):
-        self.con = sqlite3.connect(cfgs['name'])
+        self.con = __import__('sqlite3').connect(cfgs['name'])
         def cur_dict(cursor, row): 
             d = {} 
             for idx, col in enumerate(cursor.description): 

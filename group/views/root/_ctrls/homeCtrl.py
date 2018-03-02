@@ -14,21 +14,22 @@ class main:
 
     # 方法格式: {xxx}Act
     # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
-    # imcat, blog
+    # exdb, blog
 
     def indexAct(self):
         data = {}
         name = request.args.get('name')
         #/if name:
         data['name'] = name
-        # imcat
-        db1 = dbop.dbm()
-        data['catalog'] = db1.get("SELECT * FROM {base_catalog} WHERE model=%s", ('demo',), 1)
-        data['advs'] = g.db.get("SELECT * FROM {base_model} WHERE pid=%s", ('advs',), 2)
         # blog
-        cdb = dict(copy.deepcopy(g.cdb), **g.blog)
+        db1 = dbop.dbm()
+        data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
+        data['catalog'] = g.db.get("SELECT * FROM {catalog} WHERE kid like? ORDER BY kid DESC", ('%o%',), 2)
+        # exdb
+        cdb = dict(copy.deepcopy(g.cdb), **g.exdb)
         db2 = dbop.dbm(cdb)
-        data['blog'] = db2.get('SELECT title,detail FROM article ORDER BY id DESC', (), 1)
+        data['model'] = db2.get("SELECT * FROM {base_model} WHERE pid=%s", ('docs',), 1)
+        
         # 
         data['d'] = {}
         #data['d'] = {'tpname':'json'} # 指定模板
