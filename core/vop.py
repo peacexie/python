@@ -4,14 +4,17 @@ from flask import Flask, Blueprint, request, g, render_template, abort
 from core import config, dbop, jef, parse
 
 def app():
-    init = time.time()
-    udir = os.path.basename(os.getcwd())
-    app = Flask(__name__, template_folder='../'+udir+'/views')
+    cfgs = config.init()
+    timer = time.time()
+    root = os.getcwd()
+    app = Flask(__name__, template_folder=root+cfgs['dir']['views'], 
+                          static_folder=root+cfgs['dir']['static'])
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
-    cfgs['sys']['init'] = init
     groups = cfgs['sys']['groups'].split(',')
+    cfgs['sys']['timer'] = timer
+    cfgs['sys']['root'] = root
     for group in groups:
         breg(app, group, cfgs)
     areg(app, cfgs) #print(app.url_map)
@@ -21,6 +24,7 @@ def app():
 def areg(app, cfgs):
     # reg-filters 
     app.jinja_env.filters['url'] = jef.url
+    app.jinja_env.filters['info'] = jef.info
     #app.jinja_env.filters['db'] = jef_db #dbop.dbm(cfgs['cdb'])
     # reg-funcs 
     @app.before_request
@@ -55,7 +59,7 @@ def view(app, group, cfgs, mkv):
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
-    tpath = g.dir['tpls'] + '/' + g.mkvs['group']
+    tpath = g.dir['views'] + '/' + g.mkvs['group']
     d = tpname(tpath) # 模板和基本数据
     data = cdata(app, tpath)
     if 'd' in data: # 返回res覆盖原有属性
@@ -93,9 +97,9 @@ def verr(d):
 
 # 一个`Ctrl`控制器的数据 
 def cdata(app, tpath):
-    sys.path.append(tpath)
+    sys.path.append('.'+tpath)
     file = g.mkvs['mod'] + 'Ctrl'
-    flag = os.path.exists(tpath+'/_ctrls/'+file+'.py')
+    flag = os.path.exists('.'+tpath+'/_ctrls/'+file+'.py')
     if not flag:
         return {'__msg': 'None ['+file+'] Class'}
     g.run['Ctrl'] = file
@@ -117,10 +121,10 @@ def tpname(tpath):
     tpnow = g.mkvs['tpname']
     tpdef = g.mkvs['tpdef']
     tpext = g.dir['tpext']
-    flag = os.path.exists(tpath + '/' + tpnow + tpext)
+    flag = os.path.exists('.' + tpath + '/' + tpnow + tpext)
     d = {'group':g.mkvs['group'], 'tpath':tpath, 'tpname':tpnow, 'code':200, 'message':''}
     if not flag: 
-        if os.path.exists(tpath + '/' + tpdef + tpext):
+        if os.path.exists('.' + tpath + '/' + tpdef + tpext):
             d['tpname'] = tpdef
         else:
             d['tpdef'] = tpnow
