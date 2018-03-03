@@ -1,18 +1,21 @@
 # -*- coding:UTF-8 -*-
 
 import json
+from flask import request, g
 import xml.etree.ElementTree as elmTree
 import xml.dom.minidom as minidom
 
-def d2xml(d):
-    xml = convXml.collectionToXML(d)
-    return convXml.getXmlString(xml)
-
-def d2json(d, cb):
-    s = json.dumps(d, ensure_ascii=False)
-    if cb:
-        s = cb + '(' + s + ');'
-    return s
+def vmft(d):
+    cb = request.args.get('callback')
+    if d['tpname']=='xml':
+        xml = convXml.collectionToXML(d)
+        res = convXml.getXmlString(xml)
+    else:
+        res = json.dumps(d, ensure_ascii=False)
+        if cb:
+            res = cb + '(' + res + ');'
+    ctype = {'Content-Type':'application/'+d['tpname']+';charset=utf-8'}
+    return res, d['code'], ctype
 
 '''
   @author: 忧里修斯 @2010-4-20

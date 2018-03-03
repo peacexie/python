@@ -25,12 +25,12 @@ def areg(app, cfgs):
     # reg-filters 
     app.jinja_env.filters['url'] = jef.url
     app.jinja_env.filters['info'] = jef.info
-    #app.jinja_env.filters['db'] = jef_db #dbop.dbm(cfgs['cdb'])
+    app.jinja_env.filters['get'] = jef.get
+    app.jinja_env.filters['exe'] = jef.exe
     # reg-funcs 
     @app.before_request
     def before_request():
         cfgs['run']['timer'] = time.time()
-        g.time = time
         g.db = dbop.dbm(cfgs['cdb'])
     def teardown_request(exception):
         if hasattr(g, 'db'):
@@ -68,10 +68,7 @@ def view(app, group, cfgs, mkv):
     d['data'] = data
     verr(d)
     if '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
-        cb = request.args.get('callback') # head怎么改变?
-        res = parse.d2xml(d) if d['tpname']=='xml' else parse.d2json(d, cb)
-        ctype = {'Content-Type':'application/'+d['tpname']+';charset=utf-8'}
-        return res, d['code'], ctype
+        return parse.vmft(d)
     else:
         return render_template(d['full'], d=d), d['code']
 

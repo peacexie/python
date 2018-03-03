@@ -21,8 +21,8 @@ p i.r{ float:right; color:#999; }
 .head{ width:480px; height:55px; display:block; clear:both; text-align:center; margin:10px auto 10px auto; }
 .head h1{ font-size:18px; font-weight:bold; padding:0px 0px; margin:15px 0px 5px 0px; }
 .head p{ padding:0px 0px 0px 0px; margin:5px 0px 5px 0px; }
-.head img{ float:right; margin:-10px 10px 0px 10px; }
-
+.head b{ width:120px; height:40px; font-weight:bold; color:#335; float:right; font-size:18px; padding:15px 0 0 0; border:1px solid #CCC; }
+.head b i{ font-size:small; font-style:normal; color:#999; }
 
 .out{ margin:auto 10px; }
 .block{ width:100%; float:none; }

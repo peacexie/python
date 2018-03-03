@@ -5,10 +5,11 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width'>
 <link href='{{ g.path.css}}/home.css' type='text/css' rel='stylesheet'/>
-
+<script src="{{ g.path.jq}}/jquery-3.x.js"></script>
+<script src="{{ g.path.js}}/basic.js"></script>
 <title>微爬(Wepy) v1.0 - Python微框架</title>
-<meta name='keywords' content='微爬,Wepy,Python,微框架'>
-<meta name='description' content='微爬(Wepy),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！'>
+<meta name='keywords' content='微爬,Wepy,Wepthon,Python,微框架'>
+<meta name='description' content='微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！'>
 
 <base target="_blank"/>
 </head>
@@ -43,7 +44,7 @@
 </div>
 
 <div class="head">
-    <a href="?" target="_self"><img src="/skin/_pub/logo/logo120x60.jpg" width="120" height="60"></a>
+    <b class="logo" href="?" target="_blank">WePy<i>thon</i></b>
     <h1>微爬(Wepy) v1.0</h1>
     <p>Python微框架</p>
 </div>
@@ -116,7 +117,9 @@
     # [<a class="qrcode_home" _url='/'>Scan<i class="qrcode_hpic" id="qrcode_pichome" style="display:none;"></i></a>] </span>
 </p>
 <p>微爬(Wepy) Copyright © MIT</p>
-<p>{{ g.mkvs.tpname }}, {{ ''|info }}s</p>
+<p>{{ ''|info }}</p>
+<p>{% set xxx= ''|get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1) %}</p>
+<p>{{ xxx }}</p>
 </div>
 
 <script type="text/javascript">
@@ -156,11 +159,5 @@ url = {{ 'home-index?afc=2' | url() }} <br>
 
 ../front/home-index?afc=2
 home-index?afc=2
-
-<br />timer: 
-{% print(g.time.time()-g.run['timer']) %}
-<br>
-aaa:{{ g.sys }}:bbb <br>
-{% print(g.time.time()-g.sys['timer']) %}
 
 

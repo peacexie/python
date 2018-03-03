@@ -1,6 +1,7 @@
 
-import time
+import os, sys, time
 from flask import g
+from core import dbop
 
 # jinja_env.filters
 # 暂无意义, 直接这样写: mod-key?parms 或 ../group/mod-key?parms
@@ -18,6 +19,14 @@ def url(mkv, p=''):
 
 def info(p=''):
     timer = time.time()-g.run['timer']
-    return round(timer, 2)
-    # run:00.2(s), tpl:/views/tests/home/index, upd:2014-1234-34
+    tfull = g.mkvs['group'] + '/' + g.mkvs['tpname'];
+    tupd = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    msg = 'run:' + str(round(timer,3)) + '(s), tpl:' + tfull + ', upd:' + tupd
+    return msg
     # Done:37.102/149.760(ms); 13(queries)/1.178(MB); Tpl:c_page/_home; Upd:2018-03-02 17:59:30
+
+def get(self, sql, parms=(), re=None):
+    return g.db.get(sql, parms, re)
+
+def exe(self, sql, parms=(), mod=None):
+    return g.db.exe(sql, parms, mod)

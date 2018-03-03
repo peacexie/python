@@ -1,6 +1,8 @@
 
 '''
 
+plus: qrcode, vcode, map, jsbase, 
+
 爬虫, 系统管理
 
 E:/Peace/webs/peace/python/trunk/apblog/data/apblog.db
