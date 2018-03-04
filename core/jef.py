@@ -25,8 +25,8 @@ def info(p=''):
     return msg
     # Done:37.102/149.760(ms); 13(queries)/1.178(MB); Tpl:c_page/_home; Upd:2018-03-02 17:59:30
 
-def get(self, sql, parms=(), re=None):
+def get(sql, parms=(), re=None):
     return g.db.get(sql, parms, re)
 
-def exe(self, sql, parms=(), mod=None):
+def exe(sql, parms=(), mod=None):
     return g.db.exe(sql, parms, mod)

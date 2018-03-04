@@ -9,7 +9,6 @@
     />
 {% endmacro %}
 
-
 {% macro head(muid='home') %}
     <ul>
         <li>{{ muid }}</li>
@@ -21,7 +20,55 @@
 {% endmacro %}
 
 
+{% macro ahead(key='') %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name='robots' content='noindex, nofollow'>
+    <link rel='shortcut icon' href='{{ g.path.jq}}/favicon.ico' />
+    <title>微爬(Wepy)Demo - Signin Template for Bootstrap</title>
+    <link href="{{g.path.bs}}/css/bootstrap.min.css" rel="stylesheet">
+    <link href='{{g.path.static}}/admin/css/login.css' type='text/css' rel='stylesheet'/>
+  </head>
+{% endmacro %}
+
+
+{% macro mete(key='') %}
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+    <meta name='viewport' content='width=device-width'>
+    <link rel='shortcut icon' href='{{ g.path.jq}}/favicon.ico' />
+    <link href='{{ g.path.css}}/home.css' type='text/css' rel='stylesheet'/>
+{% endmacro %}
+
+{% macro menu(key='') %}
+    <!--[if lt IE 9]>
+    <p class='gwidth ie6'>浏览器版本太低，不支持HTML5，浏览效果可能不正常！</p>
+    <![endif]-->
+    <div class="nav">
+    <i class="cCCC">●</i> <a href="/" class="qrcode_tip"><b
+      class="fa fa-book"></b> 默认首页</a>
+    <i class="cCCC">●</i> <a href="/tests/" class="qrcode_tip"><b
+      class="fa fa-book"></b> Tests</a>
+    <i class="cCCC">●</i> <a href="/front/" class="qrcode_tip"><b
+      class="fa fa-laptop"></b> 前端展示</a>
+    <i class="cCCC">●</i> <a href="/admin/" class="qrcode_tip"><b
+      class="fa fa-cog"></b> 后端管理</a>
+    </div>
+{% endmacro %}
+
 {% macro foot(d) %}
-    <p>/root/home/lay_info.htm - {{ d.full }}</p>
-    <p>foot : About - Service - Contact - (end)</p> 
+    <div class="foot">
+    <p>
+      <a href='http://txjia.com/peace/wenode.htm' target='_self'>(Node.js)微框架</a> #   
+      <a href='http://txmao.txjia.com/' target='_self'>贴心猫</a> # 
+      <a href='http://yscode.txjia.com/' target='_self'>(Html5)贴心口袋</a> # 
+      <a href="https://jq.qq.com/?_wv=1027&k=43NUHsK" title="贴心猫(imcat)技术交流" target="_blank">QQ群:607070548</a> # 
+      <a href="mailto:xpigeon#163.com">E-mail</a> 
+    </p>
+    <p>微爬(Wepy) Copyright © MIT</p>
+    <p>{{ ''|info }}</p>
+    </div>
 {% endmacro %}

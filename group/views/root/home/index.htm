@@ -1,62 +1,18 @@
-<!doctype html>
-<html>
-<head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width'>
-<link href='{{ g.path.css}}/home.css' type='text/css' rel='stylesheet'/>
-<script src="{{ g.path.jq}}/jquery-3.x.js"></script>
-<script src="{{ g.path.js}}/basic.js"></script>
-<title>微爬(Wepy) v1.0 - Python微框架</title>
-<meta name='keywords' content='微爬,Wepy,Wepthon,Python,微框架'>
-<meta name='description' content='微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！'>
+{% extends "root/_incs/lay_root.htm" %}
 
-<base target="_blank"/>
-</head>
-<body>
+{% block title %}{{ d.message }}{% endblock %}
 
-<!--[if lt IE 9]>
-<p class='gwidth ie6'>浏览器版本太低，不支持HTML5，浏览效果可能不正常！</p>
-<![endif]-->
-
-<div class="nav">
-<i class="cCCC">●</i> <a href="/root/run/adm.php" class="qrcode_tip"><b
-  class="fa fa-cog"></b> 管理中心<i 
-  class="qrcode_pic" id="qrcode_picadm" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/chn.php" class="qrcode_tip"><b
-  class="fa fa-laptop"></b> 经典版<i 
-  class="qrcode_pic" id="qrcode_picchn" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/dev.php" class="qrcode_tip"><b
-  class="fa fa-book"></b> 文档版<i 
-  class="qrcode_pic" id="qrcode_picdev" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/doc.php" class="qrcode_tip"><b
-  class="fa fa-book"></b> Manual<i 
-  class="qrcode_pic" id="qrcode_picdoc" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/mob.php" class="qrcode_tip"><b
-  class="fa fa-mobile"></b> 手机版<i 
-  class="qrcode_pic" id="qrcode_picmob" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/root/run/umc.php" class="qrcode_tip"><b
-  class="fa fa-user"></b> 会员中心<i 
-  class="qrcode_pic" id="qrcode_picumc" style="display:none;"></i></a>
-<i class="cCCC">●</i> <a href="/root/run/rest.php" class="qrcode_tip"><b
-  class="fa fa-exchange"></b> REST-API<i 
-  class="qrcode_pic" id="qrcode_picrest" style="display:none;"></i></a>
-</div>
-
-<div class="head">
-    <b class="logo" href="?" target="_blank">WePy<i>thon</i></b>
-    <h1>微爬(Wepy) v1.0</h1>
-    <p>Python微框架</p>
-</div>
+{% block main %}
 
 <div class="out">
 
-
-
 <div class="block"><div class="in">
-    <h2><span class="tg1">tpl,tag</span>模板/标签</h2>
+    <h2><span class="tg1">resume</span>简介</h2>
     <div>
-        <p>模板: 模板继承,模板包含,跨分组调用</p>
+        <p>
+          <i class="r"><a href="/info">/info</a></i>
+        微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！
+        </p>
         <p>移动适配: PC/移动端绑不同模板</p>
         <p>4x4x2标签即: 4类标签,4种数据,2种状态</p>
         <p>4类标签: 列表标签,分页标签,单条数据,类别列表</p>
@@ -103,42 +59,20 @@
     </div>
 </div></div>
 
-
-
 </div><!--end.out-->
 
-<div class="foot">
-<p>
-    <span>[<a href="?start">Start</a>] # </span>
-    
-<a href='/root/plus/ajax/redir.php?lang:en' target='_self'>English</a> # 
-<a href='/root/plus/ajax/redir.php?lang:cn' target='_self'>中文版</a> #     <a href="https://jq.qq.com/?_wv=1027&k=43NUHsK" title="贴心猫(imcat)技术交流" target="_blank">QQ群:607070548</a>
-    <span> # <a href="mailto:xpigeon#163.com">E-mail</a> 
-    # [<a class="qrcode_home" _url='/'>Scan<i class="qrcode_hpic" id="qrcode_pichome" style="display:none;"></i></a>] </span>
-</p>
-<p>微爬(Wepy) Copyright © MIT</p>
+<div class="clear"></div>
+
+''''''''''''''''
+
+
 <p>{{ ''|info }}</p>
-<p>{% set xxx= ''|get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1) %}</p>
-<p>{{ xxx }}</p>
-</div>
+{% set sql = "SELECT title,detail FROM {article} WHERE id>2 ORDER BY id DESC" %}
+{% set arcs1 = g.db.get(sql, (), 1) %}
+{% set arcs2 = sql|get((), 2) %}
 
-<script type="text/javascript">
-var _burl = 'http://txmao.txjia.com';
-var _ismb = 0;
-$(function(){ 
-    if(_ismb){
-        $('.vnote p').hide();
-        $('.foot span').hide();
-    }else{
-        qrActs();
-    }
-});
-</script>
-
-</body>
-</html>
-
-
+<p>{{ arcs1 }}</p>
+<p>{{ arcs2 }}</p>
 
 <h1>Hi, {{ d.data.name|d('Python Flask',true)|e }}!</h1>
 <p>Home - index</p>
@@ -152,7 +86,7 @@ url = {{ 'home-index' | url('a=b') }} <br>
 url = {{ '/tests/home-index' | url('c=d') }} <br>
 url = {{ 'home-index?afc=2' | url() }} <br>
 
-{% set arcs=g.db.get("SELECT title,detail FROM {article} WHERE id>2 ORDER BY id DESC", (), 2) %}
+
 <p>arcs.2 = {{ arcs }}</p>
 
 <hr>
@@ -161,3 +95,7 @@ url = {{ 'home-index?afc=2' | url() }} <br>
 home-index?afc=2
 
 
+
+'''''''''''''''
+
+{% endblock %}

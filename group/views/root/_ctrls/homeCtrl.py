@@ -36,8 +36,8 @@ class main:
         #data['d'] = {'tpname':'xml'} # 指定模板
 
         # 
-        #db1.close()
-        #db2.close()
+        db1.close()
+        db2.close()
         return data
 
     # `detail`方法
