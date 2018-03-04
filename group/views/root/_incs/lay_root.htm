@@ -1,9 +1,9 @@
-{% from 'root/_incs/mac_base.htm' import mete,menu,foot %}
+{% from 'root/_incs/mac_base.htm' import mete,menu,head,foot %}
 <!doctype html>
 <html>
 <head>
 {{ mete(d) }}
-{% block head %}
+{% block title %}
     <title>微爬(Wepy) v1.0 - Python微框架</title>
     <meta name='keywords' content='微爬,Wepy,Wepthon,Python,微框架'>
     <meta name='description' content='微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！'>
@@ -15,9 +15,11 @@
 {{ menu(d) }}
 
 <div class="head">
+    {% block head %}
     <a class="logo" href="?" target="_blank">WePy<i>thon</i></a>
     <h1>微爬(Wepy) v1.0</h1>
     <p>Python微框架</p>
+    {% endblock %}
 </div>
 
 {% block main %}{% endblock %}

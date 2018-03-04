@@ -1,9 +1,28 @@
 
-{% extends "root/_incs/lay_info.htm" %}
+{% extends "root/_incs/lay_root.htm" %}
 
-{% block title %}{{ d.message }}{% endblock %}
+{% block head %}
+    <h1>微爬(Wepy) 简介</h1>
+    <p>基本介绍,环境需求,下载安装…</p>
+{% endblock %}
 
-{% block info %}
-<h1>Info:{{ d.code }}</h1>
-<p>{{ d.message }}</p>
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">resume</span>简介</h2>
+    <div>
+        <p>
+          <i class="r"><a href="/info">/info</a></i>
+        微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！
+        </p>
+        <p>移动适配: PC/移动端绑不同模板</p>
+        <p>4x4x2标签即: 4类标签,4种数据,2种状态</p>
+        <p>4类标签: 列表标签,分页标签,单条数据,类别列表</p>
+        <p>4种数据: 文档/资讯,互动/评论,用户/会员,广告/连接</p>
+        <p>2种状态: html常规标签, js动态标签</p>
+    </div>
+</div>
+
 {% endblock %}
