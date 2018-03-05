@@ -1,9 +1,32 @@
 # -*- coding:UTF-8 -*-
 
-import json
+import os, json
 from flask import request, g
 import xml.etree.ElementTree as elmTree
 import xml.dom.minidom as minidom
+
+def vtyp(ext):
+    ext = ext.replace('.', '')
+    dic = {
+        'ico':'image/x-icon',
+        'txt':'text/plain;charset=utf-8',
+        'htm':'text/html;charset=utf-8',
+    } # jpg,jpeg,gif
+    if ext in dic.keys():
+        return dic[ext]
+    else: # html,json,jsonp,xml
+        ctype = 'application/'+ext+';charset=utf-8', 
+        return ctype
+
+# 读取: root: /robots.txt 等
+def vrfp(file):
+    f = open('./static/root/doc/'+file)
+    data = f.read()
+    f.close
+    # favicon.ico,hello.htm,robots.txt
+    exts = os.path.splitext(file)
+    ctype = {'Content-Type':vtyp(exts[1])}
+    return data, 200, ctype
 
 def vmft(d):
     cb = request.args.get('callback')
@@ -14,7 +37,7 @@ def vmft(d):
         res = json.dumps(d, ensure_ascii=False)
         if cb:
             res = cb + '(' + res + ');'
-    ctype = {'Content-Type':'application/'+d['tpname']+';charset=utf-8'}
+    ctype = {'Content-Type':vtyp(d['tpname'])}
     return res, d['code'], ctype
 
 '''

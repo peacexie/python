@@ -1,4 +1,6 @@
 ﻿
+* favicon.ico,hello.htm,robots.txt
+
 --------------------------------------- 
 
 # /read
@@ -42,6 +44,12 @@
 
 
 ------------------------------------ 
+
+https://segmentfault.com/q/1010000002452465
+flask 调试的时候,不另开 httpserver 怎样提供静态文件?
+
+https://stackoverflow.com/questions/4239825/static-files-in-flask-robot-txt-sitemap-xml-mod-wsgi
+Static files in Flask - robot.txt, sitemap.xml (mod_wsgi)
 
 
 

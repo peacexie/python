@@ -12,11 +12,14 @@ def app():
     cfgs = config.init()
     for key in cfgs['sys']:
         app.config[key.upper()] = cfgs['sys'][key]
-    groups = cfgs['sys']['groups'].split(',')
     cfgs['sys']['timer'] = timer
     cfgs['sys']['root'] = root
+    rfiles = cfgs['sys']['rfiles'].split(',')
+    for file in rfiles:
+        breg(app, cfgs, file, 1) 
+    groups = cfgs['sys']['groups'].split(',')
     for group in groups:
-        breg(app, group, cfgs)
+        breg(app, cfgs, group)
     areg(app, cfgs) #print(app.url_map)
     return app
 
@@ -44,13 +47,20 @@ def areg(app, cfgs):
     '''
 
 # 注册Blueprint
-def breg(app, group, cfgs):
-    sview = Blueprint(group, '_'+group)
-    @sview.route('/')
-    @sview.route('/<mkv>')
-    def svmkv(mkv=''):
-        return view(app, group, cfgs, mkv)
-    gfix = '' if len(group)==0 else '/'+group
+def breg(app, cfgs, group, file=0):
+    sview = Blueprint(group, '_'+group.replace('.','_'))
+    gfix = ''
+    if file==0:
+        @sview.route('/')
+        @sview.route('/<mkv>')
+        def svmkv(mkv=''):
+            return view(app, group, cfgs, mkv)
+        if len(group)>0:
+            gfix = '/' + group
+    else: # robots.txt
+        @sview.route('/'+group)
+        def svfile(mkv=''):
+            return parse.vrfp(group);
     app.register_blueprint(sview, url_prefix=gfix)
 
 # 一个分组的view显示
