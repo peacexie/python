@@ -34,6 +34,8 @@ class main:
         data['d'] = {}
         #data['d'] = {'tpname':'json'} # 指定模板
         #data['d'] = {'tpname':'xml'} # 指定模板
+        #data['d'] = {'tpname':'dir', 'message':'/blog/'} # dir
+        #data['d'] = {'code':500, 'message':'500 Message'} # dir
 
         # 
         db1.close()

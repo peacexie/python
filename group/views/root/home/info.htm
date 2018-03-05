@@ -11,6 +11,15 @@
 <div class="out">
 
 <div class="in">
+    <h2><span class="tg1">runinfo</span>运行信息</h2>
+    <div>
+{% for itm in g %}
+    <p>g.{{ itm }} = {{ g[itm] }}</p>
+{% endfor %}
+    </div>
+</div>
+
+<div class="in">
     <h2><span class="tg1">resume</span>简介</h2>
     <div>
         <p>

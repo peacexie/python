@@ -1,26 +1,7 @@
 ﻿
-
-熙景台4#811天花板渗（漏）水问题反馈
-
-玲玲：
-您（们）好！我是熙景台4#811业主，现慎重向你们反馈天花板渗（漏）水问题。
-
-大约一年之前，发现天花板有黑点，以为是潮湿引发的霉点，没有太在意；
-年前准备手动抹掉，结果发现不是霉点，更像是渗（漏）水；
-或者是上面装修打穿了地板（不能确定）？
-
-现特此向您反馈，后附照片；
-请帮忙反馈相关负责单位并处理。谢谢！
-
-2018-03-04
-熙景台4#811业主
-
-根据购房时签订的：《质量保证说明书》中“屋面渗水”相关条款，
-目前应该还在保质期内。
-
 --------------------------------------- 
 
-# /info
+# /read
 
 定义：微爬(Wepy,Wepthon)
 基于 xx 开发
@@ -28,22 +9,32 @@
 环境需求：
 下载安装：
 
+# /info
+
 # /error
 错误处理：无模板，禁止访问
 
+# plus: qrcode, vcode, map, jsbase, 
 
+------------
 
 * /test/首页说明
  - 分组group扩展说明
  - mkv分组
  - db分组
  - 返回扩展
-
+ ================== 
+ - url : error, static
+ - json, xml, jsonp
+ - db : n
+ - blog + catalog
+ - 
 
 # /front/ 首页说明
  - /front/blog
- - /front/add
- - /front/login
+ - /front/blog-add
+ - /front/blog-login
+ - 
 
 # /admin/ 
  - 首页
@@ -52,32 +43,7 @@
 
 ------------------------------------ 
 
-'''
 
-plus: qrcode, vcode, map, jsbase, 
-
-爬虫, 系统管理
-
-E:/Peace/webs/peace/python/trunk/apblog/data/apblog.db
-
-jinja_env.filters
-
-None          --- ok
-http:状态码   --- ok
-自定过滤器    --- ... 
- - jef.url, jef.db, jef.dv(tab, where, param), 
-
-* root:
- - url : error, static
- - json, xml, jsonp
- - db : n
- - blog + catalog
- - 
-
-db, static, url, dir
-'''
-
-tp5.1为什么不放到下载列表?估计他也很痛苦!
 
 ----------------------------------------- 
 
