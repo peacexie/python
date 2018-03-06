@@ -1,52 +1,4 @@
 ﻿
-* favicon.ico,hello.htm,robots.txt
-
---------------------------------------- 
-
-# /read
-
-定义：微爬(Wepy,Wepthon)
-基于 xx 开发
-基于MKV控制器/方法扩展，分组扩展
-环境需求：
-下载安装：
-
-# /info
-
-# /link
-
-# /error
-错误处理：无模板，禁止访问
-
-# /coder?fp=/views/xxx, 
-
-# plus: qrcode, vcode, map, jsbase, 
-
-------------
-
-* /test/首页说明
- - 分组group扩展说明
- - mkv分组
- - db分组
- - 返回扩展
- ================== 
- - url : error, static
- - json, xml, jsonp
- - db : n
- - blog + catalog
- - 
-
-# /front/ 首页说明
- - /front/blog
- - /front/blog-add
- - /front/blog-login
- - 
-
-# /admin/ 
- - 首页
- - 登陆页
-
-
 ------------------------------------ 
 
 https://segmentfault.com/q/1010000002452465
@@ -54,8 +6,6 @@ flask 调试的时候,不另开 httpserver 怎样提供静态文件?
 
 https://stackoverflow.com/questions/4239825/static-files-in-flask-robot-txt-sitemap-xml-mod-wsgi
 Static files in Flask - robot.txt, sitemap.xml (mod_wsgi)
-
-
 
 ----------------------------------------- 
 

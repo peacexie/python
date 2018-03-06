@@ -1,8 +1,8 @@
 
 #import os, sys, platform
 import copy
-from flask import request, g
-from core import dbop, files
+from flask import g
+from core import dbop, files, req
 
 # main名称固定
 class main:
@@ -18,9 +18,7 @@ class main:
 
     def indexAct(self):
         data = {}
-        name = request.args.get('name')
-        #/if name:
-        data['name'] = name
+        data['name'] = req.get('name', 'Python&Flask')
         # blog
         db1 = dbop.dbm()
         data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
@@ -50,15 +48,23 @@ class main:
 
     # `coder`方法
     def coderAct(self):
-        g = request.args.get('g')
-        c = request.args.get('c')
-        a = request.args.get('a')
-        tpl = request.args.get('tpl')
+        g = req.get('g', 'root')
+        c = req.get('c', 'homeCtrl')
+        a = req.get('a', 'coderAct')
+        tpl = req.get('tpl', 'root/home/coder.htm')
         fctr = './views/'+g+'/_ctrls/'+c+'.py'
         ftpl = './views/'+tpl
         sctr = files.read(fctr)
         stpl = files.read(ftpl)
         data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
+        return data
+
+    # `link`方法
+    def linkAct(self):
+        fp = req.get('fp', 'doc-note.txt')
+        slink = files.read("./static/root/doc/"+fp)
+        title = '项目计划/开发记录' if fp.find('note')>0 else '学习资料/参考链接'
+        data = {'slink':slink, 'fp':fp, 'title':title}
         return data
 
     # `detail`方法

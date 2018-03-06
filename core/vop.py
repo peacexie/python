@@ -1,7 +1,7 @@
 #coding=UTF-8
 
 import os, sys, time
-from flask import Flask, Blueprint, redirect, request, g, render_template, abort
+from flask import Flask, Blueprint, redirect, g, render_template, abort
 from core import config, dbop, jef, vext
 
 def app():
