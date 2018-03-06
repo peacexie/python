@@ -2,7 +2,7 @@
 #import os, sys, platform
 import copy
 from flask import request, g
-from core import dbop
+from core import dbop, files
 
 # main名称固定
 class main:
@@ -40,6 +40,19 @@ class main:
         # 
         db1.close()
         db2.close()
+        return data
+
+    # `coder`方法
+    def coderAct(self):
+        g = request.args.get('g')
+        c = request.args.get('c')
+        a = request.args.get('a')
+        tpl = request.args.get('tpl')
+        fctr = './views/'+g+'/_ctrls/'+c+'.py'
+        ftpl = './views/'+tpl
+        sctr = files.read(fctr)
+        stpl = files.read(ftpl)
+        data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
         return data
 
     # `detail`方法

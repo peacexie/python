@@ -1,0 +1,23 @@
+
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block head %}
+    <h1>微爬(Wepy) 源码查看器</h1>
+    <p>查看`模板/控制器`源码</p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">for tpl</span>模板源码: {{ d.data.ftpl }}</h2>
+    <textarea style='width:100%'; rows='12' wrap='off' >{{ d.data.stpl|d('(Empty/Error File)',true) }}</textarea>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">for Ctrl</span>控制器源码: {{ d.data.fctr }}::{{ d.data.fact }}</h2>
+    <textarea style='width:100%'; rows='12' wrap='off' >{{ d.data.sctr|d('(Empty/Error File)',true) }}</textarea>
+</div>
+
+{% endblock %}

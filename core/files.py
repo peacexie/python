@@ -3,6 +3,18 @@
 import os
 #import re
 
+def read(fp, cset='utf-8', mode='rb'):
+    flag = os.path.exists(fp)
+    if not flag:
+        return ''
+    data = ''
+    fh = open(fp, mode)
+    data = fh.read()
+    fh.close()
+    if cset:
+        data = data.decode(cset)
+    return data
+
 # 自动文件名
 def autnm(url):
     base = os.path.basename(url) # file.php?mod=ext&key=key

@@ -18,7 +18,7 @@
 # /error
 错误处理：无模板，禁止访问
 
-# /code?fp=/views/xxx, 
+# /coder?fp=/views/xxx, 
 
 # plus: qrcode, vcode, map, jsbase, 
 

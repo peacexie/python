@@ -2,7 +2,7 @@
 
 import os, json
 from flask import request, g
-from core import parse
+from core import files, parse
 
 # 格式化输出(xml,json[p])
 def vmft(d):
@@ -18,12 +18,10 @@ def vmft(d):
     return res, d['code'], ctype
 
 # 读取: root: /robots.txt, favicon.ico 等
-def vrfp(file):
-    code = 200 # 404判断
-    f = open('./static/root/doc/'+file, 'rb')
-    data = f.read()
-    f.close
-    exts = os.path.splitext(file)
+def vrfp(fp):
+    data = files.read('./static/root/doc/'+fp, '')
+    code = 200 if len(data)>0 else 404
+    exts = os.path.splitext(fp)
     ctype = {'Content-Type':vtyp(exts[1])}
     return data, code, ctype
 
@@ -44,6 +42,7 @@ def verr(d):
         d['full'] = 'root' + '/' + 'home/error' + g.dir['tpext']
     else:
         d['full'] = d['group'] + '/' + d['tpname'] + g.dir['tpext']
+    g.run['full'] = d['full']
     # 40x-def-url
     if d['tpname']=='dir' and d['message']=='':
         d['message'] = '/'
