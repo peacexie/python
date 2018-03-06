@@ -44,7 +44,7 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
     .block{ width:50%; float:left; }
     .in{ border-radius: 0px 0px 5px 20px; }
     .in div{ clear:both; }
-    .in h2{ width:96%; clear:both; text-align:left; background:#F8F8F8; padding:10px 10px; }
+    .in h2{ width:97%; clear:both; text-align:left; background:#F8F8F8; padding:10px 10px; }
     .in h2 a{ display:inline; }
     .in h2 span{ display:inline; }
     .in h2 .tg1{ float:right; }

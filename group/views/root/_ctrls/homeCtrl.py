@@ -42,6 +42,12 @@ class main:
         db2.close()
         return data
 
+    # `read`方法
+    def readAct(self):
+        sread = files.read("../README.md")
+        data = {'sread':sread}
+        return data
+
     # `coder`方法
     def coderAct(self):
         g = request.args.get('g')
