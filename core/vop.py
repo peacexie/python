@@ -1,7 +1,7 @@
 
 import os, sys, time
 from flask import Flask, Blueprint, redirect, request, g, render_template, abort
-from core import config, dbop, jef, parse
+from core import config, dbop, jef, vext
 
 def app():
     cfgs = config.init()
@@ -23,7 +23,7 @@ def app():
     areg(app, cfgs) #print(app.url_map)
     return app
 
-# 注册分组
+# 注册app/g扩展
 def areg(app, cfgs):
     # reg-filters 
     app.jinja_env.filters['url'] = jef.url
@@ -58,9 +58,11 @@ def breg(app, cfgs, group, file=0):
         if len(group)>0:
             gfix = '/' + group
     else: # robots.txt
-        @sview.route('/'+group)
+        exts = os.path.splitext(group)
+        gfix = '/' + exts[0]
+        @sview.route(exts[1])
         def svfile(mkv=''):
-            return parse.vrfp(group);
+            return vext.vrfp(group);
     app.register_blueprint(sview, url_prefix=gfix)
 
 # 一个分组的view显示
@@ -76,35 +78,13 @@ def view(app, group, cfgs, mkv):
         d = dict(d, **data['d'])
         del data['d']
     d['data'] = data
-    verr(d)
+    vext.verr(d)
     if d['tpname']=='dir':
         return redirect(d['message'], code=301)
     elif '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
-        return parse.vmft(d)
+        return vext.vmft(d)
     else:
         return render_template(d['full'], d=d), d['code']
-
-# 错误处理,
-def verr(d):
-    # null-tpl
-    if len(d['tpname'])==0:
-        d['code'] = 404
-        d['message'] = '[' + d['tpath'] + '/' + d['tpdef'] + '] Template NOT Found!'
-    # home-error
-    if d['group']=='root' and g.mkvs['mkv']=='home-error':
-        d['code'] = 403
-        d['message'] = '[/error] HTTP 403 Forbidden!'
-    # 40x-tpl
-    if d['code']>=400:
-        if g.sys['debug']=='False':
-            abort(d['code'], d['message'])
-        d['full'] = 'root' + '/' + 'home/error' + g.dir['tpext']
-    else:
-        d['full'] = d['group'] + '/' + d['tpname'] + g.dir['tpext']
-    # 40x-def-url
-    if d['tpname']=='dir' and d['message']=='':
-        d['message'] = '/'
-    #return d 
 
 # 一个`Ctrl`控制器的数据 
 def cdata(app, tpath):

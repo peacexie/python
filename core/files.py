@@ -23,6 +23,7 @@ def autnm(url):
     else:
         file = base if base.find('.')>0 else base + ext
     return file
+
 '''
     tmp1 = 'http://192.168.1.228/'
     tmp2 = 'http://192.168.1.228/dgfzg/admina.php'
