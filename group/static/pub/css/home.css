@@ -1,5 +1,4 @@
 
-
 .cCCC, a.cCCC:link, a.cCCC:visited {
     color: #CCC;
 }
@@ -33,11 +32,11 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
     border-radius: 5px 20px 0px 0px;
 }
 .in h2 { width:30%; float:right; font-size:18px; font-weight:bold; text-align:center; line-height:150%; 
-    background:#FFF; padding:10px 5px; margin:0px; border-radius: 10px 10px 0 0; }
+    word-break:break-all; background:#FFF; padding:10px 5px; margin:0px; border-radius: 10px 10px 0 0; }
 .in h2 a{ display:block; clear:both; }
 .in h2 span{ display:block; clear:both; }
 .in h2 .tg1{ font-size:smaller; }
-.in p{ line-height:150%; padding:0px 0px 10px 0px; margin:10px 5px; border-bottom:1px dashed #CCC; }
+.in p{ line-height:150%; word-break:break-all; padding:0px 0px 10px 0px; margin:10px 5px; border-bottom:1px dashed #CCC; }
 .in:hover, .in:hover h2{ background:#FFF; }
 
 @media only screen and (min-width:980px){

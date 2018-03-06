@@ -1,3 +1,4 @@
+#coding=UTF-8
 
 import os, sys, time
 from flask import Flask, Blueprint, redirect, request, g, render_template, abort

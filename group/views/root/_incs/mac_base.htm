@@ -43,7 +43,7 @@
       <a href="mailto:xpigeon#163.com">E-mail</a> 
     </p>
     <p>微爬(Wepy) Copyright © MIT</p>
-    <p id="rinfo">{{ ''|info }}</p>
-    /coder?g=root&c=homeCtrl&a=_defAct&tpl=root/home/info.htm
+    {% set p="/coder?g="+g.mkvs.group+"&c="+g.run.Ctrl+"&a="+g.run.Act+"&tpl="+g.run.full+"" %}
+    <p id="rinfo">{{ p|info|safe }}</p>
     </div>
 {% endmacro %}

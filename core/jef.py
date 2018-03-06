@@ -21,13 +21,21 @@ def url(mkv, p=''):
 
 # 运行调试信息
 # {{ ''|info }}
-def info(p=''):
+def info(p='', n=2):
     timer = time.time()-g.run['timer']
-    tfull = g.mkvs['group'] + '/' + g.mkvs['tpname'];
-    tupd = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
-    msg = 'run:' + str(round(timer,3)) + '(s), tpl:' + tfull + ', upd:' + tupd
+    stim = 'run:' + str(round(timer,3)) + '(s)'
+    stpl = 'tpl:' + g.mkvs['group'] + '/' + g.mkvs['tpname'];
+    supd = 'upd:' + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    if len(p)>0:
+        if n==1:
+            stim = "<a href='"+p+"'>"+stim+"</a>"
+        if n==2:
+            stpl = "<a href='"+p+"'>"+stpl+"</a>"
+        if n==3:
+            supd = "<a href='"+p+"'>"+supd+"</a>"
+    msg = stim + ', ' + stpl + ', ' + supd
     return msg
-    # Done:37.102/149.760(ms); 13(queries)/1.178(MB); Tpl:c_page/_home; Upd:2018-03-02 17:59:30
+    # run:37.102/149.760(ms); 13(queries)/1.178(MB); tpl:c_page/_home; upd:2018-03-02 17:59:30
 
 # 获取db资料
 # {% set arcs1 = g.db.get("SELECT * FROM {article}",(),1) %}
