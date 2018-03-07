@@ -3,7 +3,7 @@
 #import os, sys, platform
 import copy
 from flask import request, g
-from core import dbop, files, urlpy
+from core import dbop, files, urlpy, req, cjfang
 from pyquery import PyQuery as pyq
 
 # main名称固定
@@ -13,58 +13,16 @@ class main:
     def __init__(self, app):
         self.app = app
         self.data = {}
-
-    # 方法格式: {xxx}Act
-    # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
-    # exdb, blog
+        cdb = dict(copy.deepcopy(g.cdb), **g.cjdb)
+        self.db = dbop.dbm(cdb)
 
     # `attr`方法
     def attrAct(self):
         data = {}
+        act = req.get('act', 'view')
 
-        # , encoding="gb2312"
-        #html = urlpy.page('http://newhouse.jx.fang.com/house/s/', 'gb2312');
-        #print(html) 
-        #return {'html':html}
-        doc = pyq(url=r'http://newhouse.jx.fang.com/house/s/b910/?ctm=1.jx.xf_search.page.9', encoding="gbk")
-        
-        body = doc('body').text()
-        unistr = body.encode('utf-8') 
-        utfstr = unistr.decode('utf-8'); print(utfstr)
-
-        print('fang.com:'+doc('body').text())
-
-        #print(doc) #, .decode('gb2312')
-        #doc = pyq(doc)  
-        #body = doc('body').html() 
-        #print(body)
-        #print('fang.com:'+body)
-
-        #itms = doc('div.chooseToolBtn')
-        #print(itms)
-
-        #page = urllib2.urlopen("http://example")
-        #text = unicode(page.read(), "utf-8")
-
-        doc = pyq(url=r'http://dg.fzg360.com/index.php?caid=2&addno=1', encoding="gb2312")  
-        print('fzg360.com:'+doc('title').text())
-        itms = doc('div.building_select_table')
-
-        print('\n==============\n')
-        print(itms)
-
-        for i in itms:  
-            print(pyq(i))
-            for j in pyq(i).find('a'):  
-                print(pyq(j).attr('href'), pyq(j).text(),)
-                pass
-
-        #doc2 = pyq(url=r'http://txjia.com/tip/')  
-        #itms2 = doc2('div.home-b') 
-
-        #data['data2'] = itms2
-
-        #data['xxx'] = {'key1':'val1'}
+        res = cjfang.area(self.db, act)
+        data['res'] = res
         return data
 
     def indexAct(self):
@@ -105,6 +63,65 @@ class main:
         d = {}
         data = {'_defAct_msg':'from _defAct', 'd':d}
         return data 
+
+    def tqAct(self):
+
+        data = {}
+
+        #  encoding="gb2312"
+
+        # 这个慢死了?
+        html = urlpy.page('http://newhouse.jx.fang.com/house/s/', 'gb2312');
+        print('urlpy.page:'+html)
+
+        # 这个慢死了?
+        html = urlpy.page('http://newhouse.jx.fang.com/house/s/', 'gb2312', {"Accept-Encoding":"gzip"});
+        print('urlpy.page:'+html)
+
+        # 这个正常
+        #doc = pyq(url=r'https://dg.fang.anjuke.com/loupan/all/')
+        #print('anjuke.com:'+doc('title').text())
+
+        # 这个???
+        headers = {"User-Agent": "Mozilla/5.0 Window 7 (KHTML, like Gecko) Chrome/31.0", "Accept-Encoding": "gzip"}
+        doc = pyq(url=r'http://newhouse.jx.fang.com/house/s/', headers=headers)
+        print('fang.com:'+doc('title').text())
+
+        # 这个???
+        doc = pyq(url=r'http://au.fang.com/house/')
+        print('fang.au:'+doc('title').text())
+
+        # 这个OK
+        doc = pyq(url=r'http://www.fang.com/aboutus/index.asp')
+        print('fang.about:'+doc('title').text())
+
+        # 这个OK
+        #doc = pyq(url=r'http://job.fang.com/index.html')
+        #print('fang.job:'+doc('title').text())
+
+        #doc = pyq(url=r'http://dg.fzg360.com/index.php?caid=2&addno=1')
+        #print('fzg360.com:'+doc('title').text())
+
+        #itms = doc('div.building_select_table') .encode('utf-8')
+
+        #print('\n==============\n')
+        #print(itms)
+
+        '''
+        for i in itms:  
+            print(pyq(i))
+            for j in pyq(i).find('a'):  
+                print(pyq(j).attr('href'), pyq(j).text(),)
+                pass
+        '''
+
+        #doc2 = pyq(url=r'http://txjia.com/tip/')  
+        #itms2 = doc2('div.home-b') 
+
+        #data['data2'] = itms2
+
+        #data['xxx'] = {'key1':'val1'}
+        return data
 
 
 '''

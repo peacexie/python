@@ -7,6 +7,11 @@
 
 <h1>fang.com采集 @ 属性/area</h1>
 
-{{ d.data }}
+{% for itm in d.data.res %}
+    <li>
+        {{ itm }}
+        {% if d.data.res[itm] %} = {{ d.data.res[itm] }} {% endif %}
+    </li>
+{% endfor %}
 
 <p><a href="?">Refresh</a></p>

@@ -1,6 +1,9 @@
 ﻿
 ------------------------------------ 
 
+http://www.oschina.net/code/snippet_1448389_33526
+pyquery gzip压缩乱码 --- gzip压缩过的网页 
+
 https://segmentfault.com/q/1010000002452465
 flask 调试的时候,不另开 httpserver 怎样提供静态文件?
 
