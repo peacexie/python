@@ -45,10 +45,12 @@ def ritms(url, dkey):
     fp = '.' + g.dir['cache'] + '/pages/' + files.fulnm(url)
     ok = files.tmok(fp, 6)
     if ok:
-        html = files.get(fp, 'gb2312')
+        html = files.get(fp, 'utf-8')
+        print('cache')
     else:
         html = urlpy.page(url, 'gb2312', {"Accept-Encoding":"gzip"})
         files.put(fp, html)
+        print('from-url')
     doc = pyq(html)
     return doc(dkey)
     #

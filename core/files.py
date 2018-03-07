@@ -1,6 +1,6 @@
 # files:文件相关
 
-import os
+import os, time
 from urllib import parse
 #import re
 
@@ -16,8 +16,8 @@ def get(fp, cset='utf-8', mode='rb'):
         data = data.decode(cset)
     return data
 
-def put(fp, data):
-    with open(fp,'w') as f:
+def put(fp, data): 
+    with open(fp,'w', encoding='utf-8') as f:
         f.write(data)
     f.close()
 
@@ -61,4 +61,4 @@ def tmok(fp, tmout=6):
         return 0
     ft = os.path.getmtime(fp)
     st = time.time()
-    return 1 if st-ft>6*3600 else 0
+    return 1 if st-ft<6*3600 else 0
