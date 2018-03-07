@@ -25,6 +25,27 @@ class main:
         data['res'] = res
         return data
 
+    def urlAct(self):
+        data = {}
+        dmkey = '#newhouse_loupai_list li div.nlc_details'
+        itms = cjfang.ritms(g.cjcfg['url'].replace('{page}','1'), dmkey)
+
+        for i in itms:
+            itm = {}
+            title = pyq(i).find('.nlcd_name').text()
+            itm['title'] = title
+            itm['url'] = pyq(i).find('a').eq(1).attr('href')
+            itm['thumb'] = pyq(i).find('img').attr('src')
+            #('img[width="168"]').attr('src')
+            #('img').eq(1).attr('src')
+            itm['tags'] = pyq(i).find('.fangyuan').text()
+            itm['price'] = pyq(i).find('.nhouse_price').text()
+            data[title] = itm
+            #print(tit)
+            #fid = pyq(j).attr('href').replace('/house/s/','').replace('/','')
+        pass
+        return data
+
     def indexAct(self):
         data = {}
 

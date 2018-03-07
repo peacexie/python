@@ -51,10 +51,13 @@ def autnm(url):
 
 def fulnm(url):
     tmp = parse.urlsplit(url)
-    return tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')
+    file = tmp[2].replace('/','!')
+    if len(tmp[3])>0:
+        file += '---' + tmp[3].replace('&',',')
+    return file
     pass
 
-# 未超时
+# 未超时判断
 def tmok(fp, tmout=6):
     flag = os.path.exists(fp)
     if not flag:
