@@ -2,7 +2,7 @@
 
 # sys-import
 import io, os, re, gzip
-from urllib import request as req
+from urllib import parse, request as req
 from core import files
 
 # 从url爬一个html过来

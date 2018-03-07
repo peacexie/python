@@ -1,9 +1,10 @@
 # files:文件相关
 
 import os
+from urllib import parse
 #import re
 
-def read(fp, cset='utf-8', mode='rb'):
+def get(fp, cset='utf-8', mode='rb'):
     flag = os.path.exists(fp)
     if not flag:
         return ''
@@ -14,6 +15,11 @@ def read(fp, cset='utf-8', mode='rb'):
     if cset:
         data = data.decode(cset)
     return data
+
+def put(fp, data):
+    with open(fp,'w') as f:
+        f.write(data)
+    f.close()
 
 # 自动文件名
 def autnm(url):
@@ -35,7 +41,6 @@ def autnm(url):
     else:
         file = base if base.find('.')>0 else base + ext
     return file
-
 '''
     tmp1 = 'http://192.168.1.228/'
     tmp2 = 'http://192.168.1.228/dgfzg/admina.php'
@@ -43,3 +48,16 @@ def autnm(url):
     tmp4 = 'http://192.168.1.228/dgfzg/admina.php?mod=ext&caid=504'
     tmp5 = 'http://192.168.1.228/dgfzg/admina.jpg?mod=ext&ext=list'
 '''
+
+def fulnm(url):
+    tmp = parse.urlsplit(url)
+    return tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')
+    pass
+
+def fpout(fp, tmout=6):
+    flag = os.path.exists(fp)
+    if not flag:
+        return 0
+    ft = os.path.getmtime(fp)
+    st = time.time()
+    return 1 if st-ft>6*3600 else 0

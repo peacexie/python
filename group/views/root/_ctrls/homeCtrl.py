@@ -42,7 +42,7 @@ class main:
 
     # `read`方法
     def readAct(self):
-        sread = files.read("../README.md")
+        sread = files.get("../README.md")
         data = {'sread':sread}
         return data
 
@@ -54,15 +54,15 @@ class main:
         tpl = req.get('tpl', 'root/home/coder.htm')
         fctr = './views/'+g+'/_ctrls/'+c+'.py'
         ftpl = './views/'+tpl
-        sctr = files.read(fctr)
-        stpl = files.read(ftpl)
+        sctr = files.get(fctr)
+        stpl = files.get(ftpl)
         data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
         return data
 
     # `link`方法
     def linkAct(self):
         fp = req.get('fp', 'doc-note.txt')
-        slink = files.read("./static/root/doc/"+fp)
+        slink = files.get("./static/root/doc/"+fp)
         title = '项目计划/开发记录' if fp.find('note')>0 else '学习资料/参考链接'
         data = {'slink':slink, 'fp':fp, 'title':title}
         return data

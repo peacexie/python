@@ -62,11 +62,11 @@ class dbm:
 
     def exe(self, sql, parms=(), mod=None):
         cur = self.cur
-        if type(a) == list :
+        if type(parms) == list :
             res = cur.executemany(self.table(sql), parms)
         else:
             res = cur.execute(self.table(sql), parms)
-        self.conn.commit()
+        self.con.commit()
         return res
 
     def script(self, sql, parms=''):
