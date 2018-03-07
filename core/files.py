@@ -54,7 +54,8 @@ def fulnm(url):
     return tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')
     pass
 
-def fpout(fp, tmout=6):
+# 未超时
+def tmok(fp, tmout=6):
     flag = os.path.exists(fp)
     if not flag:
         return 0

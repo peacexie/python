@@ -28,8 +28,8 @@ class main:
     def indexAct(self):
         data = {}
 
-        cjfang.test()
-        return data
+        #cjfang.test()
+        #return data
 
         name = request.args.get('name')
         #/if name:

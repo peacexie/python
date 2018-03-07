@@ -42,7 +42,13 @@ def area(db, act):
 
 def ritms(url, dkey):
     #url = 'http://newhouse.jx.fang.com/house/s/'
-    html = urlpy.page(url, 'gb2312', {"Accept-Encoding":"gzip"});
+    fp = '.' + g.dir['cache'] + '/pages/' + files.fulnm(url)
+    ok = files.tmok(fp, 6)
+    if ok:
+        html = files.get(fp, 'gb2312')
+    else:
+        html = urlpy.page(url, 'gb2312', {"Accept-Encoding":"gzip"})
+        files.put(fp, html)
     doc = pyq(html)
     return doc(dkey)
     #
