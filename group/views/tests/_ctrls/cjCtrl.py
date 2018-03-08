@@ -34,6 +34,16 @@ class main:
         data = res #['p'+page]
         return data
 
+    def dataAct(self):
+        data = {}
+        act = req.get('act', 'view')
+        #page = req.get('page', '1')
+        #if not (act == 'done'):
+        #    page = 1 #random.randint(int(g.cjcfg['pagemin']), int(g.cjcfg['pagemax']))
+        res = cjfang.datap(self.db, act, 'url')
+        data = res #['p'+page]
+        return data
+
     def indexAct(self):
         data = {}
 

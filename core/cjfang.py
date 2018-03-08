@@ -10,6 +10,60 @@ def test():
     print(tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')) # @index!aa=bb,cc=dd
     print(tmp)
 
+def datap(db, act, url):
+    url = 'http://bgyzygy0573.fang.com/house/2014164218/housedetail.htm'
+    url = 'http://zhonghuangongyuanwk.fang.com/house/2014163430/housedetail.htm'
+    url = 'http://tianyuwanbyd.fang.com/house/2820093400/housedetail.htm'
+
+    data = {}
+
+    html = ritms(url, 0)
+    left = pyq(html).find('.main-left')
+
+    data['detail'] = pyq(left).find('.intro').html()
+
+    equip = pyq(left).find('.sheshi_zb').html()
+    equip = equip.replace("<span>","【").replace("</span>","】").replace("'","")
+    equip = equip.replace("<li>","").replace("</li>","<br>").replace("</ul>","")
+    equip = equip.replace('<li class="jiaotong_color">',"")
+    data['equip'] = equip
+
+    dics = {'base':0, 'sale':1, 'xiaoqu':3}
+    for ki in dics:
+        itms = pyq(left).find('div.main-item').eq(dics[ki]).find('ul').find('li')
+        res = {}
+        for i in itms:
+            key = pyq(i).find('.list-left').text()
+            val = pyq(i).find('.list-right').text()
+            vt = pyq(i).find('.list-right-text').text()
+            vf = pyq(i).find('.list-right-floor').text()
+            if not val and (vt or vf):
+                val = vt if vt else vf
+            if '项目特色' in key:
+                continue
+            res[key] = val
+            if ki=='base' and key=='楼盘地址：':
+                break
+        data[ki] = res
+
+    temp = {}
+    temp['项目特色'] = pyq(left).find('.tag').text()
+    zhs = pyq(left).find('div.main-item').eq(1).find('table tr')
+    res = ''
+    for i in zhs:
+        row = pyq(i).find('td').eq(0).text()
+        if row in res:
+            continue
+        if row=='预售许可证':
+            continue
+        res += (" , " if len(res)>0 else "") + row
+    temp['预售许可证'] = res
+    temp['交通'] = pyq(left).find('.jiaotong_color').text()
+    data['temp'] = temp
+
+    return data
+
+
 def urlp(db, act, page):
 
     if act=='view':
