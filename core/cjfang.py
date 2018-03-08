@@ -24,9 +24,9 @@ def imgp(db, act, row):
         else:
             url = ubase + '/photolist_get.php?newcode='+row['fid']+'&type='+pcaid+'&nextpage=1&room='
             #url = row['url'] + "photo/list_"+pcaid+"_"+row['fid']+".htm"
-        #html = ritms(url, 0)
-        #jdata = json.loads(ritms(url, 0))
-        data['p'+pcaid] = json.loads(ritms(url, 0))
+        html = ritms(url, 0)
+
+        data['p'+pcaid] = json.loads(html)
 
     return data
 
