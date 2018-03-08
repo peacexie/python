@@ -1,7 +1,7 @@
 #coding=UTF-8
 
 #import os, sys, platform
-import copy
+import copy, re, random
 from flask import request, g
 from core import dbop, files, urlpy, req, cjfang
 from pyquery import PyQuery as pyq
@@ -20,30 +20,18 @@ class main:
     def attrAct(self):
         data = {}
         act = req.get('act', 'view')
-
         res = cjfang.area(self.db, act)
         data['res'] = res
         return data
 
     def urlAct(self):
         data = {}
-        dmkey = '#newhouse_loupai_list li div.nlc_details'
-        itms = cjfang.ritms(g.cjcfg['url'].replace('{page}','1'), dmkey)
-
-        for i in itms:
-            itm = {}
-            title = pyq(i).find('.nlcd_name').text()
-            itm['title'] = title
-            itm['url'] = pyq(i).find('a').eq(1).attr('href')
-            itm['thumb'] = pyq(i).find('img').attr('src')
-            #('img[width="168"]').attr('src')
-            #('img').eq(1).attr('src')
-            itm['tags'] = pyq(i).find('.fangyuan').text()
-            itm['price'] = pyq(i).find('.nhouse_price').text()
-            data[title] = itm
-            #print(tit)
-            #fid = pyq(j).attr('href').replace('/house/s/','').replace('/','')
-        pass
+        act = req.get('act', 'view')
+        page = req.get('page', '1')
+        if not (act == 'done'):
+            page = 1 #random.randint(int(g.cjcfg['pagemin']), int(g.cjcfg['pagemax']))
+        res = cjfang.urlp(self.db, act, str(page))
+        data = res #['p'+page]
         return data
 
     def indexAct(self):
@@ -93,6 +81,12 @@ class main:
 
         data = {}
 
+        return data
+
+
+'''
+
+
         #  encoding="gb2312"
 
         # 这个慢死了?
@@ -132,13 +126,13 @@ class main:
         #print('\n==============\n')
         #print(itms)
 
-        '''
+
         for i in itms:  
             print(pyq(i))
             for j in pyq(i).find('a'):  
                 print(pyq(j).attr('href'), pyq(j).text(),)
                 pass
-        '''
+
 
         #doc2 = pyq(url=r'http://txjia.com/tip/')  
         #itms2 = doc2('div.home-b') 
@@ -146,9 +140,5 @@ class main:
         #data['data2'] = itms2
 
         #data['xxx'] = {'key1':'val1'}
-        return data
-
-
-'''
 
 '''

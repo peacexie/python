@@ -1,5 +1,5 @@
 
-import copy
+import copy, re
 from urllib import parse
 from flask import request, g
 from core import dbop, files, urlpy, req
@@ -9,6 +9,64 @@ def test():
     tmp = files.fulnm('https://i.xxx.com/index.aspx?aa=bb&cc=dd#ee')
     print(tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')) # @index!aa=bb,cc=dd
     print(tmp)
+
+def urlp(db, act, page):
+
+    if act=='view':
+        return db.get("SELECT * FROM {url} ORDER BY id LIMIT "+page+",5")
+
+    data = {}
+
+    dmkey = '#newhouse_loupai_list li'
+    itms = ritms(g.cjcfg['url'].replace('{page}',page), dmkey)
+    html = ritms(g.cjcfg['url'].replace('{page}',page), 0)
+
+    rids = r'\'vwn\.showhouseid\'\:\'([\d\,]+)\'\}\)\;'
+    aids = re.findall(rids, html, re.S|re.M)[0].split(',')
+    #print(aids)
+
+    no = 0
+    for i in itms:
+        itm = {}
+        detail = pyq(i).find('.nlc_details')
+        if not detail:
+            continue
+        tmp = pyq(detail).find('.nlcd_name').find('a')
+        title = pyq(tmp).text()
+        fid = aids[no]
+        itm['url'] = pyq(tmp).attr('href')
+        itm['thumb'] = pyq(i).find('img[width]').attr('src').replace('/160x120','')
+        itm['tags'] = pyq(i).find('.fangyuan').text()
+        itm['price'] = pyq(i).find('.nhouse_price').text()
+        itm['address'] = pyq(i).find('.address').text()
+        tmp = pyq(i).find('.notice').html()
+        if tmp:
+            vtmp = re.findall(r'shoucangProcess\(([^\n]+)\)', tmp, re.S|re.M)
+            itm['tmp'] = vtmp[0].replace("'",'')
+        
+        no += 1
+        if act=='test':
+            data[fid+':'+title] = itm
+            continue
+
+        sql = "SELECT * FROM {url} WHERE fid=%s"
+        row = db.get(sql, (fid,),1)
+        flval = (itm['url'],fid,title,itm['tags'],itm['price'],itm['address'],itm['thumb'])
+        #print(row['id'])
+        if not row:
+            flids = 'url,fid,title,tags,price,address,thumb'
+            sql = "INSERT INTO {url} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s,%s) "
+            itm['_res'] = 'add';
+        else:
+            flids = " url=%s,fid=%s,title=%s,tags=%s,price=%s,address=%s,thumb=%s "
+            whr = " WHERE id='"+str(row['id'])+"' "
+            sql = "UPDATE {url} SET" + flids + whr
+            itm['_res'] = 'upd';
+        if act=='done':
+            db.exe(sql, flval)
+        data[fid+':'+title] = itm
+        
+    return data
 
 def area(db, act):
 
@@ -49,6 +107,8 @@ def ritms(url, dkey):
     else:
         html = urlpy.page(url, 'gb2312', {"Accept-Encoding":"gzip"})
         files.put(fp, html)
+    if not dkey:
+        return html
     doc = pyq(html)
     return doc(dkey)
     #
