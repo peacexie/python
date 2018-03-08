@@ -1,5 +1,5 @@
 
-import copy, re
+import copy, re, json
 from urllib import parse
 from flask import request, g
 from core import dbop, files, urlpy, req
@@ -9,6 +9,26 @@ def test():
     tmp = files.fulnm('https://i.xxx.com/index.aspx?aa=bb&cc=dd#ee')
     print(tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')) # @index!aa=bb,cc=dd
     print(tmp)
+
+def imgp(db, act, row):
+
+    ubase = 'http://tianyuwanbyd.fang.com/house/ajaxrequest'
+    data = {}
+
+    row = {'url':'http://tianyuwanbyd.fang.com/', 'fid':'2820093400'}
+    pcaids = {'904':'效果图', '903':'实景图', '907':'配套图', '900':'户型图', '905':'样板间'}
+    for pcaid in pcaids:
+        if pcaid=='900': #"/"+row['fid']+".htm" in row['url']:
+            url = ubase + '/householdlist_get.php?newcode='+row['fid']+'&count=false&start=0&limit=24&room=all&city='
+            #url = row['url'].replace("/house/"+row['fid']+".htm","/photo/list_"+pcaid+"_"+row['fid']+".htm")
+        else:
+            url = ubase + '/photolist_get.php?newcode='+row['fid']+'&type='+pcaid+'&nextpage=1&room='
+            #url = row['url'] + "photo/list_"+pcaid+"_"+row['fid']+".htm"
+        #html = ritms(url, 0)
+        #jdata = json.loads(ritms(url, 0))
+        data['p'+pcaid] = json.loads(ritms(url, 0))
+
+    return data
 
 def datap(db, act, url):
     url = 'http://bgyzygy0573.fang.com/house/2014164218/housedetail.htm'
