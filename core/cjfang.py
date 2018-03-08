@@ -52,9 +52,7 @@ def datap(db, act, url):
     res = ''
     for i in zhs:
         row = pyq(i).find('td').eq(0).text()
-        if row in res:
-            continue
-        if row=='预售许可证':
+        if row in res or row=='预售许可证':
             continue
         res += (" , " if len(res)>0 else "") + row
     temp['预售许可证'] = res
