@@ -1,5 +1,11 @@
+
+
+import os, time, copy, random
 from multiprocessing import Pool
-import os, time, random
+
+#cdb = dict(copy.deepcopy(g.cdb), **g.cjdb)
+#db = dbop.dbm(cdb)
+#res = cjfang.urlp(db, act, i)
 
 def long_time_task(name):
     print( 'Run task %s (%s)...' % (name, os.getpid()))
