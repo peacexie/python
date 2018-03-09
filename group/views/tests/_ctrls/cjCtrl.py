@@ -54,12 +54,12 @@ class main:
     def dataAct(self):
         data = {}
         act = req.get('act', 'view')
-        #page = req.get('page', '1')
-        #if not (act == 'done'):
-        #    page = 1 #random.randint(int(g.cjcfg['pagemin']), int(g.cjcfg['pagemax']))
-        res = cjfang.datap(self.db, act, 'url')
-        data['res'] = res #['p'+page]
+        res = cjfang.data(self.db, act)
+        data['res'] = res
         return data
+        '''
+
+        '''
 
     def imgAct(self):
         data = {}
@@ -122,46 +122,6 @@ class main:
 
 
 '''
-
-
-        #  encoding="gb2312"
-
-        # 这个慢死了?
-        html = urlpy.page('http://newhouse.jx.fang.com/house/s/', 'gb2312');
-        print('urlpy.page:'+html)
-
-        # 这个慢死了?
-        html = urlpy.page('http://newhouse.jx.fang.com/house/s/', 'gb2312', {"Accept-Encoding":"gzip"});
-        print('urlpy.page:'+html)
-
-        # 这个正常
-        #doc = pyq(url=r'https://dg.fang.anjuke.com/loupan/all/')
-        #print('anjuke.com:'+doc('title').text())
-
-        # 这个???
-        headers = {"User-Agent": "Mozilla/5.0 Window 7 (KHTML, like Gecko) Chrome/31.0", "Accept-Encoding": "gzip"}
-        doc = pyq(url=r'http://newhouse.jx.fang.com/house/s/', headers=headers)
-        print('fang.com:'+doc('title').text())
-
-        # 这个???
-        doc = pyq(url=r'http://au.fang.com/house/')
-        print('fang.au:'+doc('title').text())
-
-        # 这个OK
-        doc = pyq(url=r'http://www.fang.com/aboutus/index.asp')
-        print('fang.about:'+doc('title').text())
-
-        # 这个OK
-        #doc = pyq(url=r'http://job.fang.com/index.html')
-        #print('fang.job:'+doc('title').text())
-
-        #doc = pyq(url=r'http://dg.fzg360.com/index.php?caid=2&addno=1')
-        #print('fzg360.com:'+doc('title').text())
-
-        #itms = doc('div.building_select_table') .encode('utf-8')
-
-        #print('\n==============\n')
-        #print(itms)
 
 
         for i in itms:  

@@ -1,5 +1,5 @@
 
-import copy, re, json
+import copy, re, json, random
 from urllib import parse
 from flask import request, g
 from core import dbop, files, urlpy, req
@@ -41,15 +41,47 @@ def imgp(db, act, row):
 
     return data
 
-def data():
-    pass
+def data(db, act):
 
-def datap(db, act, url):
-    url = 'http://bgyzygy0573.fang.com/house/2014164218/housedetail.htm'
-    url = 'http://zhonghuangongyuanwk.fang.com/house/2014163430/housedetail.htm'
-    url = 'http://tianyuwanbyd.fang.com/house/2820093400/housedetail.htm'
+    cmin = int(g.cjcfg['pagemin'])
+    cmax = int(g.cjcfg['pagemax'])
+    cbat = int(g.cjcfg['delimit'])
+    offset = random.randint(5, 15)
+    limit = " LIMIT "+str(offset)+","+str(cbat)+" "
+    data = {'_end':'-', '_fids':''}
+
+    if act=='view':
+        return db.get("SELECT * FROM {data} ORDER BY id "+limit+"")
+    elif act=='done':
+        page = int(req.get('page', '1'))
+        start = max(cmin, page)
+        end = start + cbat
+        if end>cmax+1:
+            end = cmax+1
+        for i in range(start, end):
+            res = cjfang.urlp(self.db, act, i)
+            data['_pages'] += str(i) + ','
+        if i>=cmax:
+            data['_end'] = 1
+    else: # test
+        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
+        res = {}
+        for row in itms:
+            fid = row['fid']
+            res[fid] = datap(db, act, row)
+            data['_fids'] += fid + ','
+            print(fid)
+    data['res'] = res
+    return data
+
+def datap(db, act, row):
 
     data = {}
+    fid = row['fid']
+    if "/"+fid+".htm" in row['fid']:
+        url = row['url'].replace("/"+fid+".htm","/"+fid+"/housedetail.htm")
+    else:
+        url = row['url']+"house/"+fid+"/housedetail.htm";
 
     html = ritms(url, 0)
     left = pyq(html).find('.main-left')
@@ -57,9 +89,10 @@ def datap(db, act, url):
     data['detail'] = pyq(left).find('.intro').html()
 
     equip = pyq(left).find('.sheshi_zb').html()
-    equip = equip.replace("<span>","【").replace("</span>","】").replace("'","")
-    equip = equip.replace("<li>","").replace("</li>","<br>").replace("</ul>","")
-    equip = equip.replace('<li class="jiaotong_color">',"")
+    if equip:
+        equip = equip.replace("<span>","【").replace("</span>","】").replace("'","")
+        equip = equip.replace("<li>","").replace("</li>","<br>").replace("</ul>","")
+        equip = equip.replace('<li class="jiaotong_color">',"")
     data['equip'] = equip
 
     dics = {'base':0, 'sale':1, 'xiaoqu':3}
@@ -91,7 +124,7 @@ def datap(db, act, url):
         res += (" , " if len(res)>0 else "") + row
     temp['预售许可证'] = res
     temp['交通'] = pyq(left).find('.jiaotong_color').text()
-    temp['map'] = mapp()
+    temp['map'] = mapp(fid)
     data['temp'] = temp
 
     return data
@@ -182,9 +215,9 @@ def area(db, act):
     #
 
 
-def mapp(id=''):
-    id = '2014163328'
-    url = 'https://m.fang.com/map/xf/jx/'+id+'/ditu.htm'
+def mapp(fid=''):
+
+    url = 'https://m.fang.com/map/xf/jx/'+fid+'/ditu.htm'
     itms = ritms(url, 'input')
     res = {}
     for i in itms:
