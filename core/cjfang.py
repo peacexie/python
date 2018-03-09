@@ -41,6 +41,9 @@ def imgp(db, act, row):
 
     return data
 
+def data():
+    pass
+
 def datap(db, act, url):
     url = 'http://bgyzygy0573.fang.com/house/2014164218/housedetail.htm'
     url = 'http://zhonghuangongyuanwk.fang.com/house/2014163430/housedetail.htm'
