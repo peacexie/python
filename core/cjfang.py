@@ -96,7 +96,7 @@ def datap(db, act, url):
 
 def urlp(db, act, page):
 
-    page = str(page)
+    page = str(page);
     data = {}
     if act=='view':
         return db.get("SELECT * FROM {url} ORDER BY id LIMIT "+page+",5")

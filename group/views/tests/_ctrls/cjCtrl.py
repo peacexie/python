@@ -28,33 +28,21 @@ class main:
     def urlAct(self):
         cmin = int(g.cjcfg['pagemin'])
         cmax = int(g.cjcfg['pagemax'])
-        #cbat = int(g.cjcfg['delimit'])
-        proc = int(g.cjcfg['proc'])
+        cbat = int(g.cjcfg['delimit'])
+        #proc = int(g.cjcfg['proc'])
         data = {'_end':'-', '_pages':''}
         act = req.get('act', 'view')
-
-        #def tfunc(p, args):
-        #    p.apply_async(cjfang.urlp, args=args)
-
         if act=='done':
             page = int(req.get('page', '1'))
             start = max(cmin, page)
-            end = start + proc
-            res = {}
+            end = start + cbat
             if end>cmax+1:
                 end = cmax+1
-            #p = Pool(proc);
             for i in range(start, end):
-                param = (self.db, act, i)
-                cjfang.urlp(self.db, act, i)
-                #p.apply_async(tfunc, args=param)
-                #p = Process(target=cjfang.urlp, args=param)
-                res['_p'+str(i)] = i
+                res = cjfang.urlp(self.db, act, i)
+                data['_pages'] += str(i) + ','
             if i>=cmax:
                 data['_end'] = 1
-            #p.close()
-            #p.start()
-            #p.join()
         else:
             page = random.randint(cmin, cmax)
             res = cjfang.urlp(self.db, act, page)
