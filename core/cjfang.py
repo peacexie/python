@@ -17,16 +17,27 @@ def imgp(db, act, row):
 
     row = {'url':'http://tianyuwanbyd.fang.com/', 'fid':'2820093400'}
     pcaids = {'904':'效果图', '903':'实景图', '907':'配套图', '900':'户型图', '905':'样板间'}
-    for pcaid in pcaids:
-        if pcaid=='900': #"/"+row['fid']+".htm" in row['url']:
-            url = ubase + '/householdlist_get.php?newcode='+row['fid']+'&count=false&start=0&limit=24&room=all&city='
-            #url = row['url'].replace("/house/"+row['fid']+".htm","/photo/list_"+pcaid+"_"+row['fid']+".htm")
-        else:
-            url = ubase + '/photolist_get.php?newcode='+row['fid']+'&type='+pcaid+'&nextpage=1&room='
-            #url = row['url'] + "photo/list_"+pcaid+"_"+row['fid']+".htm"
-        html = ritms(url, 0)
+    data['pcaids'] = pcaids
 
-        data['p'+pcaid] = json.loads(html)
+    for pcaid in pcaids:
+        if pcaid=='900': # &count=false&city=东莞
+            url = ubase + '/householdlist_get.php?newcode='+row['fid']+'&start=0&limit=24&room=all'
+        else:
+            url = ubase + '/photolist_get.php?newcode='+row['fid']+'&type='+pcaid+'&nextpage=1'
+        html = ritms(url, 0)
+        itms = json.loads(html)
+        pdic = {}; no = 0
+        for itm in itms:
+            pid = itm['picID'] if 'picID' in itm else itm['pic_id']
+            pdic[pid] = {'fid':pid, 'pcaid':pcaid}
+            pdic[pid]['title'] = itm['title'] if 'title' in itm else itm['housetitle']
+            pdic[pid]['thumb'] = itm['url'] if 'url' in itm else itm['houseimageurl']
+            if 'reference_price' in itm:
+                pdic[pid]['price'] = itm['reference_price']+itm['reference_price_type']
+                pdic[pid]['area'] = itm['buildingarea']
+            #pdic['pid-'+str(no)] = itm; no += 1
+        data['p'+pcaid] = pdic
+
 
     return data
 
@@ -77,6 +88,7 @@ def datap(db, act, url):
         res += (" , " if len(res)>0 else "") + row
     temp['预售许可证'] = res
     temp['交通'] = pyq(left).find('.jiaotong_color').text()
+    temp['map'] = mapp()
     data['temp'] = temp
 
     return data
@@ -84,10 +96,10 @@ def datap(db, act, url):
 
 def urlp(db, act, page):
 
+    page = str(page)
+    data = {}
     if act=='view':
         return db.get("SELECT * FROM {url} ORDER BY id LIMIT "+page+",5")
-
-    data = {}
 
     dmkey = '#newhouse_loupai_list li'
     itms = ritms(g.cjcfg['url'].replace('{page}',page), dmkey)
@@ -117,9 +129,6 @@ def urlp(db, act, page):
             itm['tmp'] = vtmp[0].replace("'",'')
         
         no += 1
-        if act=='test':
-            data[fid+':'+title] = itm
-            continue
 
         sql = "SELECT * FROM {url} WHERE fid=%s"
         row = db.get(sql, (fid,),1)
@@ -170,10 +179,23 @@ def area(db, act):
     #
 
 
+def mapp(id=''):
+    id = '2014163328'
+    url = 'https://m.fang.com/map/xf/jx/'+id+'/ditu.htm'
+    itms = ritms(url, 'input')
+    res = {}
+    for i in itms:
+        key = pyq(i).attr('data-id')
+        val = pyq(i).attr('value')
+        if key=='searchNow':
+            break;
+        res[key] = val
+    return res['corX'] +','+ res['corY']
+
 def ritms(url, dkey):
     #url = 'http://newhouse.jx.fang.com/house/s/'
     fp = '.' + g.dir['cache'] + '/pages/' + files.fulnm(url)
-    ok = files.tmok(fp, 6)
+    ok = files.tmok(fp, 720)
     if ok:
         html = files.get(fp, 'utf-8')
     else:

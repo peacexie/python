@@ -64,4 +64,4 @@ def tmok(fp, tmout=6):
         return 0
     ft = os.path.getmtime(fp)
     st = time.time()
-    return 1 if st-ft<6*3600 else 0
+    return 1 if st-ft<tmout*3600 else 0

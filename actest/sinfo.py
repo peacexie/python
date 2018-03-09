@@ -5,6 +5,9 @@ import os,sys
 # http://blog.csdn.net/maoyongfan3/article/details/44752251
 import platform
 
+from multiprocessing import cpu_count 
+print(cpu_count())
+
 tmp = platform.architecture()
 print(tmp)
 tmp = platform.system()

@@ -5,7 +5,7 @@
 <meta name='robots' content='noindex, nofollow'>
 <base target="_blank" />
 
-<h1>fang.com采集 @ 数据/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
+<h1>fang.com采集 @ 图片/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
 
 {% if request.args.act=='view' %}
     
@@ -17,11 +17,16 @@
 
     {% for fid in d.data %}
         <li><b>{{ fid }}</b><br>
-            {% if fid in 'detail,equip' %}
+            {% if fid in 'pcaids' %}
                 {{ d.data[fid] }}
+                <hr>
             {% else %}
-                {% for key in d.data[fid] %}
-                    {{ key }} = {{ d.data[fid][key]|safe }}<br>
+                {% for itm in d.data[fid] %}
+                    <b>{{ itm }}</b><br>
+                    {% for key in d.data[fid][itm] %}
+                        {{ key }} = {{ d.data[fid][itm][key] }}<br>
+                    {% endfor %}
+                    <hr>
                 {% endfor %}
             {% endif %}
         </li>

@@ -5,6 +5,7 @@ import copy, re, random
 from flask import request, g
 from core import dbop, files, urlpy, req, cjfang
 from pyquery import PyQuery as pyq
+from multiprocessing import Pool, Process
 
 # main名称固定
 class main:
@@ -25,13 +26,41 @@ class main:
         return data
 
     def urlAct(self):
-        data = {}
+        cmin = int(g.cjcfg['pagemin'])
+        cmax = int(g.cjcfg['pagemax'])
+        #cbat = int(g.cjcfg['delimit'])
+        proc = int(g.cjcfg['proc'])
+        data = {'_end':'-', '_pages':''}
         act = req.get('act', 'view')
-        page = req.get('page', '1')
-        if not (act == 'done'):
-            page = 1 #random.randint(int(g.cjcfg['pagemin']), int(g.cjcfg['pagemax']))
-        res = cjfang.urlp(self.db, act, str(page))
-        data = res #['p'+page]
+
+        #def tfunc(p, args):
+        #    p.apply_async(cjfang.urlp, args=args)
+
+        if act=='done':
+            page = int(req.get('page', '1'))
+            start = max(cmin, page)
+            end = start + proc
+            res = {}
+            if end>cmax+1:
+                end = cmax+1
+            #p = Pool(proc);
+            for i in range(start, end):
+                param = (self.db, act, i)
+                cjfang.urlp(self.db, act, i)
+                #p.apply_async(tfunc, args=param)
+                #p = Process(target=cjfang.urlp, args=param)
+                res['_p'+str(i)] = i
+            if i>=cmax:
+                data['_end'] = 1
+            #p.close()
+            #p.start()
+            #p.join()
+        else:
+            page = random.randint(cmin, cmax)
+            res = cjfang.urlp(self.db, act, page)
+            data['_pages'] = page
+        # 
+        data['res'] = res
         return data
 
     def dataAct(self):

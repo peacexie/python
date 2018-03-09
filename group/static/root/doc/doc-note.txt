@@ -48,3 +48,80 @@
  - 首页
  - 登陆页
 
+========================
+
+-- Adminer 4.6.2 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+DROP TABLE IF EXISTS `cj_attr_xx`;
+CREATE TABLE `cj_attr_xx` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(48) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `fid` varchar(24) NOT NULL DEFAULT '',
+  `nid` varchar(24) NOT NULL DEFAULT '',
+  `type` varchar(24) NOT NULL DEFAULT 'area',
+  `_site` varchar(24) NOT NULL DEFAULT '(def)',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `cj_data_xx`;
+CREATE TABLE `cj_data_xx` (
+  `id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `detail` text NOT NULL,
+  `equip` text NOT NULL,
+  `price` varchar(255) NOT NULL DEFAULT '',
+  `info_base` text NOT NULL,
+  `info_sale` text NOT NULL,
+  `info_xiaoqu` text NOT NULL,
+  `info_temp` text NOT NULL,
+  `_site` varchar(24) NOT NULL DEFAULT '(def)',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `cj_img_xx`;
+CREATE TABLE `cj_img_xx` (
+  `id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `pcaid` varchar(24) NOT NULL DEFAULT '',
+  `title` varchar(48) NOT NULL DEFAULT '',
+  `fid` varchar(24) NOT NULL DEFAULT '',
+  `nid` varchar(24) NOT NULL DEFAULT '',
+  `price` varchar(24) NOT NULL DEFAULT '',
+  `area` varchar(24) NOT NULL DEFAULT '',
+  `tags` varchar(255) NOT NULL DEFAULT '',
+  `thumb` varchar(255) NOT NULL DEFAULT '',
+  `local` varchar(255) NOT NULL DEFAULT '',
+  `_site` varchar(24) NOT NULL DEFAULT '(def)',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `cj_url_xx`;
+CREATE TABLE `cj_url_xx` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `fid` varchar(24) NOT NULL DEFAULT '',
+  `nid` varchar(24) NOT NULL DEFAULT '',
+  `title` varchar(96) NOT NULL DEFAULT '',
+  `tags` varchar(255) NOT NULL DEFAULT '',
+  `price` varchar(255) NOT NULL DEFAULT '',
+  `address` varchar(255) NOT NULL DEFAULT '',
+  `nuni` int(11) NOT NULL DEFAULT '0',
+  `nunf` float NOT NULL DEFAULT '0',
+  `stat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `thumb` varchar(255) NOT NULL DEFAULT '',
+  `local` varchar(255) NOT NULL DEFAULT '',
+  `_site` varchar(24) NOT NULL DEFAULT '(def)',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- 2018-03-09 07:43:30
+
+
+
