@@ -1,20 +1,41 @@
 
 import copy, re, json, random
 from urllib import parse
-from flask import request, g
+from flask import g
 from core import dbop, files, urlpy, req
 from pyquery import PyQuery as pyq
 
-def test():
-    tmp = files.fulnm('https://i.xxx.com/index.aspx?aa=bb&cc=dd#ee')
-    print(tmp[2].replace('/','@')+'!'+tmp[3].replace('&',',')) # @index!aa=bb,cc=dd
-    print(tmp)
+def img(db, act):
+
+    cbat = g.cjcfg['delimit']
+    offset = random.randint(5, 15)
+    limit = " LIMIT "+str(offset)+","+cbat+" "
+    data = {'_end':'-', '_fids':''}
+    res = {}
+
+    if act=='view':
+        res = db.get("SELECT * FROM {img} ORDER BY id "+limit+"")
+    elif act=='done':
+        itms = db.get("SELECT * FROM {url} WHERE f2=0 ORDER BY id LIMIT "+cbat)
+        if not itms:
+            data['_end'] = 1
+        for row in itms:
+            fid = row['fid']
+            #res[fid] = imgp(db, act, row)
+            data['_fids'] += fid + ','
+    else: # test
+        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
+        for row in itms:
+            fid = row['fid']
+            #res[fid] = imgp(db, act, row)
+            data['_fids'] += fid + ','
+    data['res'] = res
+    return data
 
 def imgp(db, act, row):
 
     ubase = 'http://tianyuwanbyd.fang.com/house/ajaxrequest'
     data = {}
-
     row = {'url':'http://tianyuwanbyd.fang.com/', 'fid':'2820093400'}
     pcaids = {'904':'效果图', '903':'实景图', '907':'配套图', '900':'户型图', '905':'样板间'}
     data['pcaids'] = pcaids
@@ -35,42 +56,56 @@ def imgp(db, act, row):
             if 'reference_price' in itm:
                 pdic[pid]['price'] = itm['reference_price']+itm['reference_price_type']
                 pdic[pid]['area'] = itm['buildingarea']
-            #pdic['pid-'+str(no)] = itm; no += 1
+            else:
+                pdic[pid]['price'] = 0
+                pdic[pid]['area'] = 0
+            # save
+            sql = "SELECT * FROM {img} WHERE fid=%s"
+            urow = db.get(sql, (pid,),1) #str.strip([chars])
+            flval = (pid, pdic[pid]['title'], pcaid, pdic[pid]['price'], 
+                pdic[pid]['area'], pdic[pid]['thumb'])
+            if not urow:
+                flids = 'fid,title,pcaid,price,area,thumb'
+                sql = "INSERT INTO {url} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s) "
+                pdic[pid]['_res'] = 'add';
+            else:
+                flids = " fid=%s,title=%s,pcaid=%s,price=%s,area=%s,thumb=%s "
+                whr = " WHERE fid='"+str(urow['fid'])+"' "
+                sql = "UPDATE {url} SET" + flids + whr
+                pdic[pid]['_res'] = 'upd';
+            #data['_res'] = 'add' if not urow else 'upd'
+            if act=='done':
+                db.exe(sql, flval)
+        # for-return
         data['p'+pcaid] = pdic
-
-
+    if act=='done':
+        db.exe("UPDATE {url} SET f2=1 WHERE id='"+str(row['id'])+"'")
     return data
 
 def data(db, act):
 
-    cmin = int(g.cjcfg['pagemin'])
-    cmax = int(g.cjcfg['pagemax'])
-    cbat = int(g.cjcfg['delimit'])
+    cbat = g.cjcfg['delimit']
     offset = random.randint(5, 15)
-    limit = " LIMIT "+str(offset)+","+str(cbat)+" "
+    limit = " LIMIT "+str(offset)+","+cbat+" "
     data = {'_end':'-', '_fids':''}
+    res = {}
 
     if act=='view':
-        return db.get("SELECT * FROM {data} ORDER BY id "+limit+"")
+        res = db.get("SELECT * FROM {data} ORDER BY id "+limit+"")
     elif act=='done':
-        page = int(req.get('page', '1'))
-        start = max(cmin, page)
-        end = start + cbat
-        if end>cmax+1:
-            end = cmax+1
-        for i in range(start, end):
-            res = cjfang.urlp(self.db, act, i)
-            data['_pages'] += str(i) + ','
-        if i>=cmax:
+        itms = db.get("SELECT * FROM {url} WHERE f1=0 ORDER BY id LIMIT "+cbat)
+        if not itms:
             data['_end'] = 1
-    else: # test
-        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
-        res = {}
         for row in itms:
             fid = row['fid']
             res[fid] = datap(db, act, row)
             data['_fids'] += fid + ','
-            print(fid)
+    else: # test
+        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
+        for row in itms:
+            fid = row['fid']
+            res[fid] = datap(db, act, row)
+            data['_fids'] += fid + ','
     data['res'] = res
     return data
 
@@ -78,11 +113,11 @@ def datap(db, act, row):
 
     data = {}
     fid = row['fid']
+    rid = row['id']
     if "/"+fid+".htm" in row['fid']:
         url = row['url'].replace("/"+fid+".htm","/"+fid+"/housedetail.htm")
     else:
         url = row['url']+"house/"+fid+"/housedetail.htm";
-
     html = ritms(url, 0)
     left = pyq(html).find('.main-left')
 
@@ -93,7 +128,7 @@ def datap(db, act, row):
         equip = equip.replace("<span>","【").replace("</span>","】").replace("'","")
         equip = equip.replace("<li>","").replace("</li>","<br>").replace("</ul>","")
         equip = equip.replace('<li class="jiaotong_color">',"")
-    data['equip'] = equip
+    data['equip'] = equip.replace('\t',' ').replace('    ',' ').replace('  ',' ')
 
     dics = {'base':0, 'sale':1, 'xiaoqu':3}
     for ki in dics:
@@ -126,7 +161,17 @@ def datap(db, act, row):
     temp['交通'] = pyq(left).find('.jiaotong_color').text()
     temp['map'] = mapp(fid)
     data['temp'] = temp
-
+    # save
+    sql = "SELECT * FROM {data} WHERE id=%s"
+    urow = db.get(sql, (rid,),1) #str.strip([chars])
+    flids = 'id,detail,equip,info_base,info_sale,info_xiaoqu,info_temp'
+    flval = (rid, data['detail'].strip(), data['equip'].strip(), jdump(data['base']), 
+        jdump(data['sale']), jdump(data['xiaoqu']), jdump(data['temp']))
+    sql = "REPLACE INTO {data} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s,%s) "
+    data['_res'] = 'add' if not urow else 'upd'
+    if act=='done':
+        db.exe(sql, flval)
+        db.exe("UPDATE {url} SET f1=1 WHERE id='"+str(rid)+"'")
     return data
 
 
@@ -163,9 +208,8 @@ def urlp(db, act, page):
         if tmp:
             vtmp = re.findall(r'shoucangProcess\(([^\n]+)\)', tmp, re.S|re.M)
             itm['tmp'] = vtmp[0].replace("'",'')
-        
         no += 1
-
+        # save
         sql = "SELECT * FROM {url} WHERE fid=%s"
         row = db.get(sql, (fid,),1)
         flval = (itm['url'],fid,title,itm['tags'],itm['price'],itm['address'],itm['thumb'])
@@ -243,5 +287,5 @@ def ritms(url, dkey):
     return doc(dkey)
     #
 
-
-
+def jdump(dic):
+    return json.dumps(dic, ensure_ascii=False)

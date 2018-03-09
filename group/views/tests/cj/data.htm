@@ -9,30 +9,28 @@
 {% set res=d.data.res %}
 
 {% if request.args.act=='view' %}
-    
+
     {% for row in res %}
-    <li>{{ row }}</li>
+        {% for key in row %}
+            <li>【{{ key }}】 = {{ row[key]|safe }}<br></li>
+        {% endfor %}
+        <hr>
     {% endfor %}
 
 {% else %}
 
     {% for fid in res %}
         <li><b>{{ fid }}</b><br>
-            {% if fid in 'detail,equip' %}
-                {{ res[fid] }}
-            {% else %}
-                {% for key in res[fid] %}
-                    {{ key }} = {{ res[fid][key]|safe }}<br>
-                {% endfor %}
-            {% endif %}
+            {% for key in res[fid] %}
+                【{{ key }}】 = {{ res[fid][key]|safe }}<br>
+            {% endfor %}
         </li>
+        <hr>
     {% endfor %}
-
-    {{ res }}
 
 {% endif %}
 
 <p><a href="?">Refresh</a></p>
 
 end-flag: {{ d.data._end }} <br>
-pages: {{ d.data._fids }} <br>
+fids: {{ d.data._fids }} <br>

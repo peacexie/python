@@ -1,6 +1,6 @@
 # files:文件相关
 
-import os, time
+import os, time, hashlib
 from urllib import parse
 #import re
 
@@ -51,9 +51,12 @@ def autnm(url):
 
 def fulnm(url):
     tmp = parse.urlsplit(url)
-    file = tmp[2].replace('/','!')
+    file = tmp[1] +'---'+ tmp[2].replace('/','!')
     if len(tmp[3])>0:
-        file += '---' + tmp[3].replace('&',',')
+        file += '---'+ tmp[3].replace('&',',')
+    if len(file)>160:
+        m5 = hashlib.md5(); m5.update(file); s5 = m5.hexdigest()
+        file = file[:60] +'---'+ m5 +'---'+ file[-60:]
     return file
     pass
 

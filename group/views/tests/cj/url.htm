@@ -8,7 +8,7 @@
 <h1>fang.com采集 @ 地址/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
 {% set res=d.data.res %}
 
-{% if request.args.act in 'view,do-ne' %}
+{% if request.args.act in 'view,done' %}
     
     {% for row in res %}
     <li>{{ row }}</li>
