@@ -273,6 +273,8 @@ def mapp(fid=''):
         if key=='searchNow':
             break;
         res[key] = val
+    if not 'corX' in res:
+        return '0,0'
     return res['corX'] +','+ res['corY']
 
 def ritms(url, dkey):

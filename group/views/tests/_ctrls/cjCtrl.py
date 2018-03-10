@@ -23,6 +23,7 @@ class main:
         act = req.get('act', 'view')
         res = cjfang.area(self.db, act)
         data['res'] = res
+        data['_end'] = 1
         return data
 
     def urlAct(self):
@@ -41,6 +42,7 @@ class main:
             for i in range(start, end):
                 res = cjfang.urlp(self.db, act, i)
                 data['_pages'] += str(i) + ','
+                data['_pend'] = i+1
             if i>=cmax:
                 data['_end'] = 1
         else:

@@ -1,14 +1,11 @@
+{% extends "tests/cj/_lay.htm" %}
+{% block title %} 网址 {% endblock %}
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name='robots' content='noindex, nofollow'>
-<base target="_blank" />
 
-<h1>fang.com采集 @ 地址/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
-{% set res=d.data.res %}
+{% block acts %}
 
-{% if request.args.act in 'view,done' %}
+
+{% if request.args.act|d('') in 'view,done' %}
     
     {% for row in res %}
     <li>{{ row }}</li>
@@ -26,7 +23,5 @@
 
 {% endif %}
 
-<p><a href="?">Refresh</a></p>
 
-end-flag: {{ d.data._end }} <br>
-pages: {{ d.data._pages }} <br>
+{% endblock %}

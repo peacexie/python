@@ -1,12 +1,9 @@
+{% extends "tests/cj/_lay.htm" %}
+{% block title %} 数据 {% endblock %}
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name='robots' content='noindex, nofollow'>
-<base target="_blank" />
 
-<h1>fang.com采集 @ 数据/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
-{% set res=d.data.res %}
+{% block acts %}
+
 
 {% if request.args.act=='view' %}
 
@@ -30,7 +27,5 @@
 
 {% endif %}
 
-<p><a href="?">Refresh</a></p>
 
-end-flag: {{ d.data._end }} <br>
-fids: {{ d.data._fids }} <br>
+{% endblock %}

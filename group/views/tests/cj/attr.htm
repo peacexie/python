@@ -1,11 +1,9 @@
+{% extends "tests/cj/_lay.htm" %}
+{% block title %} 属性 {% endblock %}
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name='robots' content='noindex, nofollow'>
-<base target="_blank" />
 
-<h1>fang.com采集 @ 属性/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
+{% block acts %}
+
 
 {% for itm in d.data.res %}
     <li>
@@ -14,4 +12,5 @@
     </li>
 {% endfor %}
 
-<p><a href="?">Refresh</a></p>
+
+{% endblock %}
