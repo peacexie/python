@@ -9,6 +9,8 @@ def init():
     for key in bcfg: # app, dir, path, db, blog ... 
         cfgs[key] = bcfg[key]
     sys.path.append(cfgs['dir']['cpdir'])
+    #sys.path.append(cfgs['dir']['import'])
+    sys.path.append(cfgs['dir']['views'])
     return cfgs
 
 def envs():

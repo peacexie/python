@@ -32,6 +32,9 @@ def img(db, act):
     data['res'] = res
     return data
 
+def imgs(db, act, row):
+    pass
+
 def imgp(db, act, row):
 
     ubase = 'http://tianyuwanbyd.fang.com/house/ajaxrequest'
@@ -307,12 +310,12 @@ def mapp(fid=''):
 
 def ritms(url, dkey):
     #url = 'http://newhouse.jx.fang.com/house/s/'
-    fp = '.' + g.dir['cache'] + '/pages/' + files.fulnm(url)
+    fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
     ok = files.tmok(fp, 720)
     if ok:
         html = files.get(fp, 'utf-8')
     else:
-        html = urlpy.page(url, 'gb2312', {"Accept-Encoding":"gzip"})
+        html = urlpy.pzip(url, 'gb2312', {"Accept-Encoding":"gzip"})
         files.put(fp, html)
     if not dkey:
         return html

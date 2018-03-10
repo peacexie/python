@@ -19,7 +19,7 @@ def vmft(d):
 
 # 读取: root: /robots.txt, favicon.ico 等
 def vrfp(fp):
-    data = files.get('./static/root/doc/'+fp, '')
+    data = files.get(g.dir['static']+'/root/doc/'+fp, '')
     code = 200 if len(data)>0 else 404
     exts = os.path.splitext(fp)
     ctype = {'Content-Type':vtyp(exts[1])}
