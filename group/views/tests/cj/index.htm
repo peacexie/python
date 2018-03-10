@@ -1,52 +1,73 @@
-{% extends "tests/cj/_lay.htm" %}
-{% block title %} fang.com采集 {% endblock %}
+{% extends "root/_incs/lay_root.htm" %}
 
+{% block title %}
+<title>微爬(fang.com)采集 - {{ g.sys['title']}}</title>
+<meta name='robots' content='noindex, nofollow'>
+{% endblock %}
 
-{% block acts %}
+{% block head %}
+    <h1>微爬(fang.com)采集</h1>
+    <p>楼盘列表，信息详情，关联图片</p>
+{% endblock %}
 
+{% block main %}
 
-<nav>
+<div class="out">
 
-<p>属性/area cj-attr ：
-<a href="/tests/cj-attr?act=view">查看</a>，
-<a href="/tests/cj-attr?act=test">测试</a>，
-<a href="/tests/cj-attr?act=done">执行</a>
-</p>
-<p>地址/Url  cj-url  ： 
-<a href="/tests/cj-url?act=view">查看</a>，
-<a href="/tests/cj-url?act=test">测试</a>，
-<a href="/tests/cj-url?act=done">执行</a>
-</p>
-<p>数据/data cj-data  ：
-<a href="/tests/cj-data?act=view">查看</a>，
-<a href="/tests/cj-data?act=test">测试</a>，
-<a href="/tests/cj-data?act=done">执行</a>
-</p>
-<p>图片/img  cj-img  ： 
-<a href="/tests/cj-img?act=view">查看</a>，
-<a href="/tests/cj-img?act=test">测试</a>，
-<a href="/tests/cj-img?act=done">执行</a>，
-<a href="/tests/cj-img?act=save">保存</a>
-</p>
+<div class="in">
+    <h2><span class="tg1">crawl</span>数据采集</h2>
+    <div>
+        <p>属性/area cj-attr ：
+        <a href="/tests/cj-attr?act=view">查看</a>，
+        <a href="/tests/cj-attr?act=test">测试</a>，
+        <a href="/tests/cj-attr?act=done">执行</a>
+        </p>
+        <p>地址/Url  cj-url  ： 
+        <a href="/tests/cj-url?act=view">查看</a>，
+        <a href="/tests/cj-url?act=test">测试</a>，
+        <a href="/tests/cj-url?act=done">执行</a>
+        </p>
+        <p>数据/data cj-data  ：
+        <a href="/tests/cj-data?act=view">查看</a>，
+        <a href="/tests/cj-data?act=test">测试</a>，
+        <a href="/tests/cj-data?act=done">执行</a>
+        </p>
+        <p>图片/img  cj-img  ： 
+        <a href="/tests/cj-img?act=view">查看</a>，
+        <a href="/tests/cj-img?act=test">测试</a>，
+        <a href="/tests/cj-img?act=done">执行</a>，
+        <a href="/tests/cj-img?act=save">保存</a>
+        </p>
+    </div>
+</div>
 
-<p>--- 后期处理 ---------------</p>
+<div class="in">
+    <h2><span class="tg1">deel</span>后期处理</h2>
+    <div>
+        <p>加水印-waterMark：
+            测试 - 执行
+        </p>
+        <p>入库:楼盘+图片-insData：
+            测试 - 执行
+        </p>
+    </div>
+</div>
 
-<p>加水印-waterMark：
-    测试 - 执行
-</p>
-<p>入库:楼盘+图片-insData：
-    测试 - 执行
-</p>
+<div class="in">
+    <h2><span class="tg1">Fix</span>Extra</h2>
+    <div>
+        <p>Fix / xxx  ： 
+        <a href="/tests/cj-fxxx?act=view">查看</a>，
+        <a href="/tests/cj-fxxx?act=test">测试</a>，
+        <a href="/tests/cj-fxxx?act=done">执行</a>
+        </p>
+        <p class="tc">
+！所有爬取的图片文字等资源，版权等属于目标网站或原版权所有者；
+<a href="./">详情情感见申明</a>！
+        </p>
+    </div>
+</div>
 
-<p>--- Extra ---------------</p>
-
-<p>Fix / xxx  ： 
-<a href="/tests/cj-fxxx?act=view">查看</a>，
-<a href="/tests/cj-fxxx?act=test">测试</a>，
-<a href="/tests/cj-fxxx?act=done">执行</a>
-</p>
-
-</nav>
-
+</div><!--end.out-->
 
 {% endblock %}

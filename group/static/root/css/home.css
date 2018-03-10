@@ -3,6 +3,8 @@
     color: #CCC;
 }
 
+.tc{ text-align:center; }
+
 body, html, p, div{ font:14px "Lucida Grande", Verdana, Lucida, Helvetica, Arial, 'Simsun', sans-serif; }
 a{ text-decoration:none; }
 i{ font-style:normal;  }
