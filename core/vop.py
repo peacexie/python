@@ -90,18 +90,12 @@ def view(app, group, cfgs, mkv):
 # 一个`Ctrl`控制器的数据 
 def cdata(app, tpath):
     
-    file = g.mkvs['mod'] + 'Ctrl' # v1
-    file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl' # v2 # /veiws/_ctrls/root_homeCtrl.py
-    #flag = os.path.exists('.'+tpath+'/_ctrls/'+file+'.py') # v1
+    file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl'
     flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py') # v2
     if not flag:
         return {'__msg': 'None ['+file+'] Class'}
-    #sys.path.append('.'+tpath) # v1
-    #sys.path.append(g.dir['views']) # v2
     g.run['Ctrl'] = file
-    # ('archives.user',fromlist = ('user',))
     items = __import__('_ctrls.'+file) # v1/v2
-    #items = __import__(g.mkvs['group']+'._ctrls', fromlist=(file,)) # v3
     ctrl = getattr(items, file)
     cobj = ctrl.main(app)
     tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'

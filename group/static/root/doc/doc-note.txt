@@ -1,13 +1,20 @@
 ﻿
 
+from urllib import parse, request as req
+from core import dbop, files, urlpy, req
 
-* pa- : 
+* cjfang.py                                    --- ok 
+ - _exts
+
+* img-save                                     --- ok 
+
+* pa- :                                        --- ??? 
  - pic, link, diy
 
-* ImportError: No module named '_ctrls.cjCtrl'
- -  # v2 # /veiws/_ctrls/root_homeCtrl.py
+* ImportError: No module named '_ctrls.cjCtrl'  --- ok 
+ -  # v2 # /veiws/_ctrls/root_homeCtrl.py     
 
-* 多线程
+* 多线程                                       --- ??? 
 
 --------------------------------------- 
 

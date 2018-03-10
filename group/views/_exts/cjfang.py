@@ -1,6 +1,7 @@
 
 import copy, re, json, random
-from urllib import parse
+#from urllib import parse
+from urllib import parse, request as ureq
 from flask import g
 from core import dbop, files, urlpy, req
 from pyquery import PyQuery as pyq
@@ -23,17 +24,37 @@ def img(db, act):
             fid = row['fid']
             res[fid] = imgp(db, act, row)
             data['_fids'] += fid + ','
-    else: # test
+    elif act=='test':
         itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
         for row in itms:
             fid = row['fid']
             res[fid] = imgp(db, act, row)
             data['_fids'] += fid + ','
+    else: # save
+        itms = db.get("SELECT * FROM {img} WHERE f1=0 ORDER BY id LIMIT "+cbat)
+        if not itms:
+            data['_end'] = 1
+        for row in itms:
+            fid = row['fid']
+            res[fid] = imgs(db, act, row)
+            data['_fids'] += fid + ','
     data['res'] = res
     return data
 
 def imgs(db, act, row):
-    pass
+    # 放前面???
+    db.exe("UPDATE {img} SET f1=1 WHERE fid='"+str(row['fid'])+"'")
+    url = row['thumb']
+    if url.find('://')<0:
+        return ''
+    data = ureq.urlopen(url).read()
+    if len(data)==0:
+        return ''
+    file = files.autnm(url)
+    fp = g.dir['cache'] + '/pics/' + file
+    with open(fp, "wb") as fo:
+        fo.write(data) #写文件用bytes而不是str
+    return file
 
 def imgp(db, act, row):
 

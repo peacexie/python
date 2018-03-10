@@ -5,7 +5,13 @@
 {% block acts %}
 
 
-{% if request.args.act=='view' %}
+{% if request.args.act=='save' %}
+
+    {% for key in res %}
+        {{ key }} = {{ res[key] }}<br>
+    {% endfor %}
+
+{% elif request.args.act=='view' %}
     
     {% for row in res %}
     <li>

@@ -15,10 +15,10 @@
 var act='{{request.args.act}}', end='{{d.data._end}}';
 var jump = document.getElementById('jump');
 var jsec = document.getElementById('jsec');
-function jumpUrl(){ location.href='?act=done&page={{d.data._pend|d(0)}}'; } 
-if(act=='done' && end=='1'){
+function jumpUrl(){ location.href='?act={{request.args.act}}&page={{d.data._pend|d(0)}}'; } 
+if((act=='done' || act=='save') && end=='1'){
     jump.innerHTML = '!!! 已完成 !!!'
-}else if(act=='done'){
+}else if((act=='done' || act=='save')){
     setTimeout('jumpUrl()',3000);
 }else{
     jump.style.display = 'none';
