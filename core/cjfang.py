@@ -177,6 +177,34 @@ def datap(db, act, row):
         db.exe("UPDATE {url} SET f1=1 WHERE id='"+str(rid)+"'")
     return data
 
+def url(db, act):
+
+    cmin = int(g.cjcfg['pagemin'])
+    cmax = int(g.cjcfg['pagemax'])
+    cbat = int(g.cjcfg['delimit'])
+    #proc = int(g.cjcfg['proc'])
+    data = {}
+    data = {'_end':'-', '_pages':''}
+    act = req.get('act', 'view')
+    if act=='done':
+        page = int(req.get('page', '1'))
+        start = max(cmin, page)
+        end = start + cbat
+        if end>cmax+1:
+            end = cmax+1
+        for i in range(start, end):
+            res = urlp(db, act, i)
+            data['_pages'] += str(i) + ','
+            data['_pend'] = i+1
+        if i>=cmax:
+            data['_end'] = 1
+    else:
+        page = random.randint(cmin, cmax)
+        res = urlp(db, act, page)
+        data['_pages'] = page
+    # 
+    data['res'] = res
+    return data
 
 def urlp(db, act, page):
 
