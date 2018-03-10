@@ -21,13 +21,13 @@ def img(db, act):
             data['_end'] = 1
         for row in itms:
             fid = row['fid']
-            #res[fid] = imgp(db, act, row)
+            res[fid] = imgp(db, act, row)
             data['_fids'] += fid + ','
     else: # test
         itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
         for row in itms:
             fid = row['fid']
-            #res[fid] = imgp(db, act, row)
+            res[fid] = imgp(db, act, row)
             data['_fids'] += fid + ','
     data['res'] = res
     return data
@@ -36,7 +36,7 @@ def imgp(db, act, row):
 
     ubase = 'http://tianyuwanbyd.fang.com/house/ajaxrequest'
     data = {}
-    row = {'url':'http://tianyuwanbyd.fang.com/', 'fid':'2820093400'}
+    #row = {'url':'http://tianyuwanbyd.fang.com/', 'fid':'2820093400'}
     pcaids = {'904':'效果图', '903':'实景图', '907':'配套图', '900':'户型图', '905':'样板间'}
     data['pcaids'] = pcaids
 
@@ -49,6 +49,9 @@ def imgp(db, act, row):
         itms = json.loads(html)
         pdic = {}; no = 0
         for itm in itms:
+            if type(itm)==str:
+                print('Error:'+itm)
+                continue
             pid = itm['picID'] if 'picID' in itm else itm['pic_id']
             pdic[pid] = {'fid':pid, 'pcaid':pcaid}
             pdic[pid]['title'] = itm['title'] if 'title' in itm else itm['housetitle']
@@ -57,8 +60,8 @@ def imgp(db, act, row):
                 pdic[pid]['price'] = itm['reference_price']+itm['reference_price_type']
                 pdic[pid]['area'] = itm['buildingarea']
             else:
-                pdic[pid]['price'] = 0
-                pdic[pid]['area'] = 0
+                pdic[pid]['price'] = '0'
+                pdic[pid]['area'] = '0'
             # save
             sql = "SELECT * FROM {img} WHERE fid=%s"
             urow = db.get(sql, (pid,),1) #str.strip([chars])
@@ -66,12 +69,12 @@ def imgp(db, act, row):
                 pdic[pid]['area'], pdic[pid]['thumb'])
             if not urow:
                 flids = 'fid,title,pcaid,price,area,thumb'
-                sql = "INSERT INTO {url} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s) "
+                sql = "INSERT INTO {img} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s) "
                 pdic[pid]['_res'] = 'add';
             else:
                 flids = " fid=%s,title=%s,pcaid=%s,price=%s,area=%s,thumb=%s "
                 whr = " WHERE fid='"+str(urow['fid'])+"' "
-                sql = "UPDATE {url} SET" + flids + whr
+                sql = "UPDATE {img} SET" + flids + whr
                 pdic[pid]['_res'] = 'upd';
             #data['_res'] = 'add' if not urow else 'upd'
             if act=='done':
@@ -114,7 +117,7 @@ def datap(db, act, row):
     data = {}
     fid = row['fid']
     rid = row['id']
-    if "/"+fid+".htm" in row['fid']:
+    if "/"+fid+".htm" in row['url']:
         url = row['url'].replace("/"+fid+".htm","/"+fid+"/housedetail.htm")
     else:
         url = row['url']+"house/"+fid+"/housedetail.htm";

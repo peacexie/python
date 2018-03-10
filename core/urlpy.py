@@ -38,7 +38,6 @@ def svurl(url, sdir, file='', path='./_cache'):
 .asp,php,jsp,aspx,do
 '''
 
-
 # --- 以下函数,尽量使用PyQuery代替,这里出现只是练习的意义 --- 
 
 def block(html, tag, end=''):

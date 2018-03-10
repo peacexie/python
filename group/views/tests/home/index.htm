@@ -1,19 +1,87 @@
 
-{% extends "root/_incs/lay_info.htm" %}
+{% extends "root/_incs/lay_root.htm" %}
 
-{% block title %}Home - index{% endblock %}
+{% block title %}<title>爬虫 - {{ g.sys['title']}}</title>{% endblock %}
 
-{% block info %}
-<h1>Hi, {{d.data.name|default('Python Flask')}}!</h1>
-<p>Home - index</p> {{d.data}}
+{% block head %}
+    <h1>爬虫简介</h1>
+    <p>爬风景，爬美女，爬链接，专业爬…</p>
+{% endblock %}
 
+{% block main %}
 
-url = {{ '/' | url() }} <br>
-url = {{ './' | url() }} <br>
-url = {{ 'home-index' | url('a=b') }} <br>
-url = {{ '/root/home-index' | url('c=d') }} <br>
-url = {{ 'home-index?afc=2' | url() }} <br>
+<div class="out">
 
-<hr>
+<div class="in">
+    <h2><span class="tg1">爬,不是偷窃！</span>尊重版权,分享技术</h2>
+    <div>
+        <p>爬，不是偷窃！“尊重版权，分享技术”：仅此而已！</p>
+        <p>生活是艰难的：甚至需要爬……</p>
+        <p>这里，爬网页，爬知识，是有乐趣的：缓存网页结果，类似jQuery选择器取资料，多进程执行……</p>
+        </p>
+    </div>
+</div>
+
+清纯美女
+https://image.baidu.com/search/index?ie=utf-8&tn=baiduimage&word=%E6%B8%85%E7%BA%AF%E7%BE%8E%E5%A5%B3
+
+清新早晨
+https://image.baidu.com/search/index?ie=utf-8&tn=baiduimage&word=%E6%B8%85%E6%96%B0%E6%97%A9%E6%99%A8
+
+动物世界
+https://image.baidu.com/search/index?ie=utf-8&tn=baiduimage&word=%E5%8A%A8%E7%89%A9%E4%B8%96%E7%95%8C
+
+花鸟壁纸
+https://image.baidu.com/search/index?ie=utf-8&tn=baiduimage&word=%E8%8A%B1%E9%B8%9F%E5%A3%81%E7%BA%B8
+
+2018logo
+http://soso.nipic.com/?q=2018logo
+
+<div class="in">
+    <h2><span class="tg1">简单采集</span>小试牛刀</h2>
+    <div>
+        <p>
+            <a href="#">爬风景（图片）</a>，
+            <a href="#">爬美女（图片）</a>，
+            <a href="#">动物世界</a>，
+            <a href="#">花鸟壁纸</a>，
+            <a href="#">baidu图片</a>，
+            <a href="#">nipic图</a>……
+        </p>
+        <p><a href="#">爬链接</a>：自动搜索关键字，自动打开这些链接；为SEO？？？</p>
+
+        <p><a href="#">DIY爬</a>：自定义采集页面元素，我怎么感觉在用JQ？对，这里用PyQuery！</p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">某网站</span>专业采集</h2>
+    <div>
+        <p><a href="#">专业采集某网站</a>：类别（地区等），信息列表，信息详情，关联图片……</p>
+        <p>下载：<a href="https://github.com/peacexie/python">github.com</a> 
+            或：<a href="http://txjia.com/peace/wepy.htm">官网介绍</a> </p>
+        <p>配置：</p>
+        <p>安装：</p>
+
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">ReadMe</span>申明</h2>
+    <div>
+        <p>
+* 所有爬取的图片文字等资源，版权等属于目标网站或原版权所有者；
+  这里，仅为演示功能，分享技术！
+        </p>
+        <p>
+* 您若在意（爬您图片）：请联系 xpigeon#163.com，3工作日内屏蔽；
+        </p>
+        <p>
+* 您若使用（本系统）采集东西：欢迎切磋；但请同时尊重（被采集方的）版权，合法使用！
+        </p>
+    </div>
+</div>
+
+</div><!--end.out-->
 
 {% endblock %}

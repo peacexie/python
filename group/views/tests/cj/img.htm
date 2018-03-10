@@ -6,25 +6,31 @@
 <base target="_blank" />
 
 <h1>fang.com采集 @ 图片/{{ g.mkvs['key'] }} : {{ request.args.act }}</h1>
+{% set res=d.data.res %}
 
 {% if request.args.act=='view' %}
     
-    {% for row in d.data %}
-    <li>{{ row }}</li>
+    {% for row in res %}
+    <li>
+        <br>
+        {% for key in row %}
+            {{ key }} = {{ row[key] }}<br>
+        {% endfor %}
+    </li>
     {% endfor %}
 
 {% else %}
 
-    {% for fid in d.data %}
+    {% for fid in res %}
         <li><b>{{ fid }}</b><br>
             {% if fid in 'pcaids' %}
-                {{ d.data[fid] }}
+                {{ res[fid] }}
                 <hr>
             {% else %}
-                {% for itm in d.data[fid] %}
+                {% for itm in res[fid] %}
                     <b>{{ itm }}</b><br>
-                    {% for key in d.data[fid][itm] %}
-                        {{ key }} = {{ d.data[fid][itm][key] }}<br>
+                    {% for key in res[fid][itm] %}
+                        {{ key }} = {{ res[fid][itm][key] }}<br>
                     {% endfor %}
                     <hr>
                 {% endfor %}
@@ -35,3 +41,7 @@
 {% endif %}
 
 <p><a href="?">Refresh</a></p>
+
+end-flag: {{ d.data._end }} <br>
+fids: {{ d.data._fids }} <br>
+
