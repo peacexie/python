@@ -15,16 +15,16 @@ def img(db, act):
 
     if act=='view':
         res = db.get("SELECT * FROM {img} ORDER BY id "+limit+"")
-    elif act=='done':
-        itms = db.get("SELECT * FROM {url} WHERE f2=0 ORDER BY id LIMIT "+cbat)
-        if not itms:
-            data['_end'] = 1
+    elif act=='test':
+        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
         for row in itms:
             fid = row['fid']
             res[fid] = imgp(db, act, row)
             data['_fids'] += fid + ','
-    elif act=='test':
-        itms = db.get("SELECT * FROM {url} ORDER BY id "+limit+"")
+    elif act=='done':
+        itms = db.get("SELECT * FROM {url} WHERE f2=0 ORDER BY id LIMIT "+cbat)
+        if not itms:
+            data['_end'] = 1
         for row in itms:
             fid = row['fid']
             res[fid] = imgp(db, act, row)

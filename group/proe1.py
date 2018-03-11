@@ -15,6 +15,7 @@ class MyThread(object):
         print('Run task %s (%s)...' % (i, os.getpid()))
         time.sleep(random.random() * 3)
         print(i)
+        return 'res:'+str(i)
     
     def parse_thread(self):
         print('Parent process %s.' % os.getpid())
