@@ -2,7 +2,6 @@
 
 import os, time, hashlib
 from urllib import parse
-#import re
 
 def get(fp, cset='utf-8', mode='rb'):
     flag = os.path.exists(fp)

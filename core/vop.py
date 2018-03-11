@@ -1,16 +1,16 @@
 #coding=UTF-8
 
-import os, sys, time
+import sys, os, time
+from core import config, dbop, vjef, vext
 from flask import Flask, Blueprint, redirect, g, render_template, abort
-from core import config, dbop, jef, vext
 
 def web():
-    cfgs = config.init()
     timer = time.time()
     root = os.getcwd()
-    web = Flask(__name__, template_folder=root+cfgs['dir']['views'], 
-                          static_folder=root+cfgs['dir']['static'])
     cfgs = config.init()
+    tpdir = root + cfgs['dir']['views']
+    stdir = root + cfgs['dir']['static']
+    web = Flask(__name__, template_folder=tpdir, static_folder=stdir)
     for key in cfgs['sys']:
         web.config[key.upper()] = cfgs['sys'][key]
     cfgs['sys']['timer'] = timer
@@ -21,16 +21,16 @@ def web():
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         breg(web, cfgs, group)
-    areg(web, cfgs) #print(web.url_map)
+    areg(web, cfgs)
     return web
 
 # 注册web/g扩展
 def areg(web, cfgs):
     # reg-filters 
-    web.jinja_env.filters['url'] = jef.url
-    web.jinja_env.filters['info'] = jef.info
-    web.jinja_env.filters['get'] = jef.get
-    web.jinja_env.filters['exe'] = jef.exe
+    web.jinja_env.filters['url'] = vjef.url
+    web.jinja_env.filters['info'] = vjef.info
+    web.jinja_env.filters['get'] = vjef.get
+    web.jinja_env.filters['exe'] = vjef.exe
     # reg-funcs 
     @web.before_request
     def before_request():

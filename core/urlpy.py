@@ -1,9 +1,9 @@
 # url抓取(py=爬)相关函数
 
 # sys-import
-import io, os, re, gzip
-from urllib import parse, request as freq
+import sys, os, io, re, gzip
 from core import files
+from urllib import parse, request as freq
 
 # head : {"Accept-Encoding":"gzip"}
 def pzip(url, cset='utf-8', head={}):

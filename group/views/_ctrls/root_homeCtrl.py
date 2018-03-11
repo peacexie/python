@@ -19,15 +19,20 @@ class main:
     def indexAct(self):
         data = {}
         data['name'] = argv.get('name', 'Python&Flask')
-        # blog
-        db1 = dbop.dbm()
-        data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
-        data['catalog'] = g.db.get("SELECT * FROM {catalog} WHERE kid like? ORDER BY kid DESC", ('%o%',), 2)
-        # exdb
-        cdb = dict(copy.deepcopy(g.cdb), **g.exdb)
-        db2 = dbop.dbm(cdb)
-        data['model'] = db2.get("SELECT * FROM {base_model} WHERE pid=%s", ('docs',), 1)
+
+        # sys-db
+        data['news'] = g.db.get("SELECT * FROM {docs_news} WHERE did>%s ORDER BY did DESC", ('2015',), 2)
         
+        # blog
+        cdb1 = dict(copy.deepcopy(g.cdb), **g.exdb)
+        db1 = dbop.dbm(cdb1)
+        data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
+
+        # caiji
+        cdb2 = dict(copy.deepcopy(g.cdb), **g.cjdb)
+        db2 = dbop.dbm(cdb2)
+        data['attr'] = db2.get('SELECT * FROM {attr} ORDER BY id DESC', (), 1)
+
         # 
         data['d'] = {}
         #data['d'] = {'tpname':'json'} # 指定模板

@@ -74,9 +74,12 @@
 
 ''''''''''''''''
 
+<p>news:<br> {{ d.data.news }}</p>
+<p>blog:<br> {{ d.data.blog }}</p>
+<p>attr:<br> {{ d.data.attr }}</p>
 
 <p>{{ ''|info }}</p>
-{% set sql = "SELECT title,detail FROM {article} WHERE id>2 ORDER BY id DESC" %}
+{% set sql = "SELECT uname,mname FROM {users_person}" %}
 {% set arcs1 = g.db.get(sql, (), 1) %}
 {% set arcs2 = sql|get((), 2) %}
 

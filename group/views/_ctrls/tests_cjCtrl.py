@@ -1,12 +1,9 @@
 #coding=UTF-8
 
-#import os, sys, platform
-import copy, re, random
-from flask import request, g
-from core import dbop, files, urlpy, argv
+import copy
+from core import argv, dbop
 from _exts import cjfang
-from pyquery import PyQuery as pyq
-from multiprocessing import Pool, Process
+from flask import g
 
 # main名称固定
 class main:

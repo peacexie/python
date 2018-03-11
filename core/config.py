@@ -1,5 +1,5 @@
 
-import os, sys, platform
+import sys, os, platform
 import configparser
 
 def init():

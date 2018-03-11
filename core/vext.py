@@ -1,8 +1,8 @@
 # -*- coding:UTF-8 -*-
 
-import os, json
-from flask import g
+import sys, os, json
 from core import argv, files, parse
+from flask import g
 
 # 格式化输出(xml,json[p])
 def vmft(d):

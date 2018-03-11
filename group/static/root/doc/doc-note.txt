@@ -5,10 +5,6 @@ flask freq
 
 
 
-
-from urllib import parse, request as req
-from core import dbop, files, urlpy, req
-
 * cjfang.py                                    --- ok 
  - _exts
 
