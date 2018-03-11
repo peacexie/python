@@ -3,7 +3,7 @@
 #import os, sys, platform
 import copy, re, random
 from flask import request, g
-from core import dbop, files, urlpy, req
+from core import dbop, files, urlpy, argv
 from _exts import cjfang
 from pyquery import PyQuery as pyq
 from multiprocessing import Pool, Process
@@ -21,24 +21,24 @@ class main:
     # `attr`方法
     def attrAct(self):
         data = {}
-        act = req.get('act', 'view')
+        act = argv.get('act', 'view')
         res = cjfang.area(self.db, act)
         data['res'] = res
         data['_end'] = 1
         return data
 
     def urlAct(self):
-        act = req.get('act', 'view')
+        act = argv.get('act', 'view')
         data = cjfang.url(self.db, act)
         return data
 
     def dataAct(self):
-        act = req.get('act', 'view')
+        act = argv.get('act', 'view')
         data = cjfang.data(self.db, act)
         return data
 
     def imgAct(self):
-        act = req.get('act', 'view')
+        act = argv.get('act', 'view')
         data = cjfang.img(self.db, act)
         return data
 

@@ -3,7 +3,7 @@ import copy, re, json, random
 #from urllib import parse
 from urllib import parse, request as ureq
 from flask import g
-from core import dbop, files, urlpy, req
+from core import dbop, files, urlpy, argv
 from pyquery import PyQuery as pyq
 
 def img(db, act):
@@ -49,7 +49,7 @@ def imgs(db, act, row):
     '''
     if url.find('://')<0:
         return ''
-    data = ureq.urlopen(url).read()
+    data = uargv.urlopen(url).read()
     if len(data)==0:
         return ''
     file = files.autnm(url)
@@ -212,9 +212,9 @@ def url(db, act):
     #proc = int(g.cjcfg['proc'])
     data = {}
     data = {'_end':'-', '_pages':''}
-    act = req.get('act', 'view')
+    act = argv.get('act', 'view')
     if act=='done':
-        page = int(req.get('page', '1'))
+        page = int(argv.get('page', '1'))
         start = max(cmin, page)
         end = start + cbat
         if end>cmax+1:
