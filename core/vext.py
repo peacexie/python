@@ -1,8 +1,8 @@
 # -*- coding:UTF-8 -*-
 
 import os, json
-from flask import request, g
-from core import files, parse
+from flask import, g
+from core import req, files, parse
 
 # 格式化输出(xml,json[p])
 def vmft(d):
@@ -11,7 +11,7 @@ def vmft(d):
         res = parse.convXml.getXmlString(xml)
     else:
         res = json.dumps(d, ensure_ascii=False)
-        cb = request.args.get('callback')
+        cb = req.args.get('callback')
         if cb:
             res = cb + '(' + res + ');'
     ctype = {'Content-Type':vtyp(d['tpname'])}

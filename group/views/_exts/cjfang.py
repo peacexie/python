@@ -45,6 +45,8 @@ def imgs(db, act, row):
     # 放前面???
     db.exe("UPDATE {img} SET f1=1 WHERE fid='"+str(row['fid'])+"'")
     url = row['thumb']
+    file = urlpy.svurl(url, 'pics')
+    '''
     if url.find('://')<0:
         return ''
     data = ureq.urlopen(url).read()
@@ -54,6 +56,7 @@ def imgs(db, act, row):
     fp = g.dir['cache'] + '/pics/' + file
     with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str
+    '''
     return file
 
 def imgp(db, act, row):

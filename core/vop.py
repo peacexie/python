@@ -4,35 +4,35 @@ import os, sys, time
 from flask import Flask, Blueprint, redirect, g, render_template, abort
 from core import config, dbop, jef, vext
 
-def app():
+def web():
     cfgs = config.init()
     timer = time.time()
     root = os.getcwd()
-    app = Flask(__name__, template_folder=root+cfgs['dir']['views'], 
+    web = Flask(__name__, template_folder=root+cfgs['dir']['views'], 
                           static_folder=root+cfgs['dir']['static'])
     cfgs = config.init()
     for key in cfgs['sys']:
-        app.config[key.upper()] = cfgs['sys'][key]
+        web.config[key.upper()] = cfgs['sys'][key]
     cfgs['sys']['timer'] = timer
     cfgs['sys']['root'] = root
     rfiles = cfgs['sys']['rfiles'].split(',')
     for file in rfiles:
-        breg(app, cfgs, file, 1) 
+        breg(web, cfgs, file, 1) 
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
-        breg(app, cfgs, group)
-    areg(app, cfgs) #print(app.url_map)
-    return app
+        breg(web, cfgs, group)
+    areg(web, cfgs) #print(web.url_map)
+    return web
 
-# 注册app/g扩展
-def areg(app, cfgs):
+# 注册web/g扩展
+def areg(web, cfgs):
     # reg-filters 
-    app.jinja_env.filters['url'] = jef.url
-    app.jinja_env.filters['info'] = jef.info
-    app.jinja_env.filters['get'] = jef.get
-    app.jinja_env.filters['exe'] = jef.exe
+    web.jinja_env.filters['url'] = jef.url
+    web.jinja_env.filters['info'] = jef.info
+    web.jinja_env.filters['get'] = jef.get
+    web.jinja_env.filters['exe'] = jef.exe
     # reg-funcs 
-    @app.before_request
+    @web.before_request
     def before_request():
         cfgs['run']['timer'] = time.time()
         g.db = dbop.dbm(cfgs['cdb'])
@@ -40,22 +40,22 @@ def areg(app, cfgs):
         if hasattr(g, 'db'):
             g.db.close()
     ''' 
-    @app.errorhandler(404)  
+    @web.errorhandler(404)  
     def not_found(e):      
         return render_template("root/home/error.htm")
-    @app.teardown_request
+    @web.teardown_request
 
     '''
 
 # 注册Blueprint
-def breg(app, cfgs, group, file=0):
+def breg(web, cfgs, group, file=0):
     sview = Blueprint(group, '_'+group.replace('.','_'))
     gfix = ''
     if file==0:
         @sview.route('/')
         @sview.route('/<mkv>')
         def svmkv(mkv=''):
-            return view(app, group, cfgs, mkv)
+            return view(web, group, cfgs, mkv)
         if len(group)>0:
             gfix = '/' + group
     else: # robots.txt
@@ -64,17 +64,17 @@ def breg(app, cfgs, group, file=0):
         @sview.route(exts[1])
         def svfile(mkv=''):
             return vext.vrfp(group);
-    app.register_blueprint(sview, url_prefix=gfix)
+    web.register_blueprint(sview, url_prefix=gfix)
 
 # 一个分组的view显示
-def view(app, group, cfgs, mkv):
+def view(web, group, cfgs, mkv):
     g.run = {} #; print(g.db); print(g);  
     cfgs['mkvs'] = mkvs(group, mkv)
     for key in cfgs:
         setattr(g, key, cfgs[key])
     tpath = g.dir['views'] + '/' + g.mkvs['group']
     d = tpname(tpath) # 模板和基本数据
-    data = cdata(app, tpath)
+    data = cdata(web, tpath)
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
@@ -88,7 +88,7 @@ def view(app, group, cfgs, mkv):
         return render_template(d['full'], d=d), d['code']
 
 # 一个`Ctrl`控制器的数据 
-def cdata(app, tpath):
+def cdata(web, tpath):
     
     file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl'
     flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py') # v2
@@ -97,7 +97,7 @@ def cdata(app, tpath):
     g.run['Ctrl'] = file
     items = __import__('_ctrls.'+file) # v1/v2
     ctrl = getattr(items, file)
-    cobj = ctrl.main(app)
+    cobj = ctrl.main(web)
     tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'
     taba = tabs.split(',')
     for fid in taba:

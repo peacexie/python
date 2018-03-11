@@ -2,7 +2,7 @@
 
 # sys-import
 import io, os, re, gzip
-from urllib import parse, request as req
+from urllib import parse, request as freq
 from core import files
 
 # head : {"Accept-Encoding":"gzip"}
@@ -10,8 +10,8 @@ def pzip(url, cset='utf-8', head={}):
     hdef = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
         head = dict(hdef, **head)
-    bre = req.Request(url, headers=head)
-    bstr = req.urlopen(bre).read()
+    bre = freq.Request(url, headers=head)
+    bstr = freq.urlopen(bre).read()
     bio = io.BytesIO(bstr)
     gf = gzip.GzipFile(fileobj=bio, mode="rb")
     html = gf.read().decode(cset, 'ignore')
@@ -19,7 +19,7 @@ def pzip(url, cset='utf-8', head={}):
 
 # 从url爬一个html过来
 def page(url, cset='utf-8'):
-    page = req.urlopen(url)
+    page = freq.urlopen(url)
     html = page.read()
     html = html.decode(cset, 'ignore')
     return html
@@ -28,7 +28,7 @@ def page(url, cset='utf-8'):
 def svurl(url, sdir, file='', path='./_cache'):
     if url.find('://')<0:
         return ''
-    data = req.urlopen(url).read()
+    data = freq.urlopen(url).read()
     if len(data)==0:
         return ''
     file = files.autnm(url)
