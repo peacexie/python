@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block head %}
-    <h1>微爬(fang.com)采集</h1>
-    <p>楼盘列表，信息详情，关联图片</p>
+    <h1>自定义 - DIY爬</h1>
+    <p> 自定义采集页面元素，我怎么感觉在用JQ？对，这里用PyQuery！</p>
 {% endblock %}
 
 {% block main %}
@@ -15,24 +15,24 @@
 <div class="out">
 
 <div class="in">
-    <h2><span class="tg1">crawl</span>数据采集</h2>
+    <h2><span class="tg1">crawl</span>采集配置</h2>
     <div>
-        <p>属性/area cj-attr ：
+        <p>Url ：
         <a href="/tests/cj-attr?act=view">查看</a>，
         <a href="/tests/cj-attr?act=test">测试</a>，
         <a href="/tests/cj-attr?act=done">执行</a>
         </p>
-        <p>地址/Url  cj-url  ： 
+        <p>dmkey ： 
         <a href="/tests/cj-url?act=view">查看</a>，
         <a href="/tests/cj-url?act=test">测试</a>，
         <a href="/tests/cj-url?act=done">执行</a>
         </p>
-        <p>数据/data cj-data  ：
+        <p>key1 ：
         <a href="/tests/cj-data?act=view">查看</a>，
         <a href="/tests/cj-data?act=test">测试</a>，
         <a href="/tests/cj-data?act=done">执行</a>
         </p>
-        <p>图片/img  cj-img  ： 
+        <p>key2 ： 
         <a href="/tests/cj-img?act=view">查看</a>，
         <a href="/tests/cj-img?act=test">测试</a>，
         <a href="/tests/cj-img?act=done">执行</a>，
@@ -42,30 +42,15 @@
 </div>
 
 <div class="in">
-    <h2><span class="tg1">deel</span>后期处理</h2>
+    <h2><span class="tg1">result</span>执行结果</h2>
+    {% for no in d.data %}
     <div>
-        <p>加水印-waterMark：
-            测试 - 执行
-        </p>
-        <p>入库:楼盘+图片-insData：
-            测试 - 执行
-        </p>
+        <p style="background:#CCC"> --- {{ no }}</p>
+        {% for key in d.data[no] %}
+        <p>{{ key }} = {{ d.data[no][key] }}</p>
+        {% endfor %}
     </div>
-</div>
-
-<div class="in">
-    <h2><span class="tg1">Fix</span>Extra</h2>
-    <div>
-        <p>Fix / xxx  ： 
-        <a href="#/tests/cj-fxxx?act=view">查看</a>，
-        <a href="#/tests/cj-fxxx?act=test">测试</a>，
-        <a href="#/tests/cj-fxxx?act=done">执行</a>
-        </p>
-        <p class="tc">
-！所有爬取的图片文字等资源，版权等属于目标网站或原版权所有者；
-<a href="./">详情情感见申明</a>！
-        </p>
-    </div>
+    {% endfor %}
 </div>
 
 </div><!--end.out-->

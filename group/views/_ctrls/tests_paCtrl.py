@@ -1,12 +1,10 @@
 #coding=UTF-8
 
-#import os, sys, platform
-import copy, re, random
-from flask import request, g
+import copy, re
 from core import dbop, files, urlpy, argv
 from _exts import cjfang
+from flask import request, g
 from pyquery import PyQuery as pyq
-from multiprocessing import Pool, Process
 
 # main名称固定
 class main:
@@ -18,28 +16,39 @@ class main:
         #cdb = dict(copy.deepcopy(g.cdb), **g.cjdb)
         #self.db = dbop.dbm(cdb)
 
-    # `attr`方法
-    def attrAct(self):
+    # `diy`方法
+    def diyAct(self):
+        url = 'http://txmao.txjia.com/dev/start.htm'
+        dmkey = '.mod-section'
+        key1 = 'li:first'
+        key2 = 'ul'
+        html = self.rhtml(url)
+        doc = pyq(html) # url=r''+url
+        itms = doc(dmkey)
+        res = {}; no = 0;
+        for itm in itms:
+            url = itm[0]
+            val1 = pyq(itm).find(key1).html()
+            val2 = pyq(itm).find(key2).html()
+            res['no:'+str(no)] = {'key1['+key1+']':val1, 'key2['+key2+']':val2}
+            no += 1
+        return res
+
+    # `link`方法
+    def linkAct(self):
         data = {}
-        act = argv.get('act', 'view')
-        res = cjfang.area(self.db, act)
-        data['res'] = res
-        data['_end'] = 1
         return data
 
     def urlAct(self):
-        act = argv.get('act', 'view')
-        data = cjfang.url(self.db, act)
+        data = {}
         return data
 
-    def dataAct(self):
-        act = argv.get('act', 'view')
-        data = cjfang.data(self.db, act)
+    def picAct(self):
+        data = {}
         return data
 
-    def imgAct(self):
-        act = argv.get('act', 'view')
-        data = cjfang.img(self.db, act)
+    def nipAct(self):
+        data = {}
         return data
 
     def indexAct(self):
@@ -55,9 +64,6 @@ class main:
 
         return itms
 
-    def tqAct(self):
-        data = {}
-        return data
 
     def hitmn(self, url, flag=6): # .nipic.com/
         doc = pyq(url=r''+url)
@@ -77,7 +83,7 @@ class main:
 
     def rhtml(self, url, cache=6):
 
-        fp = '.' + g.dir['cache'] + '/pages/' + files.fulnm(url)
+        fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
         ok = files.tmok(fp, cache)
         if ok:
             html = files.get(fp, 'utf-8')
