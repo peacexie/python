@@ -1,12 +1,4 @@
 
-import copy, re, json, random
-from core import argv, dbop, files, urlpy
-from urllib import parse, request as ureq
-from flask import g
-from pyquery import PyQuery as pyq
-
-
-
 import sys, os, time, random
 from multiprocessing import Pool
 
