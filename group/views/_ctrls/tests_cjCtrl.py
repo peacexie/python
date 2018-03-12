@@ -1,7 +1,7 @@
 #coding=UTF-8
 
 import copy
-from core import argv, dbop
+from core import argv, dbop, mproc
 from _exts import cjfang
 from flask import g
 
@@ -25,6 +25,10 @@ class main:
         return data
 
     def urlAct(self):
+        print('\n\n')
+        mp = mproc.Pools(3)
+        res = mp.start('p1')
+        #
         act = argv.get('act', 'view')
         data = cjfang.url(self.db, act)
         return data

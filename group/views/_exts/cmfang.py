@@ -7,50 +7,60 @@ from pyquery import PyQuery as pyq
 
 
 
-import sys, os, time, copy, random
+import sys, os, time, random
 from multiprocessing import Pool
-
 
 class myPool:
 
-    def task_t2(self, mod='dm', act='da'):
+    def task_tx(self, no):
         start = time.time()
         time.sleep(random.random() * 3)
         end = time.time()
-        print(' \ntask_t2 task_t2 ============\n ')
-        print(mod)
-        print(act)
+        print('task_'+str(no)+' ============')
         res = 'Task %s runs %0.2f seconds.' % (no, (end-start))
+        return res
+
+    def __init__(self, pcnt=4):
+        self.pcnt = pcnt
+
+    # 子进程要执行的代码
+    def psub2(self, no):
+        print('Run psub2 %s (%s)...' % (no, os.getpid()))
+        res = self.task_tx(no)
         print(res)
         return res
 
-    def __init__(self, func=None, pcnt=4, args=()):
-        self.func = func
-        self.pcnt = pcnt
-        self.args = args
-
     # 子进程要执行的代码
-    def psub(self, no):
-        print('Run task %s (%s)...' % (no, os.getpid()))
-        res = self.task_t2('xxx')
-        #print(res)
+    def psub1(self, no):
+        print('Run psub1 %s (%s)...' % (no, os.getpid()))
+        res = self.task_tx(no)
+        print(res)
         return res
 
-    def start(self, flag):
+    def start(self, key):
+        psubs = {
+            'p1':self.psub1, 
+            'p2':self.psub2,
+        }
         print('Parent process %s.' % os.getpid())
         p = Pool()
-        rep = {}
-        for i in range(5):
-            rep['res:'+str(i)] = p.apply_async(self.psub, args=('test:'+str(i),))
+        rep = []
+        for i in range(self.pcnt):
+            func = psubs[key]
+            rep.append(p.apply_async(func, args=('test:'+str(i),)))
+            #rep.append(p.apply_async(self.func, args=self.args))
         print('Waiting for all subprocesses done...')
         p.close()
         p.join()
         print('All subprocesses done.')
-        print(rep)
+        for res in rep:
+            print(res.get())
 
 '''
 if __name__=='__main__':
-    mp = myPool(3, task_t1, ('mymod','myact'));
-    mp.start('xxx')
+    mp = myPool(3);
+    mp.start('p1')
+    mp.start('p2')
+
 '''
 

@@ -37,21 +37,23 @@ class Pools:
         }
         print('Parent process %s.' % os.getpid())
         #p = Pool()
-        res = {}
         for i in range(self.pcnt):
             func = psubs[key]
             #res = p.apply_async(func, args=(key+':'+str(i),))
             p = Process(target=func, args=(key+':'+str(i),))
-            p.start()
+            res = p.start()
         print('Waiting for all Pools('+str(self.pcnt)+') done...')
         #p.close()
         #p.join()
         print('All Pools done.')
-        print(res.get())
+        #print(res.get())
+        print(res)
 
+'''
 if __name__=='__main__':
     mp = Pools(3);
     print('\n\n')
     mp.start('p1')
     print('\n\n')
     mp.start('p2')
+'''
