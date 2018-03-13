@@ -7,9 +7,17 @@ from urllib import parse, request as freq
 
 # head : {"Accept-Encoding":"gzip"}
 def page(url, cset='utf-8', ziped=0, head={}):
-    agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
+
+    defHeaders = { #发送HTTP请求时的HEAD信息，用于伪装为浏览器
+        'Connection': 'Keep-Alive',
+        'Accept': 'text/html, application/xhtml+xml, */*',
+        'Accept-Language': 'en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3',
+        'Accept-Encoding': 'gzip, deflate',
+        'User-Agent': 'Mozilla/6.1 (Windows NT 6.3) Chrome/31.0'
+    }
+    #agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
-        head = dict(agent, **head)
+        head = dict(defHeaders, **head)
     req = freq.Request(url, headers=head)
     data = freq.urlopen(req).read()
     if ziped>0:

@@ -54,7 +54,7 @@ def fulnm(url):
     if len(tmp[3])>0:
         file += '---'+ tmp[3].replace('&',',')
     if len(file)>160:
-        m5 = hashlib.md5(); m5.update(file); s5 = m5.hexdigest()
+        m5 = hashlib.md5(file.encode("latin1")).hexdigest()
         file = file[:60] +'---'+ m5 +'---'+ file[-60:]
     return file
     pass

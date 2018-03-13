@@ -59,13 +59,19 @@ class main:
 
     # `link`方法
     def linkAct(self):
-        url = 'https://www.baidu.com/s?wd=python%20%E7%88%AC%E8%99%AB' # 爬虫=%E7%88%AC%E8%99%AB
+        #url = 'https://www.baidu.com/s?wd=urlopen%20python3&rsv_spt=1&rsv_iqid=0x855eace20002ad5d&issp=1&f=3&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=1&rsv_sug1=1&rsv_sug7=100&rsv_t=5f47pBEd2r7%2Fe2UPeNQ4YRmL4JOzfn7cLmMYNqfHJXwMmpNzxJVa7TLJNifj92HT1t0k&rsv_sug2=1&prefixsug=urlopen&rsp=0&inputT=1665&rsv_sug4=1665'
+        url = 'https://www.baidu.com/s?wd=%E7%88%AC%E8%99%AB&tn=monline_dg&ie=utf-8'
+        # u'https://www.baidu.com/baidu?wd='+quote(keyword)+'&tn=monline_dg&ie=utf-8'
+        # 爬虫=%E7%88%AC%E8%99%AB
+
         html = self.rhtml(url)
         doc = pyq(html) # url=r''+url
-        divs = doc('.result c-container')
+        divs = doc('.c-container') # h3,.c-container
+        #print(pyq(divs).text())
         itms = []
         for itm in divs:
-            print(itm)
+            #print(itm)
+            #itm = pyq(itm0).('.result c-container')
             link = pyq(itm).find('h3').find('a')
             url = pyq(link).attr('href')
             title = pyq(link).text()
@@ -73,17 +79,12 @@ class main:
             itms.append({'url':url, 'title':title, 'rem':rem})
         return itms
 
-
-        data = {}
-        return data
-
     def indexAct(self):
         data = {}
         return data
 
-
     def rhtml(self, url, cache=6):
-
+        cache = 0.0001
         fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
         ok = files.tmok(fp, cache)
         if ok:

@@ -1,5 +1,8 @@
 ﻿
 
+http://blog.csdn.net/wn314/article/details/76595472
+ 爬取百度搜索结果的爬虫
+
 urllib ureq
 flask freq
 
