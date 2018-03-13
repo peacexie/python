@@ -15,6 +15,19 @@ def page(url, cset='utf-8', ziped=0, head={}):
         'Accept-Encoding': 'gzip, deflate',
         'User-Agent': 'Mozilla/6.1 (Windows NT 6.3) Chrome/31.0'
     }
+    '''
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, sdch, br',
+        'Accept-Language': 'zh-CN,zh;q=0.8',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Cookie': 'PSTM=1504071547; BIDUPSID=0D6BE29FCDAD70E7CABA760AA9004EB3; BAIDUID=8B73EED70E3C8BBE655FC3E13DE1B861:FG=1; __cfduid=dc0f141ff64af6b8b06a6b6baedea40811509062676; BDUSS=g5dFZZdTZ-eUpjaEw4SnJIcDVzdXczZn5vSWlJS1NTTG9BSVFFNWR4RFl6SDlhQUFBQUFBJCQAAAAAAAAAAAEAAADyvtNFUGVhY2VYaWV5cwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANg~WFrYP1haRH; ispeed_lsm=0; MCITY=-%3A; BD_UPN=12314353; H_PS_645EC=92d6F35mfgmDM5M9J%2FqJ1M3FijOaUONOzEWRGqmn65KPbL%2BaSQrShMJLo0LsG%2Be3gh3o; BD_CK_SAM=1; PSINO=7; H_PS_PSSID=1444_21120_20930; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; BDSVRTM=0',
+        #'Host': 'www.baidu.com',
+        #'Pragma': 'no-cache',
+        'Referer': 'http://txjia.com/tools/?mod=full',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+    '''
     #agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
         head = dict(defHeaders, **head)

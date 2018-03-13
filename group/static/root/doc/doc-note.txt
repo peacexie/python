@@ -1,7 +1,12 @@
 ﻿
 
+抓取百度搜索结果
+
 http://blog.csdn.net/wn314/article/details/76595472
  爬取百度搜索结果的爬虫
+
+https://segmentfault.com/q/1010000003589827?sort=created
+python如何获取百度搜索结果的真实URL
 
 urllib ureq
 flask freq
