@@ -11,7 +11,7 @@ python如何获取百度搜索结果的真实URL
 urllib ureq
 flask freq
 
-
+* 去掉 g 的依赖
 
 * cjfang.py                                    --- ok 
  - _exts

@@ -2,6 +2,7 @@
 import sys, os, platform
 import configparser
 
+# 初始化配置
 def init():
     cfgs = {}
     cfgs['envs'] = envs()
@@ -13,6 +14,7 @@ def init():
     sys.path.append(cfgs['dir']['views'])
     return cfgs
 
+# 运行环境信息
 def envs():
     envs = {}
     envs['arc'] = platform.architecture()
@@ -20,6 +22,7 @@ def envs():
     envs['ver'] = platform.version()
     return envs
 
+# 读取应用配置
 def ucfg(envs):
     conf = configparser.ConfigParser()
     conf.read("./data/appcfg.ini", encoding="utf-8-sig")

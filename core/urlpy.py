@@ -3,15 +3,15 @@
 # sys-import
 import sys, os, io, re, gzip
 from core import files
-from urllib import parse, request as freq
+from urllib import parse, request as ureq
 
 # head : {"Accept-Encoding":"gzip"}
 def page(url, cset='utf-8', ziped=0, head={}):
     agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
         head = dict(agent, **head)
-    req = freq.Request(url, headers=head)
-    data = freq.urlopen(req).read()
+    req = ureq.Request(url, headers=head)
+    data = ureq.urlopen(req).read()
     if ziped>0:
         dbyte = io.BytesIO(data)
         data = gzip.GzipFile(fileobj=dbyte, mode="rb").read()
@@ -22,7 +22,7 @@ def page(url, cset='utf-8', ziped=0, head={}):
 def svurl(url, sdir, file='', path='./_cache'):
     if url.find('://')<0:
         return ''
-    data = freq.urlopen(url).read()
+    data = ureq.urlopen(url).read()
     if len(data)==0:
         return ''
     file = files.autnm(url)
