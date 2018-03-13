@@ -9,6 +9,50 @@
 
 {% block main %}
 
+
+
+<div class="clear"></div>
+
+''''''''''''''''
+
+<p>news:<br> {{ d.data.news }}</p>
+<p>blog:<br> {{ d.data.blog }}</p>
+<p>attr:<br> {{ d.data.attr }}</p>
+
+<p>{{ ''|info }}</p>
+{% set sql = "SELECT uname,mname FROM {users_person}" %}
+{% set arcs1 = g.db.get(sql, (), 1) %}
+{% set arcs2 = sql|get((), 2) %}
+
+<p>{{ arcs1 }}</p>
+<p>{{ arcs2 }}</p>
+
+<h1>Hi, {{ d.data.name|d('Python Flask',true)|e }}!</h1>
+<p>Home - index</p>
+
+{% set dd={'aa':'bb', 'cc':'dd'} %}
+<p>dd.aa = {{ dd.aa }}</p>
+
+url = {{ '/' | url() }} <br>
+url = {{ './' | url() }} <br>
+url = {{ 'home-index' | url('a=b') }} <br>
+url = {{ '/tests/home-index' | url('c=d') }} <br>
+url = {{ 'home-index?afc=2' | url() }} <br>
+
+
+<p>arcs.2 = {{ arcs }}</p>
+
+<hr>
+
+../front/home-index?afc=2
+home-index?afc=2
+
+
+
+'''''''''''''''
+
+
+
 <div class="out">
 
 <div class="in">

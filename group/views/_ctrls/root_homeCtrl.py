@@ -12,39 +12,6 @@ class main:
         self.app = app
         self.data = {}
 
-    # 方法格式: {xxx}Act
-    # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
-    # exdb, blog
-
-    def indexAct(self):
-        data = {}
-        data['name'] = argv.get('name', 'Python&Flask')
-
-        # sys-db
-        data['news'] = g.db.get("SELECT * FROM {docs_news} WHERE did>%s ORDER BY did DESC", ('2015',), 2)
-        
-        # blog
-        cdb1 = dict(copy.deepcopy(g.cdb), **g.exdb)
-        db1 = dbop.dbm(cdb1)
-        data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
-
-        # caiji
-        cdb2 = dict(copy.deepcopy(g.cdb), **g.cjdb)
-        db2 = dbop.dbm(cdb2)
-        data['attr'] = db2.get('SELECT * FROM {attr} ORDER BY id DESC', (), 1)
-
-        # 
-        data['d'] = {}
-        #data['d'] = {'tpname':'json'} # 指定模板
-        #data['d'] = {'tpname':'xml'} # 指定模板
-        #data['d'] = {'tpname':'dir', 'message':'/blog/'} # dir
-        #data['d'] = {'code':500, 'message':'500 Message'} # dir
-
-        # 
-        db1.close()
-        db2.close()
-        return data
-
     # `coder`方法
     def coderAct(self):
         g = argv.get('g', 'root')
@@ -58,20 +25,8 @@ class main:
         data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
         return data
 
-    # `detail`方法
-    def _detailAct(self):
-        data = {'_detailAct_msg':'from _detailAct'}
+    # `read`方法
+    def readAct(self):
+        sread = files.get("../README.md")
+        data = {'sread':sread}
         return data
-
-    # 默认非`detail`方法
-    def _defAct(self):
-        #d = {'tpname':'home/info'} # 指定模板
-        #d = {'code':404} # 显示错误访问
-        d = {}
-        data = {'_defAct_msg':'from _defAct', 'd':d}
-        return data 
-
-
-'''
-
-'''

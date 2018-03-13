@@ -44,7 +44,7 @@
 <div class="clear"></div>
 
 <div class="block"><div class="in">
-    <h2><span class="tg1">admin/tests</span>测试分组</h2>
+    <h2><span class="tg1">tests</span>测试分组</h2>
     <div>
         <p>
             说明：
@@ -65,6 +65,13 @@
             &middot;
             <a href="/tests/db-intpl">intpl</a>
         </p>
+        <p>
+            <i class="r">admin</i>
+            后端测试分组，无实质功能：
+            <a href="/admin/home-login">login</a>
+            &middot;
+            <a href="/admin/">admin</a>
+        </p>
     </div>
 </div></div>
 
@@ -73,49 +80,11 @@
     <div>
         <p>遵循MIT开原协议,共享于各种合法用途！</p>
         <p>所有爬取的图片文字等资源，版权属于目标网站或原版权所有者！</p>
+        <p>基于Blueprint分组扩展，</p>
+        <p>基于MKV的控制器/方法扩展。</p>
     </div>
 </div></div>
 
 </div><!--end.out-->
-
-<div class="clear"></div>
-
-''''''''''''''''
-
-<p>news:<br> {{ d.data.news }}</p>
-<p>blog:<br> {{ d.data.blog }}</p>
-<p>attr:<br> {{ d.data.attr }}</p>
-
-<p>{{ ''|info }}</p>
-{% set sql = "SELECT uname,mname FROM {users_person}" %}
-{% set arcs1 = g.db.get(sql, (), 1) %}
-{% set arcs2 = sql|get((), 2) %}
-
-<p>{{ arcs1 }}</p>
-<p>{{ arcs2 }}</p>
-
-<h1>Hi, {{ d.data.name|d('Python Flask',true)|e }}!</h1>
-<p>Home - index</p>
-
-{% set dd={'aa':'bb', 'cc':'dd'} %}
-<p>dd.aa = {{ dd.aa }}</p>
-
-url = {{ '/' | url() }} <br>
-url = {{ './' | url() }} <br>
-url = {{ 'home-index' | url('a=b') }} <br>
-url = {{ '/tests/home-index' | url('c=d') }} <br>
-url = {{ 'home-index?afc=2' | url() }} <br>
-
-
-<p>arcs.2 = {{ arcs }}</p>
-
-<hr>
-
-../front/home-index?afc=2
-home-index?afc=2
-
-
-
-'''''''''''''''
 
 {% endblock %}

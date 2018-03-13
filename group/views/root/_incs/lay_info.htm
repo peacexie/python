@@ -1,21 +1,40 @@
-
+{% from 'root/_incs/mac_base.htm' import mete,menu,head,foot %}
 <!doctype html>
-<meta name="viewport" content="width=device-width"/>
-<title>{% block title %}{% endblock %}</title>
+<html>
+<head>
+{{ mete(d) }}
+{% block title %}
+    <title>微爬(Wepy) v1.0 - Python微框架</title>
+{% endblock %}
+<base target="_blank"/>
+</head>
+<body>
 
-{% block info %}{% endblock %}
+{{ menu(d) }}
 
-<hr>
+<div class="head">
+    {% block head %}
+    <h1>微爬(Wepy) v1.0</h1>
+    <p>Python微框架</p>
+    {% endblock %}
+</div>
 
-{% for itm in g %}
-    <p>g.{{ itm }} = {{ g[itm] }}</p>
-{% endfor %}
+{% block main %}
+<div class="out">
+<div class="in">
+    {% for itm in g %}
+    <h2><span class="tg1">({{ itm|count() }}) itmes</span>g.{{ itm }}</h2>
+    <div>
+        <p>
+        {{ g[itm] }}
+        </p> 
+    </div>
+    {% endfor %}
+</div>
+</div><!--end.out-->
+{% endblock %}
 
-<hr>
-
-<p>d = {{ d }}</p>
-
-<hr>
-
-{% from 'root/_incs/mac_base.htm' import foot %}
 {{ foot(d) }}
+
+</body>
+</html>
