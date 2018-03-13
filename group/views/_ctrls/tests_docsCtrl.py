@@ -45,18 +45,18 @@ class main:
         db2.close()
         return data
 
-    # `coder`方法
-    def coderAct(self):
-        g = argv.get('g', 'root')
-        c = argv.get('c', 'homeCtrl')
-        a = argv.get('a', 'coderAct')
-        tpl = argv.get('tpl', 'root/home/coder.htm')
-        fctr = './views/'+g+'/_ctrls/'+c+'.py'
-        ftpl = './views/'+tpl
-        sctr = files.get(fctr)
-        stpl = files.get(ftpl)
-        data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
+    # `dev`方法
+    def devAct(self):
+        fp = argv.get('fp', 'doc-note.txt')
+        slink = files.get("./static/root/doc/"+fp)
+        title = '项目计划/开发记录' if fp.find('note')>0 else '学习资料/参考链接'
+        data = {'slink':slink, 'fp':fp, 'title':title}
         return data
+        '''
+        sread = files.get("../README.md")
+        data = {'sread':sread}
+        return data
+        '''
 
     # `detail`方法
     def _detailAct(self):
