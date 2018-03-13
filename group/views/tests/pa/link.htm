@@ -43,12 +43,13 @@
 
 <div class="in">
     <h2><span class="tg1">result</span>执行结果</h2>
-    {% for img in d.data %}
+    {% for itm in d.data %}
     <div>
-        <p style="background:#CCC"><a href="{{ img }}">{{ img }}</a></p>
-        <p><img src="{{ img }}" /></p>
+        <p style="background:#CCC"><a href="{{ itm.url }}">{{ itm.title }}</a></p>
+        <p><img src="{{ itm.rem }}" /></p>
     </div>
     {% endfor %}
+    {{ d.data }}
 </div>
 
 </div><!--end.out-->

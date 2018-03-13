@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block head %}
-    <h1>自定义 - DIY爬</h1>
-    <p> 自定义采集页面元素，我怎么感觉在用JQ？对，这里用PyQuery！</p>
+    <h1>爬XXX - </h1>
+    <p> 爬baidu图片</p>
 {% endblock %}
 
 {% block main %}
@@ -15,7 +15,7 @@
 <div class="out">
 
 <div class="in">
-    <h2><span class="tg1">crawl</span>采集配置</h2>
+    <h2><span class="tg1"><a href="/tests/">返回</a></span>爬baidu图片</h2>
     <div>
         <p>Url ：
         <a href="/tests/cj-attr?act=view">查看</a>，
@@ -43,12 +43,10 @@
 
 <div class="in">
     <h2><span class="tg1">result</span>执行结果</h2>
-    {% for no in d.data %}
+    {% for itm in d.data %}
     <div>
-        <p style="background:#CCC"> --- {{ no }}</p>
-        {% for key in d.data[no] %}
-        <p>{{ key }} = {{ d.data[no][key] }}</p>
-        {% endfor %}
+        <p style="background:#CCC"><a href="{{ itm.link }}">{{ itm.img }}</a></p>
+        <p><img src="{{ itm.img }}" /></p>
     </div>
     {% endfor %}
 </div>

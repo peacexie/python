@@ -1,28 +1,23 @@
 # url抓取(py=爬)相关函数
 
 # sys-import
-import sys, os, io, re, gzip
+import sys, os, io, re, gzip #, importlib
 from core import files
 from urllib import parse, request as freq
 
 # head : {"Accept-Encoding":"gzip"}
-def pzip(url, cset='utf-8', head={}):
-    hdef = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
+def page(url, cset='utf-8', ziped=0, head={}):
+    agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
-        head = dict(hdef, **head)
-    bre = freq.Request(url, headers=head)
-    bstr = freq.urlopen(bre).read()
-    bio = io.BytesIO(bstr)
-    gf = gzip.GzipFile(fileobj=bio, mode="rb")
-    html = gf.read().decode(cset, 'ignore')
+        head = dict(agent, **head)
+    req = freq.Request(url, headers=head)
+    data = freq.urlopen(req).read()
+    if ziped>0:
+        dbyte = io.BytesIO(data)
+        data = gzip.GzipFile(fileobj=dbyte, mode="rb").read()
+    html = data.decode(cset, 'ignore')
     return html
-
-# 从url爬一个html过来
-def page(url, cset='utf-8'):
-    page = freq.urlopen(url)
-    html = page.read()
-    html = html.decode(cset, 'ignore')
-    return html
+    #'''
 
 # 从url保存一个文件
 def svurl(url, sdir, file='', path='./_cache'):
