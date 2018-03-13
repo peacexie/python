@@ -1,0 +1,27 @@
+{% extends "tests/cj/_lay.htm" %}
+{% block title %} 网址 {% endblock %}
+
+
+{% block acts %}
+
+
+{% if request.args.act|d('') in 'view,done' %}
+    
+    {% for row in res %}
+    <li>{{ row }}</li>
+    {% endfor %}
+
+{% else %}
+
+    {% for fid in res %}
+        <li><b>{{ fid }}</b><br>
+            {% for key in res[fid] %}
+                {{ key }} = {{ res[fid][key]|safe }}<br>
+            {% endfor %}
+        </li>
+    {% endfor %}
+
+{% endif %}
+
+
+{% endblock %}

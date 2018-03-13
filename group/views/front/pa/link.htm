@@ -1,0 +1,55 @@
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}
+<title>微爬(fang.com)采集 - {{ g.sys['title']}}</title>
+<meta name='robots' content='noindex, nofollow'>
+{% endblock %}
+
+{% block head %}
+    <h1>爬XXX - </h1>
+    <p> 爬baidu图片</p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1"><a href="/tests/">返回</a></span>爬baidu图片</h2>
+    <div>
+        <p>Url ：
+        <a href="/tests/cj-attr?act=view">查看</a>，
+        <a href="/tests/cj-attr?act=test">测试</a>，
+        <a href="/tests/cj-attr?act=done">执行</a>
+        </p>
+        <p>dmkey ： 
+        <a href="/tests/cj-url?act=view">查看</a>，
+        <a href="/tests/cj-url?act=test">测试</a>，
+        <a href="/tests/cj-url?act=done">执行</a>
+        </p>
+        <p>key1 ：
+        <a href="/tests/cj-data?act=view">查看</a>，
+        <a href="/tests/cj-data?act=test">测试</a>，
+        <a href="/tests/cj-data?act=done">执行</a>
+        </p>
+        <p>key2 ： 
+        <a href="/tests/cj-img?act=view">查看</a>，
+        <a href="/tests/cj-img?act=test">测试</a>，
+        <a href="/tests/cj-img?act=done">执行</a>，
+        <a href="/tests/cj-img?act=save">保存</a>
+        </p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">result</span>执行结果</h2>
+    <div>
+        {% for itm in d.data %}
+        <p><a href="{{ itm.url }}">{{ itm.title }} --- {{ itm.url }}</a></p>
+        {% endfor %}
+    </div>
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}
