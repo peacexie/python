@@ -7,9 +7,6 @@ User-Agent: SomeSpider
 Disallow: /
 
 User-agent: *
-Allow: /front/
-Allow: /static/
-Allow: /$
 Disallow: /admin/
-Disallow: /rest/
-Disallow: /test/
+Disallow: /tests/
+Disallow: /error

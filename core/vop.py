@@ -54,7 +54,7 @@ def breg(app, cfgs, group, file=0):
     gfix = ''
     if file==0:
         @sview.route('/')
-        @sview.route('/<mkv>') # , methods=['GET', 'POST']
+        @sview.route('/<mkv>', methods=['GET', 'POST'])
         def svmkv(mkv=''):
             return view(app, group, cfgs, mkv)
         if len(group)>0:
@@ -90,11 +90,10 @@ def view(app, group, cfgs, mkv):
 
 # 一个`Ctrl`控制器的数据 
 def cdata(app, tpath):
-    
+    g.run['Ctrl'] = g.run['Act'] = ''
     file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl'
     flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py') # v2
     if not flag:
-        g.run['Ctrl'] = '(null)'
         return {'__msg': 'None ['+file+'] Class'}
     g.run['Ctrl'] = file
     items = __import__('_ctrls.'+file) # v1/v2
@@ -108,7 +107,6 @@ def cdata(app, tpath):
             g.run['Act'] = func
             method = getattr(cobj, func) 
             return method()
-    g.run['Act'] = '(null)'
     return {'__msg': 'None ['+tabs+'] Action'}
 
 # 分析模板和基本数据
