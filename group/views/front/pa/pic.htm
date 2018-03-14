@@ -15,35 +15,26 @@
 <div class="out">
 
 <div class="in">
-    <h2><span class="tg1"><a href="/tests/">返回</a></span>爬baidu图片</h2>
+    <h2><span class="tg1"><a href="./pa">返回</a></span>爬baidu图片</h2>
     <div>
         <p>Url ：
-        <a href="/front/cj-attr?act=view">查看</a>，
-        <a href="/front/cj-attr?act=test">测试</a>，
-        <a href="/front/cj-attr?act=done">执行</a>
+        <a href="?wd=清新早晨">清新早晨</a> - <a target="_blank" href="https://image.baidu.com/search/flip?ie=utf-8&tn=baiduimage&word=%E6%B8%85%E6%96%B0%E6%97%A9%E6%99%A8">baidu</a>，
+        <a href="?wd=清纯美女">清纯美女</a> - <a target="_blank" href="https://image.baidu.com/search/flip?ie=utf-8&tn=baiduimage&word=%E6%B8%85%E7%BA%AF%E7%BE%8E%E5%A5%B3">baidu</a>，
+        <a href="?wd=动物世界">动物世界</a> - <a target="_blank" href="https://image.baidu.com/search/flip?ie=utf-8&tn=baiduimage&word=%E5%8A%A8%E7%89%A9%E4%B8%96%E7%95%8C">baidu</a>，
+        <a href="?wd=花鸟壁纸">花鸟壁纸</a> - <a target="_blank" href="https://image.baidu.com/search/flip?ie=utf-8&tn=baiduimage&word=%E8%8A%B1%E9%B8%9F%E5%A3%81%E7%BA%B8">baidu</a>
         </p>
-        <p>dmkey ： 
-        <a href="/front/cj-url?act=view">查看</a>，
-        <a href="/front/cj-url?act=test">测试</a>，
-        <a href="/front/cj-url?act=done">执行</a>
-        </p>
-        <p>key1 ：
-        <a href="/front/cj-data?act=view">查看</a>，
-        <a href="/front/cj-data?act=test">测试</a>，
-        <a href="/front/cj-data?act=done">执行</a>
-        </p>
-        <p>key2 ： 
-        <a href="/front/cj-img?act=view">查看</a>，
-        <a href="/front/cj-img?act=test">测试</a>，
-        <a href="/front/cj-img?act=done">执行</a>，
-        <a href="/front/cj-img?act=save">保存</a>
+        <p>
+            <form name="fms1" method="get" action="?">
+                关键字：<input type="text" name="wd" id="wd" value="{{ d.data.wd }}">
+                <input type="submit" name="submit" id="button" value="爬爬">
+            </form>
         </p>
     </div>
 </div>
 
 <div class="in">
     <h2><span class="tg1">result</span>执行结果</h2>
-    {% for img in d.data %}
+    {% for img in d.data.res %}
     <div>
         <p style="background:#CCC"><a href="{{ img }}">{{ img }}</a></p>
         <p><img src="{{ img }}" /></p>

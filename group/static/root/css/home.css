@@ -2,6 +2,9 @@
 .cCCC, a.cCCC:link, a.cCCC:visited {
     color: #CCC;
 }
+.cF00, a.cF00:link, a.cF00:visited {
+    color: #F00;
+}
 
 .tc{ text-align:center; }
 
@@ -10,7 +13,7 @@ a{ text-decoration:none; }
 i{ font-style:normal;  }
 p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
 .gwidth{ width:760px; display:block; margin:0px auto; clear:both; }
-.ie6{ color:#F00; background-color:#FFC; text-align:center; padding:10px 0; padding:10px 0px; }
+.ie6{ display:block; color:#F00; background-color:#FFC; text-align:center; padding:10px 0; margin:10px 0px; }
 .clear { clear:both; }
 
 
@@ -24,6 +27,7 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
 .head p{ padding:0px 0px 0px 0px; margin:5px 0px 5px 0px; }
 .head a{ width:120px; height:40px; font-weight:bold; color:#335; float:right; font-size:18px; padding:15px 0 0 0; border:1px solid #CCC; }
 .head a i{ font-size:small; font-style:normal; color:#999; }
+.head p.ermsg{ color:#F00; background-color:#FFC; padding:5px; }
 
 .out{ margin:auto 10px; }
 .block{ width:100%; float:none; }

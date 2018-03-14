@@ -1,8 +1,9 @@
 #coding=UTF-8
 
 import copy, re
-from core import dbop, files, urlpy, argv
+from core import argv, dbop, files, urlpy
 from _exts import cjfang
+from urllib import parse
 from flask import request, g
 from pyquery import PyQuery as pyq
 
@@ -13,17 +14,19 @@ class main:
     def __init__(self, app):
         self.app = app
         self.data = {}
-        #cdb = dict(copy.deepcopy(g.cdb), **g.cjdb)
-        #self.db = dbop.dbm(cdb)
 
     def picAct(self):
-        # https://image.baidu.com/search/flip?tn=baiduimage&ie=utf-8&word=%E6%B8%85%E6%96%B0%E6%97%A9%E6%99%A8
-        # {"thumbURL":"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3808464009,1726760794&fm=200&gp=0.jpg",
-        url = 'https://image.baidu.com/search/flip?tn=baiduimage&ie=utf-8&word=%E6%B8%85%E6%96%B0%E6%97%A9%E6%99%A8'
+        wd = argv.get('wd')
+        if len(wd)==0:
+            wd = '绿色风景'
+        swd = parse.quote(wd)
+        urlb = 'https://image.baidu.com/search/flip?tn=baiduimage&ie=utf-8&word='
+        url = urlb + swd
         html = self.rhtml(url)
         reg = r'"thumbURL"\:"([^\"]+)"'
         itms = re.findall(reg, html, re.S|re.M)
-        return itms
+        data = {'res':itms, 'wd':wd}
+        return data
 
     def nipAct(self):
         url = 'http://www.nipic.com/photo/jingguan/shanshui/index.html'

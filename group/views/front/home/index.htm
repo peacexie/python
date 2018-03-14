@@ -1,6 +1,44 @@
 
-{% extends "root/_incs/lay_info.htm" %}
+{% extends "root/_incs/lay_root.htm" %}
 
-{% block title %}Home - index{% endblock %}
+{% block title %}<title>前端分组 - front简介 - {{ g.sys['title']}}</title>{% endblock %}
 
-{% block info %}Home - index{% endblock %}
+{% block head %}
+    <h1>前端分组 - front 简介</h1>
+    <p>Sqlite博客，Mysql专业采集，爬虫测试：三大模块</p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">blog</span>Sqlite博客</h2>
+    <div>
+        <p>xxx</p>
+        <p>xxx</p>
+        <p>xxx</p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">cj</span>Mysql专业采集</h2>
+    <div>
+        <p>xxx</p>
+        <p>xxx</p>
+        <p>xxx</p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">pa</span>爬虫测试</h2>
+    <div>
+        <p>xxx</p>
+        <p>xxx</p>
+        <p>xxx</p>
+    </div>
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}
