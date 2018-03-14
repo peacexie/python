@@ -73,10 +73,6 @@ class main:
             res.append({'url':url, 'title':title})
         return res
 
-    def indexAct(self):
-        data = {}
-        return data
-
     def rhtml(self, url, cache=6):
         cache = 0.0001
         fp = g.dir['cache'] + '/pages/' + files.fulnm(url)

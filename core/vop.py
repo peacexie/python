@@ -54,7 +54,7 @@ def breg(app, cfgs, group, file=0):
     gfix = ''
     if file==0:
         @sview.route('/')
-        @sview.route('/<mkv>')
+        @sview.route('/<mkv>') # , methods=['GET', 'POST']
         def svmkv(mkv=''):
             return view(app, group, cfgs, mkv)
         if len(group)>0:
