@@ -29,17 +29,18 @@ class main:
         return data
 
     def nipAct(self):
-        url = 'http://www.nipic.com/photo/jingguan/shanshui/index.html'
+        url = 'http://www.weather.com.cn/html/weather/101281601.shtml'
         html = self.rhtml(url)
         doc = pyq(html)
-        lis = doc('.works-box')
+        lis = doc('.greatEvent li')
         itms = []
         for li in lis:
             link = pyq(li).find('a').attr('href')
             img = pyq(li).find('img').attr('src')
+            title = pyq(li).find('h2').text()
             if not img:
                 continue
-            itms.append({'img':img, 'link':link})
+            itms.append({'img':img, 'link':link, 'title':title})
         return itms
 
     # `diy`方法
@@ -62,26 +63,29 @@ class main:
 
     # `link`方法
     def linkAct(self):
-        url = 'http://txmao.txjia.com/dev.php'
-        html = self.rhtml(url)
+        durl = 'http://txmao.txjia.com/dev.php'
+        xurl = argv.get('url', durl);
+        html = self.rhtml(xurl)
         doc = pyq(html)
         itms = doc('a')
         res = []
         for itm in itms:
             url = pyq(itm).attr('href')
+            url = urlpy.fxurl(url, durl)
             title = pyq(itm).text()
             res.append({'url':url, 'title':title})
-        return res
+        data = {'res':res, 'url':xurl}
+        return data
 
-    def rhtml(self, url, cache=6):
-        cache = 0.0001
+    def rhtml(self, url, scet='utf-8', cache=6):
+        #cache = 0.0001
         fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
         ok = files.tmok(fp, cache)
         if ok:
             html = files.get(fp, 'utf-8')
             html = files.get(fp)
         else:
-            html = urlpy.page(url, 'utf-8')
+            html = urlpy.page(url, scet)
             files.put(fp, html)
         return html
         #

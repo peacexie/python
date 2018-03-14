@@ -4,6 +4,7 @@
 import sys, os, io, re, gzip
 from core import files
 from urllib import parse, request as ureq
+#from posixpath import normpath
 
 # head : {"Accept-Encoding":"gzip"}
 def page(url, cset='utf-8', ziped=0, head={}):
@@ -30,6 +31,11 @@ def svurl(url, sdir, file='', path='./_cache'):
     with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str
     return file
+
+def fxurl(url, base=''):
+    url = parse.urljoin(base, url)
+    return url
+    pass
 
 # --- 以下函数,尽量使用PyQuery代替,这里出现只是练习的意义 --- 
 

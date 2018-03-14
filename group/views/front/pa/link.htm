@@ -1,13 +1,13 @@
 {% extends "root/_incs/lay_root.htm" %}
 
 {% block title %}
-<title>微爬(fang.com)采集 - {{ g.sys['title']}}</title>
+<title>爬URL地址 - {{ g.sys['title']}}</title>
 <meta name='robots' content='noindex, nofollow'>
 {% endblock %}
 
 {% block head %}
-    <h1>爬XXX - </h1>
-    <p> 爬baidu图片</p>
+    <h1>爬URL地址</h1>
+    <p>txmao.txjia.com</p>
 {% endblock %}
 
 {% block main %}
@@ -15,28 +15,16 @@
 <div class="out">
 
 <div class="in">
-    <h2><span class="tg1"><a href="/tests/">返回</a></span>爬baidu图片</h2>
+    <h2><span class="tg1"><a href="./pa">返回</a></span>爬URL地址</h2>
     <div>
-        <p>Url ：
-        <a href="/front/cj-attr?act=view">查看</a>，
-        <a href="/front/cj-attr?act=test">测试</a>，
-        <a href="/front/cj-attr?act=done">执行</a>
+        <p>URL地址 ： 
+        <a href="http://txmao.txjia.com/dev.php" target="_blank">txmao.txjia.com</a>
         </p>
-        <p>dmkey ： 
-        <a href="/front/cj-url?act=view">查看</a>，
-        <a href="/front/cj-url?act=test">测试</a>，
-        <a href="/front/cj-url?act=done">执行</a>
-        </p>
-        <p>key1 ：
-        <a href="/front/cj-data?act=view">查看</a>，
-        <a href="/front/cj-data?act=test">测试</a>，
-        <a href="/front/cj-data?act=done">执行</a>
-        </p>
-        <p>key2 ： 
-        <a href="/front/cj-img?act=view">查看</a>，
-        <a href="/front/cj-img?act=test">测试</a>，
-        <a href="/front/cj-img?act=done">执行</a>，
-        <a href="/front/cj-img?act=save">保存</a>
+        <p>
+            <form name="fms1" method="get" action="?">
+                <input type="text" name="url" id="url" value="{{ d.data.url }}" placeholder="url" style="width:80%">
+                <input type="submit" name="submit" id="button" value="爬爬">
+            </form>
         </p>
     </div>
 </div>
@@ -44,8 +32,8 @@
 <div class="in">
     <h2><span class="tg1">result</span>执行结果</h2>
     <div>
-        {% for itm in d.data %}
-        <p><a href="{{ itm.url }}">{{ itm.title }} --- {{ itm.url }}</a></p>
+        {% for itm in d.data.res %}
+        <p><a href="{{ itm.url }}" target="_blank">{{ itm.title }} --- {{ itm.url }}</a></p>
         {% endfor %}
     </div>
 </div>

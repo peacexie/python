@@ -1,13 +1,13 @@
 {% extends "root/_incs/lay_root.htm" %}
 
 {% block title %}
-<title>微爬(fang.com)采集 - {{ g.sys['title']}}</title>
+<title>中国天气网图片采集 - {{ g.sys['title']}}</title>
 <meta name='robots' content='noindex, nofollow'>
 {% endblock %}
 
 {% block head %}
-    <h1>爬XXX - </h1>
-    <p> 爬baidu图片</p>
+    <h1>中国天气网图片</h1>
+    <p>http://www.weather.com.cn/</p>
 {% endblock %}
 
 {% block main %}
@@ -15,28 +15,11 @@
 <div class="out">
 
 <div class="in">
-    <h2><span class="tg1"><a href="/tests/">返回</a></span>爬baidu图片</h2>
+    <h2><span class="tg1"><a href="./pa">返回</a></span>中国天气网图片</h2>
     <div>
-        <p>Url ：
-        <a href="/front/cj-attr?act=view">查看</a>，
-        <a href="/front/cj-attr?act=test">测试</a>，
-        <a href="/front/cj-attr?act=done">执行</a>
-        </p>
-        <p>dmkey ： 
-        <a href="/front/cj-url?act=view">查看</a>，
-        <a href="/front/cj-url?act=test">测试</a>，
-        <a href="/front/cj-url?act=done">执行</a>
-        </p>
-        <p>key1 ：
-        <a href="/front/cj-data?act=view">查看</a>，
-        <a href="/front/cj-data?act=test">测试</a>，
-        <a href="/front/cj-data?act=done">执行</a>
-        </p>
-        <p>key2 ： 
-        <a href="/front/cj-img?act=view">查看</a>，
-        <a href="/front/cj-img?act=test">测试</a>，
-        <a href="/front/cj-img?act=done">执行</a>，
-        <a href="/front/cj-img?act=save">保存</a>
+        <p>开始爬昵图网图片，结果他处理了盗链...</p>
+        <p>图片地址 ： 
+        <a href="http://www.weather.com.cn/html/weather/101281601.shtml" target="_blank">http://www.weather.com.cn/html/weather/101281601.shtml</a>
         </p>
     </div>
 </div>
@@ -45,7 +28,7 @@
     <h2><span class="tg1">result</span>执行结果</h2>
     {% for itm in d.data %}
     <div>
-        <p style="background:#CCC"><a href="{{ itm.link }}">{{ itm.img }}</a></p>
+        <p style="background:#CCC"><a target="_blank" href="{{ itm.link }}">{{ itm.title }}</a></p>
         <p><img src="{{ itm.img }}" /></p>
     </div>
     {% endfor %}
