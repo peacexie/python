@@ -35,7 +35,7 @@ class main:
 
     def uerrAct(self):
         data = {}
-        data['d'] = {'code':500, 'message':'Test-500 Message'} # err
+        data['d'] = {'code':500, 'message':'Test-500 Message --- 控制器自定义错误'} # err
         return data
 
     # `detail`方法
@@ -50,7 +50,6 @@ class main:
         d = {}
         data = {'_defAct_msg':'from _defAct', 'd':d}
         return data 
-
 
 '''
     data['d'] = {}
