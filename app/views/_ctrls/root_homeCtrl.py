@@ -31,6 +31,7 @@ class main:
     # `read`方法
     def readAct(self):
         sread = files.get("../README.md")
+        sread = sread.replace('\n', '<br>\n').replace(' ', '&nbsp;')
         data = {'sread':sread}
         return data
 

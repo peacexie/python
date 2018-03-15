@@ -5,13 +5,13 @@ from core import argv, files, parse
 from flask import g
 
 # 格式化输出(xml,json[p])
-def vmft(d):
+def vfmt(d):
     if d['tpname']=='xml':
         xml = parse.convXml.collectionToXML(d)
         res = parse.convXml.getXmlString(xml)
     else:
         res = json.dumps(d, ensure_ascii=False)
-        cb = argv.args.get('callback')
+        cb = argv.get('callback')
         if cb:
             res = cb + '(' + res + ');'
     ctype = {'Content-Type':vtyp(d['tpname'])}

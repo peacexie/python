@@ -84,7 +84,7 @@ def view(app, group, cfgs, mkv):
     if d['tpname']=='dir':
         return redirect(d['message'], code=301)
     elif '(,json,xml,jsonp,)'.find(','+d['tpname']+',')>0:
-        return vext.vmft(d)
+        return vext.vfmt(d)
     else:
         return render_template(d['full'], d=d), d['code']
 

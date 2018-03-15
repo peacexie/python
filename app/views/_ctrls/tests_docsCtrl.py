@@ -18,31 +18,6 @@ class main:
 
     def indexAct(self):
         data = {}
-        data['name'] = argv.get('name', 'Python&Flask')
-
-        # sys-db
-        data['news'] = g.db.get("SELECT * FROM {docs_news} WHERE did>%s ORDER BY did DESC", ('2015',), 2)
-        
-        # blog
-        cdb1 = dict(copy.deepcopy(g.cdb), **g.exdb)
-        db1 = dbop.dbm(cdb1)
-        data['blog'] = db1.get('SELECT title,detail FROM {article} ORDER BY id DESC', (), 1)
-
-        # caiji
-        cdb2 = dict(copy.deepcopy(g.cdb), **g.cjdb)
-        db2 = dbop.dbm(cdb2)
-        data['attr'] = db2.get('SELECT * FROM {attr} ORDER BY id DESC', (), 1)
-
-        # 
-        data['d'] = {}
-        #data['d'] = {'tpname':'json'} # 指定模板
-        #data['d'] = {'tpname':'xml'} # 指定模板
-        #data['d'] = {'tpname':'dir', 'message':'/blog/'} # dir
-        #data['d'] = {'code':500, 'message':'500 Message'} # dir
-
-        # 
-        db1.close()
-        db2.close()
         return data
 
     # `dev`方法
@@ -52,11 +27,16 @@ class main:
         title = '项目计划/开发记录' if fp.find('note')>0 else '学习资料/参考链接'
         data = {'slink':slink, 'fp':fp, 'title':title}
         return data
-        '''
-        sread = files.get("../README.md")
-        data = {'sread':sread}
+
+    def udirAct(self):
+        data = {}
+        data['d'] = {'tpname':'dir', 'message':'/front/blog'} # dir
         return data
-        '''
+
+    def uerrAct(self):
+        data = {}
+        data['d'] = {'code':500, 'message':'Test-500 Message'} # err
+        return data
 
     # `detail`方法
     def _detailAct(self):
@@ -73,5 +53,9 @@ class main:
 
 
 '''
-
+    data['d'] = {}
+    #data['d'] = {'tpname':'json'} # 指定模板
+    #data['d'] = {'tpname':'xml'} # 指定模板
+    #data['d'] = {'tpname':'dir', 'message':'/front/blog'} # dir
+    #data['d'] = {'code':500, 'message':'500 Message'} # dir
 '''
