@@ -1,32 +1,13 @@
 ﻿
 
-抓取百度搜索结果
 
-http://blog.csdn.net/wn314/article/details/76595472
- 爬取百度搜索结果的爬虫
+* /front/blog                  --- ...
 
-https://segmentfault.com/q/1010000003589827?sort=created
-python如何获取百度搜索结果的真实URL
+* /front/pa-diy                --- ...
 
-urllib ureq
-flask freq
+* 多线程                       --- ??? 
 
-* 去掉 g 的依赖
 
-* cjfang.py                                    --- ok 
- - _exts
-
-* img-save                                     --- ok 
-
-* pa- :                                        --- ??? 
- - pic, link, diy
-
-* ImportError: No module named '_ctrls.cjCtrl'  --- ok 
- -  # v2 # /veiws/_ctrls/root_homeCtrl.py     
-
-* 多线程                                       --- ??? 
-
- 
 --------------------------------------- 
 
 PHP是世界上最好的Web语言
@@ -57,64 +38,8 @@ Python
 
 --------------------------------------- 
 
-爬虫：
-爬风景，爬美女，爬链接
-专业采集某网站：类别（地区等），信息列表，信息详情，关联图片……
 
-* 爬，不是偷窃！尊重版权，分享技术，仅此而已
-* 生活是艰难的：甚至需要爬行；
-  这里，爬网页，爬知识，是有乐趣的：缓存网页结果，类似jQuery选择器取资料，多进程执行……
-* 申明：所有爬取的图片文字等资源，版权等属于目标网站或原版权所有者；
-  这里，仅为演示功能，分享技术！
-
---------------------------------------- 
-
-# /read
-
-定义：微爬(Wepy,Wepthon)
-基于 xx 开发
-基于MKV控制器/方法扩展，分组扩展
-环境需求：
-下载安装：
-
-# /info
-
-# /link
-  项目计划/开发记录
-  学习资料/参考链接
-
-# /error
-错误处理：无模板，禁止访问
-
-# /coder?fp=/views/xxx, 
-
-# plus: qrcode, vcode, map, jsbase, 
-
-------------
-
-* /test/首页说明
- - 分组group扩展说明
- - mkv分组
- - db分组
- - 返回扩展
- ================== 
- - url : error, static
- - json, xml, jsonp
- - db : n
- - blog + catalog
- - 
-
-# /front/ 首页说明
- - /front/blog
- - /front/blog-add
- - /front/blog-login
- - 
-
-# /admin/ 
- - 首页
- - 登陆页
-
-========================
+=======================================
 
 
 -- 2018-03-09 07:43:30
