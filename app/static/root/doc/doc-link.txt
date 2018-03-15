@@ -1,6 +1,9 @@
 ﻿
 ------------------------------------ 
 
+http://www.jb51.net/article/118001.htm
+Python中动态检测编码chardet的使用教程
+
 http://www.runoob.com/python/python-2x-3x.html
 Python2.x与3​​.x版本区别
 
