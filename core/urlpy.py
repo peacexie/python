@@ -7,7 +7,7 @@ from urllib import parse, request as ureq
 #from posixpath import normpath
 
 # head : {"Accept-Encoding":"gzip"}
-def page(url, cset='utf-8', ziped=0, head={}):
+def page(url, cset='', ziped=0, head={}):
     agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
     if head:
         head = dict(agent, **head)
@@ -16,6 +16,7 @@ def page(url, cset='utf-8', ziped=0, head={}):
     if ziped>0:
         dbyte = io.BytesIO(data)
         data = gzip.GzipFile(fileobj=dbyte, mode="rb").read()
+    cset = fxcset(data, cset)
     html = data.decode(cset, 'ignore')
     return html
 
@@ -35,7 +36,17 @@ def svurl(url, sdir, file='', path='./_cache'):
 def fxurl(url, base=''):
     url = parse.urljoin(base, url)
     return url
-    pass
+
+# 获取编码设置(注意不是字符串,不依赖chardet )
+def fxcset(data, cset=''):
+    if cset:
+        return cset
+    p1 = data.find(b'charset')
+    s1 = data[p1:p1+36]
+    s2 = s1[0:s1.find(b'>')]
+    s3 = s2.decode('utf-8')
+    cset = s3.replace('charset','').replace('"','').replace("'",'').replace(' ','')
+    return cset.lower()
 
 # --- 以下函数,尽量使用PyQuery代替,这里出现只是练习的意义 --- 
 

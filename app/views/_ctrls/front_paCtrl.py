@@ -77,7 +77,7 @@ class main:
         data = {'res':res, 'url':xurl}
         return data
 
-    def rhtml(self, url, scet='utf-8', cache=6):
+    def rhtml(self, url, scet='', cache=6):
         #cache = 0.0001
         fp = g.dir['cache'] + '/pages/' + files.autnm(url, 1)
         ok = files.tmok(fp, cache)
