@@ -1,6 +1,6 @@
 
-#cd group
-#run.py
+#cd app
+#webc.py
 
-cd group
+cd app
 cmd
