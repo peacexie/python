@@ -79,7 +79,7 @@ class main:
 
     def rhtml(self, url, scet='utf-8', cache=6):
         #cache = 0.0001
-        fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
+        fp = g.dir['cache'] + '/pages/' + files.autnm(url, 1)
         ok = files.tmok(fp, cache)
         if ok:
             html = files.get(fp, 'utf-8')

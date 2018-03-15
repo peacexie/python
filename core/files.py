@@ -21,29 +21,19 @@ def put(fp, data):
     f.close()
 
 # 自动文件名
-def autnm(url):
+def autnm(url, full=0):
     if len(url)==0:
         url = 'index.htm'
-    file = os.path.basename(url) # file.php?mod=ext&key=key
-    file = file.replace('?', '---').replace('/', '!').replace('&',',')
-    reg = r'\.(jpg|jpeg|gif|png|htm|html)$'
-    if not re.findall(reg, file):
-        file += '.htm';
-    return file
-
-def fulnm(url):
-    tmp = parse.urlsplit(url)
-    file = tmp[1] +'---'+ tmp[2].replace('/','!')
-    if len(tmp[3])>0:
-        file += '---'+ tmp[3].replace('&',',')
-    if len(file)>160:
+    file = re.sub("http(s)?://",'',url) if full else os.path.basename(url)
+    file = file.replace('/','!').replace('?','---').replace('&',',')
+    file = re.sub('[:*"<>|]','`',file)
+    if len(file)>160: # /|\?& :*<>
         m5 = hashlib.md5(file.encode("latin1")).hexdigest()
         file = file[:60] +'---'+ m5 +'---'+ file[-60:]
     reg = r'\.(jpg|jpeg|gif|png|htm|html)$'
     if not re.findall(reg, file):
         file += '.htm';
     return file
-    pass
 
 # 未超时判断
 def tmok(fp, tmout=6):

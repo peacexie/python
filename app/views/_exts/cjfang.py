@@ -333,7 +333,7 @@ def mapp(fid=''):
 
 def ritms(url, dkey):
     #url = 'http://newhouse.jx.fang.com/house/s/'
-    fp = g.dir['cache'] + '/pages/' + files.fulnm(url)
+    fp = g.dir['cache'] + '/pages/' + files.autnm(url, 1)
     ok = files.tmok(fp, 720)
     if ok:
         html = files.get(fp, 'utf-8')
