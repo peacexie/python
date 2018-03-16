@@ -4,7 +4,7 @@ import copy, re
 from core import argv, dbop, files, urlpy
 from _exts import cjfang
 from urllib import parse
-from flask import request, g
+from flask import request, g, flash, session
 from pyquery import PyQuery as pyq
 
 # main名称固定
@@ -19,9 +19,9 @@ class main:
 
     def indexAct(self):
         cid = argv.get('cid')
+        sfrom = 'SELECT * FROM {article}'
         data = self.data
         data['catalog'] = self.db.get('SELECT * FROM {catalog}')
-        sfrom = 'SELECT * FROM {article}'
         if cid:
             data['blog'] = self.db.get(sfrom+' WHERE cid=? ORDER BY id DESC', (cid,), 20)
         else:
@@ -38,82 +38,94 @@ class main:
         data['cdic'] = cdic
         return data
 
-    def picAct(self):
-        wd = argv.get('wd')
-        if len(wd)==0:
-            wd = '绿色风景'
-        swd = parse.quote(wd)
-        urlb = 'https://image.baidu.com/search/flip?tn=baiduimage&ie=utf-8&word='
-        url = urlb + swd
-        html = self.rhtml(url)
-        reg = r'"thumbURL"\:"([^\"]+)"'
-        itms = re.findall(reg, html, re.S|re.M)
-        data = {'res':itms, 'wd':wd}
+    def loginAct(self): # +<out>
+        data = self.data
+        act = argv.get('act')
+        # logout
+        if act=="out":
+            session.pop('logged', None)
+            flash('You were logged out!')
+            data['d'] = {'tpname':'dir', 'message':'/front/blog'}
+        # login
+        msg = 'Please login!' if not session.get('logged') else 'Your are logged!'
+        if request.method == 'POST':
+            if request.form['user'] != g.exdb['user']:
+                msg = 'Invalid username'
+            elif request.form['pass'] != g.exdb['pass']:
+                msg = 'Invalid password'
+            else:
+                session['logged'] = True
+                flash('You were logged in')
+                data['d'] = {'tpname':'dir', 'message':'/front/lists'}
+        data['msg'] = msg
         return data
 
-    def nipAct(self):
-        url = 'http://www.weather.com.cn/html/weather/101281601.shtml'
-        html = self.rhtml(url)
-        doc = pyq(html)
-        lis = doc('.greatEvent li')
-        itms = []
-        for li in lis:
-            link = pyq(li).find('a').attr('href')
-            img = pyq(li).find('img').attr('src')
-            title = pyq(li).find('h2').text()
-            if not img:
-                continue
-            itms.append({'img':img, 'link':link, 'title':title})
-        return itms
-
-    # `link`方法
-    def linkAct(self):
-        durl = 'http://txmao.txjia.com/dev.php'
-        xurl = argv.get('url', durl)
-        html = self.rhtml(xurl)
-        doc = pyq(html)
-        itms = doc('a')
-        res = []
-        for itm in itms:
-            url = pyq(itm).attr('href')
-            url = urlpy.fxurl(url, durl)
-            title = pyq(itm).text()
-            res.append({'url':url, 'title':title})
-        data = {'res':res, 'url':xurl}
+    def listsAct(self): # +<del>
+        data = self.data
+        if not session.get('logged'):
+            data['d'] = {'tpname':'dir', 'message':'/front/blog'}
         return data
 
-    # `diy`方法
-    def diyAct(self):
-        s1st = argv.get('s1st', 'ul')
-        s2nd = argv.get('s2nd', 'li')
-        satt = argv.get('satt', '') # html(),text(),href,title,width,
-        durl = 'http://txmao.txjia.com/dev.php'
-        xurl = argv.get('url', durl);
-        html = self.rhtml(xurl)
-        doc = pyq(html)
-        parts = doc(s1st) # div
-        res = {}; no = 0; 
-        for part in parts:
-            # one-part
-            # end-part
-            no += 1
-            res['part'+str(no)] = sres
-        data = {'res':res, 'url':xurl, 's1st':s1st, 's2nd':s2nd, 'satt':satt}
+    # `form`方法
+    def formAct(self): # add/edit
+        data = self.data
         return data
-
-    def rhtml(self, url, scet='', cache=6):
-        #cache = 0.0001
-        fp = g.dir['cache'] + '/pages/' + files.autnm(url, 1)
-        ok = files.tmok(fp, cache)
-        if ok:
-            html = files.get(fp, 'utf-8')
-            html = files.get(fp)
-        else:
-            html = urlpy.page(url, scet)
-            files.put(fp, html)
-        return html
-        #
 
 '''
+
+from flask import Flask, request, g, render_template, \
+    redirect, url_for, abort, flash, session
+
+# create our little application :)
+app = Flask(__name__, template_folder='tpls')
+config.app(app, _cfgs)
+
+@app.before_request
+def before_request():
+    g.db = dbop.conn(_cfgs)
+
+@app.teardown_request
+def teardown_request(exception):
+    g.db.close()
+
+
+@app.route('/')
+def lists():
+    cur = g.db.execute('select title, text from entries order by id desc')
+    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('blog/lists.htm', entries=entries)
+
+@app.route('/add', methods=['POST'])
+def add_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('insert into entries (title, text) values (?, ?)',
+                 [request.form['title'], request.form['text']])
+    g.db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('lists'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != _cfgs['blog']['user']:
+            error = 'Invalid username'
+        elif request.form['password'] != _cfgs['blog']['pass']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('lists'))
+    return render_template('blog/login.htm', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('lists'))
+
+if __name__ == '__main__':
+    app.run()
 
 '''
