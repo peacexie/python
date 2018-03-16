@@ -5,7 +5,15 @@
 
 {% block head %}
     <h1>blog-首页</h1>
-    <p>Sqlite博客 --- 登陆 - 管理 - 登出</p>
+    <p>
+        Sqlite博客 --- 
+        {% if session.logged %}
+        <a href="./blog-lists">管理</a> - 
+        <a href="./blog-login?act=out">登出</a> 
+        {% else %}
+        <a href="./blog-login">登陆</a> 
+        {% endif %}
+    </p>
 {% endblock %}
 
 {% block main %}
