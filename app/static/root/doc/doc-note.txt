@@ -4,8 +4,8 @@
 
 * /front/blog                  --- ...
  - (home)         - ok
- - login,<out>    - ok
- - lists,<del>    - 
+ - login,<out>    - ok ??? 登陆 seesion 
+ - lists,<del>    - ok
  - form:add/edit  - 
 
 * /front/pa-diy                --- ok

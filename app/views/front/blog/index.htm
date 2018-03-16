@@ -7,7 +7,7 @@
     <h1>blog-首页</h1>
     <p>
         Sqlite博客 --- 
-        {% if session.logged %}
+        {% if g.ses['logged'] %}
         <a href="./blog-lists">管理</a> - 
         <a href="./blog-login?act=out">登出</a> 
         {% else %}

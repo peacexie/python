@@ -40,23 +40,23 @@ class main:
         act = argv.get('act')
         # logout
         if act=="out":
-            #session.pop('logged', None)
-            session['logged'] = False
+            #session['logged'] = False
+            g.ses['logged'] = ''
             flash('You were logged out!')
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
         # login
-        msg = 'Please login!' if not session.get('logged') else 'Your are logged!'
+        msg = 'Please login!' if not g.ses['logged'] else 'Your are logged!'
         if request.method == 'POST':
             if request.form['user'] != g.exdb['user']:
                 msg = 'Invalid username'
             elif request.form['pass'] != g.exdb['pass']:
                 msg = 'Invalid password'
             else:
-                session['logged'] = True
-                msg = 'Login OK!'
-                print(session)
-                #flash('You were logged in')
-                #data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+                #session['logged'] = True
+                g.ses['logged'] = True
+                #msg = 'Login OK!'
+                flash('You were logged in')
+                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
         data['msg'] = msg
         return data
 
@@ -64,13 +64,13 @@ class main:
         data = self.data
         act = argv.get('act')
         # check
-        if not session.get('logged'):
+        if not g.ses['logged']:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data
         # logout
         if act=="del":
-            did = argv.get('did')
-            self.db.exe('DELETE FROM {catalog} WHERE id=?',(did,))
+            did = argv.get('id')
+            self.db.exe('DELETE FROM {article} WHERE id=?',(did,))
             data['d'] = {'tpname':'dir', 'message':'/front/blog-lists?cid=&page=&kw='}
             return data
         # lists
@@ -86,7 +86,7 @@ class main:
     def formAct(self): # add/edit
         data = self.data
         # check
-        if not session.get('logged'):
+        if not g.ses['logged']:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data
         # row

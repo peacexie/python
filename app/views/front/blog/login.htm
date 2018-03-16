@@ -12,8 +12,6 @@
 
 <div class="out">
 
-{{ session }}
-
 <form name="fms1" method="post" action="?">
 <div class="in">
     <h2><span class="tg1">login</span>登陆</h2>
@@ -23,8 +21,20 @@
         <p>密码: <input type="text" name="pass" style="width:50%"> 123456</p>
         <p class="tc"><input type="submit" name="submit" id="button" value="登陆"></p>
     </div>
+
 </div>
 </form>
+
+<div class="in">
+    <h2><span class="tg1">notes</span>说明</h2>
+    <div>
+        <p class="cF00">
+            登录：使用session在Blueprint里居然失败了... 
+            现在暂时用了个全局变量 g.ses['logged'], 成了一个但用户版了...
+        </p>
+        <p class="cF00">欠揍！这个blog分页还没有做好！</p>
+    </div>
+</div>
 
 </div><!--end.out-->
 
