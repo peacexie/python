@@ -4,7 +4,6 @@
 import sys, os, io, re, gzip
 from core import files
 from urllib import parse, request as ureq
-#from posixpath import normpath
 
 # head : {"Accept-Encoding":"gzip"}
 def page(url, cset='', ziped=0, head={}):

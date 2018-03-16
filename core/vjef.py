@@ -1,7 +1,7 @@
 
 import sys, os, time
-from flask import g
 from core import dbop
+from flask import g
 
 # fef=jinja_env.filters=jinja过滤器
 

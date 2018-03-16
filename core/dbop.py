@@ -1,7 +1,6 @@
 
 from flask import g
 import imp # 动态加载: pymysql, sqlite3, pymssql ... 
-#from contextlib import closing
 
 class dbm:
     def __init__(self, cfgs={}):

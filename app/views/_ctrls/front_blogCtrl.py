@@ -40,7 +40,8 @@ class main:
         act = argv.get('act')
         # logout
         if act=="out":
-            session.pop('logged', None)
+            #session.pop('logged', None)
+            session['logged'] = False
             flash('You were logged out!')
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
         # login
@@ -51,10 +52,11 @@ class main:
             elif request.form['pass'] != g.exdb['pass']:
                 msg = 'Invalid password'
             else:
-                session['logged'] = 'True'
-                #session.pop('logged_in', True)
-                flash('You were logged in')
-                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+                session['logged'] = True
+                msg = 'Login OK!'
+                print(session)
+                #flash('You were logged in')
+                #data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
         data['msg'] = msg
         return data
 

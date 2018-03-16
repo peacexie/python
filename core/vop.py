@@ -50,7 +50,7 @@ def areg(app, cfgs):
 
 # 注册Blueprint
 def breg(app, cfgs, group, file=0):
-    sview = Blueprint(group, '_'+group.replace('.','_'))
+    sview = Blueprint('__bp_'+group, __name__)
     gfix = ''
     if file==0:
         @sview.route('/')
