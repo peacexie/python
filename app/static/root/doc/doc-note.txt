@@ -3,8 +3,8 @@
 
 * /front/blog                  --- ...
 
-* /front/pa-diy                --- ...
- - 爬链接 : 编码设置
+* /front/pa-diy                --- ok
+ - 爬链接 : 编码设置 - ok
 
 * 多线程                       --- ??? 
 

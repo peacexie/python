@@ -17,41 +17,40 @@
 <div class="in">
     <h2><span class="tg1"><a href="./pa">返回</a></span>采集配置</h2>
     <div>
-        <p>Url ：
-        <a href="/front/cj-attr?act=view">查看</a>，
-        <a href="/front/cj-attr?act=test">测试</a>，
-        <a href="/front/cj-attr?act=done">执行</a>
+        <p class="tc">
+        <a href="?url=http://news.baidu.com/">news.baidu.com</a> - 
+        <a href="?url=http://dg.fzg360.com/">dg.fzg360.com</a> - 
+        <a href="?url=http://www.08cms.com/">www.08cms.com</a> - 
+        <a href="?url=http://txmao.txjia.com/dev.php">txmao.txjia.com</a>
         </p>
-        <p>dmkey ： 
-        <a href="/front/cj-url?act=view">查看</a>，
-        <a href="/front/cj-url?act=test">测试</a>，
-        <a href="/front/cj-url?act=done">执行</a>
+        <p>URL地址 ： 
+        <a href="{{ d.data.url }}" target="_blank">{{ d.data.url }}</a>
         </p>
-        <p>key1 ：
-        <a href="/front/cj-data?act=view">查看</a>，
-        <a href="/front/cj-data?act=test">测试</a>，
-        <a href="/front/cj-data?act=done">执行</a>
-        </p>
-        <p>key2 ： 
-        <a href="/front/cj-img?act=view">查看</a>，
-        <a href="/front/cj-img?act=test">测试</a>，
-        <a href="/front/cj-img?act=done">执行</a>，
-        <a href="/front/cj-img?act=save">保存</a>
+        <p>
+            <form name="fms1" method="get" action="?">
+                <input type="text" name="url" value="{{ d.data.url }}" placeholder="url" style="width:99%">
+                <br>
+                <input type="text" name="s1st" value="{{ d.data.s1st }}" placeholder="主选择器,如: div" style="width:20%">
+                <input type="text" name="s2nd" value="{{ d.data.s2nd }}" placeholder="子选择器,如: a" style="width:20%">
+                <input type="text" name="satt" value="{{ d.data.satt }}" placeholder="属性,如: html(),text(),href,title,width" style="width:20%">
+                <input type="submit" name="submit" id="button" value="爬爬" style="width:60px">
+            </form>
         </p>
     </div>
 </div>
 
+{% for key in d.data.res %}
 <div class="in">
-    <h2><span class="tg1">result</span>执行结果</h2>
-    {% for no in d.data %}
+    <h2><span class="tg1">{{ d.data.res[key]|count() }}</span>{{ key }}</h2>
     <div>
-        <p style="background:#CCC"> --- {{ no }}</p>
-        {% for key in d.data[no] %}
-        <p>{{ key }} = {{ d.data[no][key] }}</p>
+        <p>
+        {% for itm in d.data.res[key] %}
+        {{ itm|safe }}, 
         {% endfor %}
+        </p>
     </div>
-    {% endfor %}
 </div>
+{% endfor %}
 
 </div><!--end.out-->
 

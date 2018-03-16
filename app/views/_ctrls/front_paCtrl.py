@@ -43,28 +43,10 @@ class main:
             itms.append({'img':img, 'link':link, 'title':title})
         return itms
 
-    # `diy`方法
-    def diyAct(self):
-        url = 'http://txmao.txjia.com/dev/start.htm'
-        dmkey = '.mod-section'
-        key1 = 'li:first'
-        key2 = 'ul'
-        html = self.rhtml(url)
-        doc = pyq(html) # url=r''+url
-        itms = doc(dmkey)
-        res = {}; no = 0;
-        for itm in itms:
-            url = itm[0]
-            val1 = pyq(itm).find(key1).html()
-            val2 = pyq(itm).find(key2).html()
-            res['no:'+str(no)] = {'key1['+key1+']':val1, 'key2['+key2+']':val2}
-            no += 1
-        return res
-
     # `link`方法
     def linkAct(self):
         durl = 'http://txmao.txjia.com/dev.php'
-        xurl = argv.get('url', durl);
+        xurl = argv.get('url', durl)
         html = self.rhtml(xurl)
         doc = pyq(html)
         itms = doc('a')
@@ -75,6 +57,44 @@ class main:
             title = pyq(itm).text()
             res.append({'url':url, 'title':title})
         data = {'res':res, 'url':xurl}
+        return data
+
+    # `diy`方法
+    def diyAct(self):
+        s1st = argv.get('s1st', 'div')
+        s2nd = argv.get('s2nd', 'a')
+        satt = argv.get('satt', '') # html(),text(),href,title,width,
+        durl = 'http://txmao.txjia.com/dev.php'
+        xurl = argv.get('url', durl);
+        html = self.rhtml(xurl)
+        doc = pyq(html)
+        parts = doc(s1st) # div
+        res = {}; no = 0
+        for part in parts:
+            # one-part
+            itms = pyq(part).find(s2nd)
+            if not itms:
+                continue
+            sres = []
+            for itm in itms:
+                if satt=='html()':
+                    val = pyq(itm).html()
+                elif satt=='text()':
+                    val = pyq(itm).text()
+                elif len(satt)>0:
+                    val = pyq(itm).attr(satt)
+                else:
+                    val = pyq(itm).html()
+                if val and '<img' in val:
+                    reg = r'src=[\'\"]?([^\'\"]+\.(jpg|gif|png))[\'\"]?'
+                    pics = re.findall(reg, val, re.S|re.M)
+                    val = '<img width=120 src="'+pics[0][0]+'" />' if pics else '';
+                if val:
+                    sres.append(val)
+            # end-part
+            no += 1
+            res['part'+str(no)] = sres
+        data = {'res':res, 'url':xurl, 's1st':s1st, 's2nd':s2nd, 'satt':satt}
         return data
 
     def rhtml(self, url, scet='', cache=6):

@@ -44,7 +44,7 @@ def fxcset(data, cset=''):
     p1 = data.find(b'charset')
     s1 = data[p1:p1+36]
     s2 = s1[0:s1.find(b'>')]
-    s3 = s2.decode('utf-8')
+    s3 = s2.decode() # 'utf-8'
     cset = s3.replace('charset','').replace('"','').replace("'",'').replace(' ','')
     return cset.lower()
 

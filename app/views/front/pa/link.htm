@@ -7,7 +7,7 @@
 
 {% block head %}
     <h1>爬URL地址</h1>
-    <p>txmao.txjia.com</p>
+    <p>{{ d.data.url }}</p>
 {% endblock %}
 
 {% block main %}
@@ -17,8 +17,14 @@
 <div class="in">
     <h2><span class="tg1"><a href="./pa">返回</a></span>爬URL地址</h2>
     <div>
+        <p class="tc">
+        <a href="?url=http://news.baidu.com/">news.baidu.com</a> - 
+        <a href="?url=http://dg.fzg360.com/">dg.fzg360.com</a> - 
+        <a href="?url=http://www.08cms.com/">www.08cms.com</a> - 
+        <a href="?url=http://txmao.txjia.com/dev.php">txmao.txjia.com</a>
+        </p>
         <p>URL地址 ： 
-        <a href="http://txmao.txjia.com/dev.php" target="_blank">{{ d.data.url }}</a>
+        <a href="{{ d.data.url }}" target="_blank">{{ d.data.url }}</a>
         </p>
         <p>
             <form name="fms1" method="get" action="?">
