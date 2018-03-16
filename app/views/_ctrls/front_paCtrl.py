@@ -69,7 +69,7 @@ class main:
         html = self.rhtml(xurl)
         doc = pyq(html)
         parts = doc(s1st) # div
-        res = {}; no = 0
+        res = {}; no = 0; 
         for part in parts:
             # one-part
             itms = pyq(part).find(s2nd)
@@ -91,6 +91,7 @@ class main:
                     val = '<img width=120 src="'+pics[0][0]+'" />' if pics else '';
                 if val:
                     sres.append(val)
+                    #print(val);
             # end-part
             no += 1
             res['part'+str(no)] = sres
