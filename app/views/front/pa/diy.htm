@@ -18,10 +18,10 @@
     <h2><span class="tg1"><a href="./pa">返回</a></span>采集配置</h2>
     <div>
         <p class="tc">
-        <a href="?url=http://news.baidu.com/">news.baidu.com</a> - 
+        <a href="?url=http://news.baidu.com/&s1st=div&s2nd=li&satt=">news.baidu.com</a> - 
         <a href="?url=http://dg.fzg360.com/&s1st=.veditor&s2nd=li&satt=">dg.fzg360.com</a> - 
         <a href="?url=http://www.08cms.com/html/service/&s1st=.item&s2nd=.middbox&satt=">www.08cms.com</a> - 
-        <a href="?url=http://txmao.txjia.com/dev.php">txmao.txjia.com</a>
+        <a href="?url=http://txmao.txjia.com/dev.php&s1st=ul&s2nd=li&satt=">txmao.txjia.com</a>
         </p>
         <p>URL地址 ： 
         <a href="{{ d.data.url }}" target="_blank">{{ d.data.url }}</a>
@@ -31,8 +31,8 @@
                 <input type="text" name="url" value="{{ d.data.url }}" placeholder="url" style="width:99%">
                 <br>
                 <input disabled value="主选择器(如:`div`,`.class1`)" style="width:20%">
-                <input disabled value="子选择器(如:`a`,`li`,`.class2`)" style="width:20%"> 
-                <input disabled value="属性(如:`html()`,`text()`,`href`,`title`,`width`)" style="width:20%">
+                <input disabled value="子选择器(如:`li`,`a`,`.cls2`)" style="width:20%"> 
+                <input disabled value="属性(如:`html()`,`text()`,`href`,`data-pic`)" style="width:20%">
                 <br>
                 <input type="text" name="s1st" value="{{ d.data.s1st }}" placeholder="" style="width:20%">
                 <input type="text" name="s2nd" value="{{ d.data.s2nd }}" placeholder="" style="width:20%">

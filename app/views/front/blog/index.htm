@@ -12,25 +12,49 @@
 
 <div class="out">
 
-<p class="tc cF00">欠揍！这个blog模块还没有做好！</p>
-
 <div class="in">
-    <h2><span class="tg1">joke</span>-搞笑</h2>
-    <div>
-        <p>xxx</p>
-        <p>xxx</p>
-        <p>xxx</p>
+    <h2><span class="tg1">catalog</span>(栏目)</h2>
+    <div class="tc">
+        <a href="./blog">[Blog]</a> 
+        {% for itm in d.data.catalog %}
+        - <a href="./blog?cid={{ itm['kid'] }}">{{ itm['title'] }}</a> 
+        {% endfor %}
     </div>
 </div>
 
-<div class="in">
-    <h2><span class="tg1">study</span>*学习</h2>
-    <div>
-        <p>xxx</p>
-        <p>xxx</p>
-        <p>xxx</p>
+{% if d.data.cid: %}
+
+    <div class="in">
+        <h2><span class="tg1">{{ d.data.cid }}</span>{{ d.data.cdic[d.data.cid] }}</h2>
+        <div>
+            {% for itm in d.data.blog %}
+            <p>
+                <i class="r"><a xhref="">{{ itm['id'] }}</a></i>
+                <b>{{ itm['title'] }}</b> <br> <span class="c999">{{ itm['detail'] }}</span>
+            </p>
+            {% endfor %}
+        </div>
     </div>
-</div>
+
+{% else: %}
+
+    {% for part in d.data.parts %}
+    <div class="in">
+        <h2><span class="tg1">{{ part }}</span>{{ d.data.cdic[part] }}</h2>
+        <div>
+            {% for itm in d.data.parts[part] %}
+            <p>
+                <i class="r"><a xhref="">{{ itm['id'] }}</a></i>
+                <b>{{ itm['title'] }}</b> <br> <span class="c999">{{ itm['detail'] }}</span>
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+{% endif %}
+
+<p class="tc cF00">欠揍！这个blog分页还没有做好！</p>
 
 </div><!--end.out-->
 

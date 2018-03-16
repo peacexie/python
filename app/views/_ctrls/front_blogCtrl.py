@@ -14,6 +14,29 @@ class main:
     def __init__(self, app):
         self.app = app
         self.data = {}
+        cdb = dict(copy.deepcopy(g.cdb), **g.exdb)
+        self.db = dbop.dbm(cdb)
+
+    def indexAct(self):
+        cid = argv.get('cid')
+        data = self.data
+        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
+        sfrom = 'SELECT * FROM {article}'
+        if cid:
+            data['blog'] = self.db.get(sfrom+' WHERE cid=? ORDER BY id DESC', (cid,), 20)
+        else:
+            parts = {}
+            for itm in data['catalog']:
+                blogs = self.db.get(sfrom+' WHERE cid=? ORDER BY id DESC', (itm['kid'],), 5)
+                if blogs:
+                    parts[itm['kid']] = blogs
+            data['parts'] = parts
+        data['cid'] = cid
+        cdic = {}
+        for itm in data['catalog']:
+            cdic[itm['kid']] = itm['title']
+        data['cdic'] = cdic
+        return data
 
     def picAct(self):
         wd = argv.get('wd')
@@ -72,26 +95,6 @@ class main:
         res = {}; no = 0; 
         for part in parts:
             # one-part
-            itms = pyq(part).find(s2nd)
-            if not itms:
-                continue
-            sres = []
-            for itm in itms:
-                if satt=='html()':
-                    val = pyq(itm).html()
-                elif satt=='text()':
-                    val = pyq(itm).text()
-                elif len(satt)>0:
-                    val = pyq(itm).attr(satt)
-                else:
-                    val = pyq(itm).html()
-                if val and '<img' in val:
-                    reg = r'src=[\'\"]?([^\'\"]+\.(jpg|gif|png))[\'\"]?'
-                    pics = re.findall(reg, val, re.S|re.M)
-                    val = '<img width=120 src="'+pics[0][0]+'" />' if pics else '';
-                if val:
-                    sres.append(val)
-                    #print(val);
             # end-part
             no += 1
             res['part'+str(no)] = sres

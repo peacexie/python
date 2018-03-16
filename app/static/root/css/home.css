@@ -1,4 +1,7 @@
 
+.c999, a.c999:link, a.c999:visited {
+    color: #999;
+}
 .cCCC, a.cCCC:link, a.cCCC:visited {
     color: #CCC;
 }

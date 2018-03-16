@@ -2,6 +2,10 @@
 
 
 * /front/blog                  --- ...
+ - (home)         - ok
+ - login,<out>    - 
+ - lists,<del>    - 
+ - form:add/edit  - 
 
 * /front/pa-diy                --- ok
  - 爬链接 : 编码设置 - ok
