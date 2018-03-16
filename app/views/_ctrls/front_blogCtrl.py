@@ -56,14 +56,23 @@ class main:
             else:
                 session['logged'] = True
                 flash('You were logged in')
-                data['d'] = {'tpname':'dir', 'message':'/front/lists'}
+                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
         data['msg'] = msg
         return data
 
     def listsAct(self): # +<del>
         data = self.data
+        # check
         if not session.get('logged'):
+            #pass
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
+        # lists
+        cid = argv.get('cid')
+        data['cid'] = cid
+        sfrom = 'SELECT * FROM {article}'
+        where = "cid='"+cid+"'" if cid else '1=1' # 安全???
+        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
+        data['blog'] = self.db.get(sfrom+' WHERE '+where+' ORDER BY id DESC', (), 20)
         return data
 
     # `form`方法
