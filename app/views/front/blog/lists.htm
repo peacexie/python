@@ -27,7 +27,7 @@
     <div>
         {% for itm in d.data.blog %}
         <p>
-            <i class="r"><a href="./blog-lists?act=del&id={{ itm['id'] }}"></a></i>
+            <i class="r"><a href="./blog-lists?act=del&id={{itm['id']}}"></a></i>
             <b>{{ itm['title'] }}</b> <br> <span class="c999">{{ itm['detail'] }}</span>
         </p>
         {% endfor %}
