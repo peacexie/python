@@ -9,7 +9,7 @@
         Sqlite博客 --- 
         {% if g.ses['logged'] %}
         <a href="./blog-lists">管理</a> - 
-        <a href="./blog-login?act=out">登出</a> 
+        <a href="./blog-login?act=out" id='out'>登出</a> 
         {% else %}
         <a href="./blog-login">登陆</a> 
         {% endif %}
@@ -23,7 +23,7 @@
 <div class="in">
     <h2><span class="tg1">catalog</span>(栏目)</h2>
     <div class="tc">
-        <a href="./blog">[Blog]</a> 
+        <a href="./blog">[All]</a> 
         {% for itm in d.data.catalog %}
         - <a href="./blog?cid={{ itm['kid'] }}">{{ itm['title'] }}</a> 
         {% endfor %}
@@ -37,8 +37,9 @@
         <div>
             {% for itm in d.data.blog %}
             <p>
-                <i class="r"><a xhref="">{{ itm['id'] }}</a></i>
-                <b>{{ itm['title'] }}</b> <br> <span class="c999">{{ itm['detail'] }}</span>
+                <i class="r">{{ itm['id'] }}</i>
+                <b><a href="./blog.{{itm['id']}}">{{ itm['title'] }}</a></b> 
+                <br> <span class="c999">{{ itm['detail'] }}</span>
             </p>
             {% endfor %}
         </div>
@@ -52,8 +53,9 @@
         <div>
             {% for itm in d.data.parts[part] %}
             <p>
-                <i class="r"><a xhref="">{{ itm['id'] }}</a></i>
-                <b>{{ itm['title'] }}</b> <br> <span class="c999">{{ itm['detail'] }}</span>
+                <i class="r">{{ itm['id'] }}</i>
+                <b><a href="./blog.{{itm['id']}}">{{ itm['title'] }}</a></b> 
+                <br> <span class="c999">{{ itm['detail'] }}</span>
             </p>
             {% endfor %}
         </div>
@@ -62,7 +64,7 @@
 
 {% endif %}
 
-<p class="tc cF00">欠揍！这个blog分页还没有做好！</p>
+<p class="tc cF00">Blog完成基本的增删改操作；简单模拟登陆，分页还没有做！</p>
 
 </div><!--end.out-->
 

@@ -1,0 +1,27 @@
+
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}<title>博客详情 - {{ g.sys['title']}}</title>{% endblock %}
+
+{% block head %}
+    <h1>博客详情</h1>
+    <p>
+        detail --- <a href="./blog">返回</a>
+    </p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">{{ d.data.cdic[d.data.row.cid] }}</span>{{ d.data.row['title'] }}</h2>
+    <div style="padding:10px; line-height:150%">
+        {{ d.data.row['detail']|safe }}
+    </div>
+
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}

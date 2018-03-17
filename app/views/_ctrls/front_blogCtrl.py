@@ -44,6 +44,7 @@ class main:
             g.ses['logged'] = ''
             flash('You were logged out!')
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
+            return data
         # login
         msg = 'Please login!' if not g.ses['logged'] else 'Your are logged!'
         if request.method == 'POST':
@@ -53,7 +54,7 @@ class main:
                 msg = 'Invalid password'
             else:
                 #session['logged'] = True
-                g.ses['logged'] = True
+                g.ses['logged'] = 1
                 #msg = 'Login OK!'
                 flash('You were logged in')
                 data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
@@ -69,8 +70,8 @@ class main:
             return data
         # logout
         if act=="del":
-            did = argv.get('id')
-            self.db.exe('DELETE FROM {article} WHERE id=?',(did,))
+            oid = argv.get('id')
+            self.db.exe('DELETE FROM {article} WHERE id=?',(oid,))
             data['d'] = {'tpname':'dir', 'message':'/front/blog-lists?cid=&page=&kw='}
             return data
         # lists
@@ -89,9 +90,46 @@ class main:
         if not g.ses['logged']:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data
+            #pass
+        # post
+        data['id'] = oid = argv.get('id')
+        if request.method == 'POST':
+            sql1 = 'INSERT INTO {article} (title,cid,detail) values (?,?,?)'
+            sql2 = 'UPDATE {article} SET title=?,cid=?,detail=? WHERE id=?'
+            title = request.form['title']
+            cid = request.form['cid']
+            detail = request.form['detail']
+            sp1 = (title, cid, detail)
+            sp2 = (title, cid, detail, oid)
+            res = self.db.exe(sql2, sp2) if oid else self.db.exe(sql1, sp1)
+            flash('New entry was successfully posted')
+            data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+            return data
         # row
-        eid = argv.get('id')
-        data['data'] = self.db.get(sfrom+' WHERE id=? ORDER BY id DESC', (eid,), 1)
+        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=? ORDER BY id DESC', (oid,), 1)
+        if not data['row']:
+            data['id'] = oid = ''
+        data['r_cid'] = data['row']['cid'] if data['row'] else ''
+        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
+        data['msg'] = '修改:id='+str(oid) if oid else '增加'
+        return data
+
+    # `_detail`方法
+    def _detailAct(self): # detail
+        data = self.data
+        data['id'] = oid = g.mkvs['key']
+        # row
+        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=? ORDER BY id DESC', (oid,), 1)
+        if not data['row']:
+            data['d'] = {'tpname':'dir', 'message':'/front/blog'}
+            return data
+        data['row']['detail'] = data['row']['detail'].replace('\n', '<br>\n').replace(' ', '&nbsp;')
+        # cdic
+        data['catalog'] = self.db.get('SELECT * FROM {catalog}') 
+        cdic = {}
+        for itm in data['catalog']:
+            cdic[itm['kid']] = itm['title']
+        data['cdic'] = cdic
         return data
 
 '''
