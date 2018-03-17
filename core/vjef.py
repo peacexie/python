@@ -1,5 +1,5 @@
 
-import sys, os, time
+import sys, os, time, random
 from core import dbop
 from flask import g
 
@@ -36,6 +36,9 @@ def info(p='', n=2):
     msg = stim + ', ' + stpl + ', ' + supd
     return msg
     # run:37.102/149.760(ms); 13(queries)/1.178(MB); tpl:c_page/_home; upd:2018-03-02 17:59:30
+
+def rnd(p=''):
+    return time.time() #g.run['timer'] random.random() #time.time()
 
 # 获取db资料
 # {% set arcs1 = g.db.get("SELECT * FROM {article}",(),1) %}
