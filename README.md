@@ -12,6 +12,26 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 环境需求：Python3+, Flask(Jinja2,Werkzeug), Mysql/Sqlite, PyQuery
 
 
+### 微爬(Wepy) - 安装配置
+
+* 环境安装
+  - 环境需求：Python3.5+, 
+  - 第三方模块：Flask, Mysql/Sqlite, PyQuery
+
+* 配置Mysql数据库（爬虫要用）
+  - 安装Mysql数据库
+  - 导入表数据：/trunk/app/data/wepy.sql
+
+* 配置应用
+  - 文件：appcfg.ini
+  - 特别提示：配置链接Mysql数据库 `[cdb]` 相关参数
+
+* 运行应用
+  - 直接运行：/trunk/app/webc.py
+  - win模式下，可点 /trunk/run.cmd，直接进入命令行
+  - 访问：http://127.0.0.1:8026/ (端口可在`appcfg.ini`配置中修改)
+
+
 ### 微爬(Wepy) - 目录结构
 
 * app-目录结构
