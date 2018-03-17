@@ -30,20 +30,18 @@
     </div>
 </div>
 
-{% for part in d.data.parts %}
-<div class="in">
-    <h2><span class="tg1">{{ part }}</span>{{ d.data.cdic[part] }}</h2>
-    <div>
-        {% for itm in d.data.parts[part] %}
-        <p>
-            <i class="r">{{ itm['id'] }}</i>
-            <b><a href="./blog.{{itm['id']}}">{{ itm['title'] }}</a></b> 
-            <br> <span class="c999">{{ itm['detail'] }}</span>
-        </p>
-        {% endfor %}
+    <div class="in">
+        <h2><span class="tg1">{{ d.data.cid }}</span>{{ d.data.cdic[d.data.cid] }}</h2>
+        <div>
+            {% for itm in d.data.blog %}
+            <p>
+                <i class="r">{{ itm['id'] }}</i>
+                <b><a href="./blog.{{itm['id']}}">{{ itm['title'] }}</a></b> 
+                <br> <span class="c999">{{ itm['detail'] }}</span>
+            </p>
+            {% endfor %}
+        </div>
     </div>
-</div>
-{% endfor %}
 
 <p class="tc cF00">Blog完成基本的增删改操作；简单模拟登陆，分页还没有做！</p>
 

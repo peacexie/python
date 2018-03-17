@@ -13,26 +13,26 @@ class main:
         self.data = {}
         cdb = dict(copy.deepcopy(g.cdb), **g.exdb)
         self.db = dbop.dbm(cdb)
+        self.data['catalog'] = self.db.get('SELECT * FROM {catalog}')
+        cdic = {}
+        for itm in self.data['catalog']:
+            cdic[itm['kid']] = itm['title']
+        self.data['cdic'] = cdic
+        self.sfrom = 'SELECT * FROM {article}'
 
     def indexAct(self):
-        cid = argv.get('cid')
-        sfrom = 'SELECT * FROM {article}'
         data = self.data
-        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
-        if cid:
-            data['blog'] = self.db.get(sfrom+' WHERE cid=? ORDER BY id DESC', (cid,), 20)
-        else:
-            parts = {}
-            for itm in data['catalog']:
-                blogs = self.db.get(sfrom+' WHERE cid=? ORDER BY id DESC', (itm['kid'],), 5)
-                if blogs:
-                    parts[itm['kid']] = blogs
-            data['parts'] = parts
-        data['cid'] = cid
-        cdic = {}
+        parts = {}
         for itm in data['catalog']:
-            cdic[itm['kid']] = itm['title']
-        data['cdic'] = cdic
+            blogs = self.db.get(self.sfrom+' WHERE cid=? ORDER BY id DESC', (itm['kid'],), 5)
+            if blogs:
+                parts[itm['kid']] = blogs
+        data['parts'] = parts
+        return data
+
+    def _mtypeAct(self):
+        data = self.data
+        data['blog'] = self.db.get(self.sfrom+' WHERE cid=? ORDER BY id DESC', (g.mkvs['key'],), 20)
         return data
 
     def loginAct(self): # +<out>
@@ -77,10 +77,8 @@ class main:
         # lists
         cid = argv.get('cid')
         data['cid'] = cid
-        sfrom = 'SELECT * FROM {article}'
         where = "cid='"+cid+"'" if cid else '1=1' # 安全???
-        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
-        data['blog'] = self.db.get(sfrom+' WHERE '+where+' ORDER BY id DESC', (), 20)
+        data['blog'] = self.db.get(self.sfrom+' WHERE '+where+' ORDER BY id DESC', (), 20)
         return data
 
     # `form`方法
@@ -106,11 +104,10 @@ class main:
             data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
             return data
         # row
-        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=? ORDER BY id DESC', (oid,), 1)
+        data['row'] = self.db.get(self.sfrom+' WHERE id=? ORDER BY id DESC', (oid,), 1)
         if not data['row']:
             data['id'] = oid = ''
         data['r_cid'] = data['row']['cid'] if data['row'] else ''
-        data['catalog'] = self.db.get('SELECT * FROM {catalog}')
         data['msg'] = '修改:id='+str(oid) if oid else '增加'
         return data
 
@@ -119,17 +116,11 @@ class main:
         data = self.data
         data['id'] = oid = g.mkvs['key']
         # row
-        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=? ORDER BY id DESC', (oid,), 1)
+        data['row'] = self.db.get(self.sfrom+' WHERE id=? ORDER BY id DESC', (oid,), 1)
         if not data['row']:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data
         data['row']['detail'] = data['row']['detail'].replace('\n', '<br>\n').replace(' ', '&nbsp;')
-        # cdic
-        data['catalog'] = self.db.get('SELECT * FROM {catalog}') 
-        cdic = {}
-        for itm in data['catalog']:
-            cdic[itm['kid']] = itm['title']
-        data['cdic'] = cdic
         return data
 
 '''
