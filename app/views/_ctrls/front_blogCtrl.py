@@ -1,7 +1,7 @@
 #coding=UTF-8
 
-import copy, re
-from core import argv, dbop, files, urlpy
+import copy
+from core import argv, dbop
 from flask import request, g, flash, session
 
 # main名称固定
@@ -18,13 +18,13 @@ class main:
         for itm in self.data['catalog']:
             cdic[itm['kid']] = itm['title']
         self.data['cdic'] = cdic
-        self.sfrom = 'SELECT * FROM {article}'
 
     def indexAct(self):
         data = self.data
         parts = {}
         for itm in data['catalog']:
-            blogs = self.db.get(self.sfrom+' WHERE cid=? ORDER BY id DESC', (itm['kid'],), 5)
+            sql = 'SELECT * FROM {article} WHERE cid=? ORDER BY id DESC'
+            blogs = self.db.get(sql, (itm['kid'],), 5)
             if blogs:
                 parts[itm['kid']] = blogs
         data['parts'] = parts
@@ -32,7 +32,8 @@ class main:
 
     def _mtypeAct(self):
         data = self.data
-        data['blog'] = self.db.get(self.sfrom+' WHERE cid=? ORDER BY id DESC', (g.mkvs['key'],), 20)
+        sql = 'SELECT * FROM {article} WHERE cid=? ORDER BY id DESC'
+        data['blog'] = self.db.get(sql, (g.mkvs['key'],), 20)
         return data
 
     def loginAct(self): # +<out>
@@ -69,16 +70,17 @@ class main:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data
         # logout
-        if act=="del":
+        if act=="del": # ?cid=&page=&kw=
             oid = argv.get('id')
             self.db.exe('DELETE FROM {article} WHERE id=?',(oid,))
-            data['d'] = {'tpname':'dir', 'message':'/front/blog-lists?cid=&page=&kw='}
+            data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
             return data
         # lists
         cid = argv.get('cid')
         data['cid'] = cid
         where = "cid='"+cid+"'" if cid else '1=1' # 安全???
-        data['blog'] = self.db.get(self.sfrom+' WHERE '+where+' ORDER BY id DESC', (), 20)
+        sql = 'SELECT * FROM {article} WHERE '+where+' ORDER BY id DESC'
+        data['blog'] = self.db.get(sql, (), 20)
         return data
 
     # `form`方法
@@ -92,19 +94,21 @@ class main:
         # post
         data['id'] = oid = argv.get('id')
         if request.method == 'POST':
-            sql1 = 'INSERT INTO {article} (title,cid,detail) values (?,?,?)'
-            sql2 = 'UPDATE {article} SET title=?,cid=?,detail=? WHERE id=?'
             title = request.form['title']
             cid = request.form['cid']
             detail = request.form['detail']
-            sp1 = (title, cid, detail)
-            sp2 = (title, cid, detail, oid)
-            res = self.db.exe(sql2, sp2) if oid else self.db.exe(sql1, sp1)
-            flash('New entry was successfully posted')
+            if oid:
+                sql = 'UPDATE {article} SET title=?,cid=?,detail=? WHERE id=?'
+                sp = (title, cid, detail, oid)
+            else:
+                sql = 'INSERT INTO {article} (title,cid,detail) values (?,?,?)'
+                sp = (title, cid, detail)
+            self.db.exe(sql, sp)
+            flash('Article posted ok!')
             data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
             return data
         # row
-        data['row'] = self.db.get(self.sfrom+' WHERE id=? ORDER BY id DESC', (oid,), 1)
+        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=?', (oid,), 1)
         if not data['row']:
             data['id'] = oid = ''
         data['r_cid'] = data['row']['cid'] if data['row'] else ''
@@ -116,7 +120,7 @@ class main:
         data = self.data
         data['id'] = oid = g.mkvs['key']
         # row
-        data['row'] = self.db.get(self.sfrom+' WHERE id=? ORDER BY id DESC', (oid,), 1)
+        data['row'] = self.db.get('SELECT * FROM {article} WHERE id=?', (oid,), 1)
         if not data['row']:
             data['d'] = {'tpname':'dir', 'message':'/front/blog'}
             return data

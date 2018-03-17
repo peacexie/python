@@ -19,9 +19,9 @@
 <div class="in">
     <h2><span class="tg1">catalog</span>(栏目)</h2>
     <div class="tc">
-        <a href="./blog">[All]</a> 
+        <a href="./blog-lists">[All]</a> 
         {% for itm in d.data.catalog %}
-        - <a href="./blog?cid={{ itm['kid'] }}">{{ itm['title'] }}</a> 
+        - <a href="./blog-lists?cid={{ itm['kid'] }}">{{ itm['title'] }}</a> 
         {% endfor %}
     </div>
 </div>
