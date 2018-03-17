@@ -95,8 +95,11 @@ class main:
         data['id'] = oid = argv.get('id')
         if request.method == 'POST':
             title = request.form['title']
-            cid = request.form['cid']
             detail = request.form['detail']
+            cid = request.form['cid']
+            if not title:
+                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+                return data
             if oid:
                 sql = 'UPDATE {article} SET title=?,cid=?,detail=? WHERE id=?'
                 sp = (title, cid, detail, oid)

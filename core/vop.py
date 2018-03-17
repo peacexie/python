@@ -30,7 +30,7 @@ def areg(app, cfgs):
     # reg-filters 
     app.jinja_env.filters['url'] = vjef.url
     app.jinja_env.filters['info'] = vjef.info
-    app.jinja_env.filters['rnd'] = vjef.rnd
+    #app.jinja_env.filters['rnd'] = vjef.rnd
     app.jinja_env.filters['get'] = vjef.get
     app.jinja_env.filters['exe'] = vjef.exe
     # reg-funcs 
