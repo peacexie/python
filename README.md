@@ -1,24 +1,24 @@
 
 
-生活是艰难的：甚至需要爬……
+生活是艰难的：甚至需要爬……  
 Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微爬(Wepy)，尽量让您轻松愉快的爬知识，爬价值，爬乐趣！
 
 
 ### 微爬(Wepy) - /trunk/app
 
-微爬(Wepy,Wepthon)：是一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！
-基于 Python, Flask/Blueprint/jinja, Mysql/Sqlite, PyQuery 等开源模块开发
-基于Blueprint分组扩展，基于MKV的控制器/方法扩展
-环境需求：Python3+, Flask(Jinja2,Werkzeug), Mysql/Sqlite, PyQuery
+微爬(Wepy,Wepthon)：是一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！  
+基于 Python, Flask/Blueprint/jinja, Mysql/Sqlite, PyQuery 等开源模块开发  
+基于Blueprint分组扩展，基于MKV的控制器/方法扩展  
+环境需求：Python3+, Flask(Jinja2,Werkzeug), Mysql/Sqlite, PyQuery  
 
 
 ### 微爬(Wepy) - 安装配置
 
 * 环境安装
-  - 环境需求：Python3.5+, 
+  - Python环境：Python3.5+, 
   - 第三方模块：Flask, Mysql/Sqlite, PyQuery
 
-* 配置Mysql数据库（爬虫要用）
+* 安装Mysql数据库（爬虫要用）
   - 安装Mysql数据库
   - 导入表数据：/trunk/app/data/wepy.sql
 
@@ -34,7 +34,8 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 
 ### 微爬(Wepy) - 目录结构
 
-* app-目录结构
+* 如下。
+  标记有：Porsonal Test Code! 的，可直接删除！
 
 ```
     /branches/           --- Porsonal Test Code!
@@ -59,6 +60,6 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 
 * 多进程在 Flask-Request 下运行问题
 * 命令行模式下 无上下文 使用 Flask-g 问题
-* Blueprint下 session/cookie 使用
+* Blueprint下 session/cookie 的问题
 
 
