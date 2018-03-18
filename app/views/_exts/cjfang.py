@@ -350,4 +350,4 @@ def jdump(dic):
 def cfg(key=None):
     cjcfg = argv.cfgs['cjcfg']; 
     return cjcfg[key] if key in cjcfg.keys() else None
-    #return cjcfg[key] if cjcfg.hasattr(key) else None
+

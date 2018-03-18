@@ -75,9 +75,8 @@ def bhook(sview, cfgs):
     def before_app_request():
         cfgs['run']['timer'] = time.time()
     #@sview.after_app_request
-    def after_app_request():
-        #session['aaa2'] = 'bbb2' 
-        pass
+    #def after_app_request():
+    #    pass
 
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):

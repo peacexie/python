@@ -1,6 +1,9 @@
 ﻿
 
 
+hasattr(g, 'db')
+key in cjcfg.keys()
+
 * Socket 服务端
 
 * Flask-命令行
