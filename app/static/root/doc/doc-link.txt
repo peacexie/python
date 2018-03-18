@@ -1,4 +1,13 @@
 ﻿
+
+http://blog.csdn.net/luckytanggu/article/details/53491892
+python socket编程（传输字符、文件、图片）
+
+http://blog.csdn.net/haluoluo211/article/details/42679715
+Python socket聊天室程序
+
+
+
 ------------------------------------ 
 
 http://www.jb51.net/article/118001.htm

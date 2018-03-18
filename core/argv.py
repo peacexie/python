@@ -1,6 +1,6 @@
 
 import sys, os
-from flask import request as freq, g
+from flask import request as freq
 
 # 得到命令行参数, no=1,2,3
 def cmd(no):

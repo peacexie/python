@@ -54,7 +54,7 @@ class main:
             elif request.form['pass'] != g.exdb['pass']:
                 msg = 'Invalid password'
             else:
-                #session['logged'] = True
+                session['logged'] = True
                 g.ses['logged'] = 1
                 #msg = 'Login OK!'
                 flash('You were logged in')

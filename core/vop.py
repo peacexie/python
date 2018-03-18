@@ -38,10 +38,7 @@ def ahook(app, cfgs):
     def before_request():
         g.db = dbop.dbm(cfgs['cdb'])
     #@app.after_request
-    #def after_request(response):
-        #print(response)
-        #print(session)
-        #session['aaa'] = 'bbb'
+    #def after_request():
         #pass
     def teardown_request(exception):
         if hasattr(g, 'db'):
@@ -50,8 +47,6 @@ def ahook(app, cfgs):
     @app.errorhandler(404)  
     def not_found(e):      
         return render_template("root/home/error.htm")
-    @app.teardown_request
-
     '''
 
 # 注册Blueprint
@@ -80,9 +75,7 @@ def bhook(sview, cfgs):
     def before_app_request():
         cfgs['run']['timer'] = time.time()
     #@sview.after_app_request
-    def after_app_request(xxx):
-        #print(self)
-        #print(session)
+    def after_app_request():
         #session['aaa2'] = 'bbb2' 
         pass
 

@@ -1,6 +1,20 @@
 ﻿
 
+
+* Socket 服务端
+
+* Flask-命令行
+
+* 多线程    
+
+* 登陆 seesion 
+ - session['b'] = '2' # chrome下失败,IE11,Edge下可用
+
 * 分页
+
+
+--------------------------------------- 
+
 
 * /front/blog                  --- ok
  - (home)         - ok
