@@ -1,26 +1,9 @@
 
-{% extends "root/_incs/lay_root.htm" %}
+{% extends "root/_incs/lay_info.htm" %}
 
 {% block title %}<title>系统信息 - {{ g.sys['title']}}</title>{% endblock %}
 
 {% block head %}
     <h1>微爬(Wepy) 系统信息</h1>
     <p>g{% for itm in g %},{{ itm }}{% endfor %}</p>
-{% endblock %}
-
-{% block main %}
-
-<div class="out">
-
-<div class="in">
-    <h2><span class="tg1">runinfo</span>运行信息</h2>
-    <div>
-{% for itm in g %}
-    <p>g.{{ itm }} = {{ g[itm] }}</p>
-{% endfor %}
-    </div>
-</div>
-
-</div><!--end.out-->
-
 {% endblock %}

@@ -1,7 +1,7 @@
 # -*- coding:UTF-8 -*-
 
-import xml.etree.ElementTree as elmTree
-import xml.dom.minidom as minidom
+import xml.etree.ElementTree as eTree
+import xml.dom.minidom as mdom
 
 '''
   @author: 忧里修斯 @2010-4-20
@@ -18,14 +18,14 @@ class convXml(object):
 
     @staticmethod # 创建根节点
     def createRoot(rootTag):
-        root = elmTree.Element(rootTag)
+        root = eTree.Element(rootTag)
         return root
 
     @staticmethod # 根据节点返回格式化的xml字符串
     def getXmlString(element, cset='utf-8'):
         try:
-            str0 = elmTree.tostring(element, cset)
-            reparsed = minidom.parseString(str0)
+            str0 = eTree.tostring(element, cset)
+            reparsed = mdom.parseString(str0)
             return reparsed.toprettyxml(indent=" ", encoding=cset)
         except:
             print('getXmlString: Error Node, Cant NOT convert to xml')
@@ -45,7 +45,7 @@ class convXml(object):
             for attr in attrs:
                 attrvalue = getattr(classobj, attr)#属性值
                 #属性节点
-                attrE = elmTree.Element(attr)
+                attrE = eTree.Element(attr)
                 attrE.text = attrvalue
 
                 #加入节点列表

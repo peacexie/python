@@ -36,10 +36,9 @@ def info(p='', n=2):
     msg = stim + ', ' + stpl + ', ' + supd
     return msg
 
-'''
+# 为啥不变?
 def rnd(p=''):
-    return time.time() #g.run['timer'] random.random() #time.time()
-'''
+    return g.run['timer'] #g.run['timer'] random.random() #time.time()
 
 # 获取db资料
 # {% set arcs1 = g.db.get("SELECT * FROM {article}",(),1) %}

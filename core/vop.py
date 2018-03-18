@@ -2,7 +2,7 @@
 
 import sys, os, time
 from core import config, dbop, vjef, vext
-from flask import Flask, Blueprint, redirect, g, render_template, abort
+from flask import Flask, Blueprint, session, redirect, g, render_template, abort
 
 def web():
     timer = time.time()
@@ -22,22 +22,27 @@ def web():
     groups = cfgs['sys']['groups'].split(',')
     for group in groups:
         breg(app, cfgs, group)
-    areg(app, cfgs)
+    ahook(app, cfgs)
     return app
 
-# 注册app/g扩展
-def areg(app, cfgs):
+# 注册app-hook
+def ahook(app, cfgs):
     # reg-filters 
     app.jinja_env.filters['url'] = vjef.url
     app.jinja_env.filters['info'] = vjef.info
-    #app.jinja_env.filters['rnd'] = vjef.rnd
+    app.jinja_env.filters['rnd'] = vjef.rnd
     app.jinja_env.filters['get'] = vjef.get
     app.jinja_env.filters['exe'] = vjef.exe
     # reg-funcs 
     @app.before_request
     def before_request():
-        cfgs['run']['timer'] = time.time()
         g.db = dbop.dbm(cfgs['cdb'])
+    #@app.after_request
+    #def after_request(response):
+        #print(response)
+        #print(session)
+        #session['aaa'] = 'bbb'
+        #pass
     def teardown_request(exception):
         if hasattr(g, 'db'):
             g.db.close()
@@ -52,6 +57,7 @@ def areg(app, cfgs):
 # 注册Blueprint
 def breg(app, cfgs, group, file=0):
     sview = Blueprint('__bp_'+group, __name__)
+    bhook(sview, cfgs)
     gfix = ''
     if file==0:
         @sview.route('/')
@@ -68,6 +74,18 @@ def breg(app, cfgs, group, file=0):
             return vext.vrfp(group);
     app.register_blueprint(sview, url_prefix=gfix)
 
+# 注册blueprint-hook
+def bhook(sview, cfgs):
+    @sview.before_app_request
+    def before_app_request():
+        cfgs['run']['timer'] = time.time()
+    #@sview.after_app_request
+    def after_app_request(xxx):
+        #print(self)
+        #print(session)
+        #session['aaa2'] = 'bbb2' 
+        pass
+
 # 一个分组的view显示
 def view(app, group, cfgs, mkv):
     g.run = {} #; print(g.db); print(g);  
@@ -77,6 +95,7 @@ def view(app, group, cfgs, mkv):
     tpath = g.dir['views'] + '/' + g.mkvs['group']
     d = tpname(tpath) # 模板和基本数据
     data = cdata(app, tpath)
+    session['c'] = '3';
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
@@ -93,21 +112,21 @@ def view(app, group, cfgs, mkv):
 def cdata(app, tpath):
     g.run['Ctrl'] = g.run['Act'] = ''
     file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl'
-    flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py') # v2
+    flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py')
     if not flag:
         return {'__msg': 'None ['+file+'] Class'}
     g.run['Ctrl'] = file
-    items = __import__('_ctrls.'+file) # v1/v2
-    ctrl = getattr(items, file)
-    cobj = ctrl.main(app)
+    items = __import__('_ctrls.'+file)
+    cobj = getattr(items, file).main(app)
     tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'
     taba = tabs.split(',')
     for fid in taba:
         func = fid + 'Act'
+        session['a'] = '1';
         if func in dir(cobj):
+            session['b'] = '2' 
             g.run['Act'] = func
-            method = getattr(cobj, func) 
-            return method()
+            return getattr(cobj, func)() 
     return {'__msg': 'None ['+tabs+'] Action'}
 
 # 分析模板和基本数据
