@@ -95,7 +95,6 @@ def view(app, group, cfgs, mkv):
     tpath = g.dir['views'] + '/' + g.mkvs['group']
     d = tpname(tpath) # 模板和基本数据
     data = cdata(app, tpath)
-    session['c'] = '3';
     if 'd' in data: # 返回res覆盖原有属性
         d = dict(d, **data['d'])
         del data['d']
@@ -122,9 +121,8 @@ def cdata(app, tpath):
     taba = tabs.split(',')
     for fid in taba:
         func = fid + 'Act'
-        session['a'] = '1';
         if func in dir(cobj):
-            session['b'] = '2' 
+            session['b'] = '2' # chrome下失败,IE11,Edge下可用
             g.run['Act'] = func
             return getattr(cobj, func)() 
     return {'__msg': 'None ['+tabs+'] Action'}

@@ -21,25 +21,18 @@
 {% block main %}
 <div class="out">
 
-{{ g.run.timer }} <br>
-{{ ''|rnd() }}
-
-{{ session }}
-{{ cookie }}
-
 {% set data=d['data'] %}
 <div class="in">
     <h2><span class="tg1">d(data)</span>运行信息</h2>
     <div>
+        <p>session = {{ session }}</p>
+        <p>cookie = {{ cookie }}</p>
         <p>d = {{ d }}</p>
-        {% for key in d %}
-            <p>d.{{ key }} = {{ d[key] }}</p>
-        {% endfor %}
     </div>
 </div>
 
 <div class="in">
-    <h2><span class="tg1">g(flask)</span>运行信息</h2>
+    <h2><span class="tg1">g(flask)</span>配置信息</h2>
     <div>
         {% for itm in g %}
             <p>g.{{ itm }} = {{ g[itm] }}</p>

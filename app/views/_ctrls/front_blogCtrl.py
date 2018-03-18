@@ -36,12 +36,7 @@ class main:
         data['blog'] = self.db.get(sql, (g.mkvs['key'],), 20)
         return data
 
-    def loginAct(self):
-        session['d'] = '4';
-        return {}
-        pass
-
-    def xxxloginAct(self): # +<out>
+    def loginAct(self): # +<out>
         data = self.data
         act = argv.get('act')
         # logout
