@@ -1,6 +1,7 @@
 
 import sys, os, platform
 import configparser
+from core import argv
 
 # 初始化配置
 def init():
@@ -12,6 +13,7 @@ def init():
     sys.path.append(cfgs['dir']['cpdir'])
     #sys.path.append(cfgs['dir']['import'])
     sys.path.append(cfgs['dir']['views'])
+    argv.cfgs = cfgs
     return cfgs
 
 # 运行环境信息

@@ -1,10 +1,10 @@
 
-from flask import g
-import imp # 动态加载: pymysql, sqlite3, pymssql ... 
+from core import argv # from flask import g
+#import pymysql, sqlite3, pymssql ... # 动态加载: 
 
 class dbm:
     def __init__(self, cfgs={}):
-        cfgs = cfgs if cfgs else g.cdb
+        cfgs = cfgs if cfgs else argv.cfgs['cdb'] #g.cdb
         self.cfgs = cfgs
         self.dbcon()
 

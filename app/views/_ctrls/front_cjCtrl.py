@@ -3,7 +3,6 @@
 import copy
 from core import argv, dbop
 from _exts import cjfang
-from flask import g
 
 # main名称固定
 class main:
@@ -12,7 +11,7 @@ class main:
     def __init__(self, app):
         self.app = app
         self.data = {}
-        cdb = dict(copy.deepcopy(g.cdb), **g.cjdb)
+        cdb = dict(copy.deepcopy(argv.cfgs['cdb']), **argv.cfgs['cjdb'])
         self.db = dbop.dbm(cdb)
 
     # `attr`方法

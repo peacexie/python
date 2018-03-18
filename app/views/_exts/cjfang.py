@@ -2,12 +2,10 @@
 import copy, re, json, random
 from core import argv, dbop, files, urlpy
 from urllib import parse, request as ureq
-from flask import g
 from pyquery import PyQuery as pyq
 
 def img(db, act):
-
-    cbat = g.cjcfg['delimit']
+    cbat = cfg('delimit')
     offset = random.randint(5, 15)
     limit = " LIMIT "+str(offset)+","+cbat+" "
     data = {'_end':'-', '_fids':''}
@@ -113,7 +111,7 @@ def imgp(db, act, row):
 
 def data(db, act):
 
-    cbat = g.cjcfg['delimit']
+    cbat = cfg('delimit')
     offset = random.randint(5, 15)
     limit = " LIMIT "+str(offset)+","+cbat+" "
     data = {'_end':'-', '_fids':''}
@@ -205,10 +203,10 @@ def datap(db, act, row):
 
 def url(db, act):
 
-    cmin = int(g.cjcfg['pagemin'])
-    cmax = int(g.cjcfg['pagemax'])
-    cbat = int(g.cjcfg['delimit'])
-    #proc = int(g.cjcfg['proc'])
+    cmin = int(cfg('pagemin'))
+    cmax = int(cfg('pagemax'))
+    cbat = int(cfg('delimit'))
+    #proc = int(cfg('proc'))
     data = {}
     data = {'_end':'-', '_pages':''}
     act = argv.get('act', 'view')
@@ -240,8 +238,8 @@ def urlp(db, act, page):
         return db.get("SELECT * FROM {url} ORDER BY id LIMIT "+page+",5")
 
     dmkey = '#newhouse_loupai_list li'
-    itms = ritms(g.cjcfg['url'].replace('{page}',page), dmkey)
-    html = ritms(g.cjcfg['url'].replace('{page}',page), 0)
+    itms = ritms(cfg('url').replace('{page}',page), dmkey)
+    html = ritms(cfg('url').replace('{page}',page), 0)
 
     rids = r'\'vwn\.showhouseid\'\:\'([\d\,]+)\'\}\)\;'
     aids = re.findall(rids, html, re.S|re.M)[0].split(',')
@@ -297,7 +295,7 @@ def area(db, act):
     res = {}
     for dk in dic:
 
-        itms = ritms(g.cjcfg['url'].replace('{page}','1'), dk['dmkey'])
+        itms = ritms(cfg('url').replace('{page}','1'), dk['dmkey'])
         
         for i in itms:  
             fid = pyq(i).attr('href').replace('/house/s/','').replace('/','')
@@ -333,7 +331,7 @@ def mapp(fid=''):
 
 def ritms(url, dkey):
     #url = 'http://newhouse.jx.fang.com/house/s/'
-    fp = g.dir['cache'] + '/pages/' + files.autnm(url, 1)
+    fp = argv.cfgs['dir']['cache'] + '/pages/' + files.autnm(url, 1)
     ok = files.tmok(fp, 720)
     if ok:
         html = files.get(fp, 'utf-8')
@@ -348,3 +346,8 @@ def ritms(url, dkey):
 
 def jdump(dic):
     return json.dumps(dic, ensure_ascii=False)
+
+def cfg(key=None):
+    cjcfg = argv.cfgs['cjcfg']; 
+    return cjcfg[key] if key in cjcfg.keys() else None
+    #return cjcfg[key] if cjcfg.hasattr(key) else None
