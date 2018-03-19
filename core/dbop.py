@@ -1,6 +1,12 @@
 
-from core import argv # from flask import g
+import copy
+from core import argv, config
 #import pymysql, sqlite3, pymssql ... # 动态加载: 
+
+def edb(key):
+    cfgs = config.init()
+    cdb = dict(copy.deepcopy(cfgs['cdb']), **cfgs[key])
+    return dbm(cdb)
 
 class dbm:
     def __init__(self, cfgs={}):

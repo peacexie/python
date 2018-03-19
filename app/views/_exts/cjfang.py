@@ -201,7 +201,7 @@ def datap(db, act, row):
         db.exe("UPDATE {url} SET f1=1 WHERE id='"+str(rid)+"'")
     return data
 
-def url(db, act):
+def url(db, act, smin=-1, smax=-1):
 
     cmin = int(cfg('pagemin'))
     cmax = int(cfg('pagemax'))
@@ -214,6 +214,12 @@ def url(db, act):
         page = int(argv.get('page', '1'))
         start = max(cmin, page)
         end = start + cbat
+        # ---
+        if smin>=0:
+            start = smin
+        if smax>=0:
+            end = smax
+        # ---
         if end>cmax+1:
             end = cmax+1
         for i in range(start, end):
