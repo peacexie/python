@@ -4,15 +4,13 @@ import sys, os
 sys.path.append("../")
 sys.path.append("./views")
 
-from core import argv, dbop, mdo
+from core import argv, mdo
 from _exts import cjfang
-
-#cdb = dict(copy.deepcopy(cfgs['cdb']), **cfgs['cjdb'])
-#db = dbop.dbm(cdb)
 
 if __name__=='__main__':
 
-    # cjfang.area(self.db, act)
+    # cjfang.area(self.db, act, min, max)
     #db = dbop.edb('cjdb'); 
-    mp = mdo.Pools(cjfang.area, 'cjdb'); # cjfang.area, db
+    param = {'db':'cjdb', 'act':'test', 'min':'3', 'max':'5',} #(db, 'test')
+    mp = mdo.Pools(cjfang.area, param); # cjfang.area, db
     mp.start('test', 3)

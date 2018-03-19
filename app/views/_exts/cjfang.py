@@ -290,7 +290,7 @@ def urlp(db, act, page):
         
     return data
 
-def area(db, act):
+def area(db, act, t1=0, t2=0):
 
     if act=='view':
         return db.get("SELECT * FROM {attr} ORDER BY id")
