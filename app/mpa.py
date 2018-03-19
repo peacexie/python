@@ -5,12 +5,13 @@ sys.path.append("../")
 sys.path.append("./views")
 
 from core import argv, mdo
-from _exts import cjfang
 
 if __name__=='__main__':
 
-    # cjfang.area(self.db, act, min, max)
-    #db = dbop.edb('cjdb'); 
-    param = {'db':'cjdb', 'act':'test', 'min':'3', 'max':'5',} #(db, 'test')
-    mp = mdo.Pools(cjfang.area, param); # cjfang.area, db
-    mp.start('test', 3)
+    # > mpa.py url test/done
+    mkey = 'caiji'
+    part = argv.cmd(1)
+    act = argv.cmd(1)
+
+    mp = mdo.Pools(mkey);
+    mp.start(part, act)
