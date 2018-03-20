@@ -7,7 +7,7 @@ from core import argv
 def init():
     cfgs = {}
     cfgs['envs'] = envs()
-    bcfg = ucfg(cfgs['envs'])
+    bcfg = ucfg()
     for key in bcfg: # app, dir, path, db, blog ... 
         cfgs[key] = bcfg[key]
     sys.path.append(cfgs['dir']['cpdir'])
@@ -25,7 +25,7 @@ def envs():
     return envs
 
 # 读取应用配置
-def ucfg(envs):
+def ucfg():
     conf = configparser.ConfigParser()
     conf.read("./data/appcfg.ini", encoding="utf-8-sig")
     secs = conf.sections()

@@ -4,9 +4,9 @@ from flask import request as freq
 global cfgs
 
 # 得到命令行参数, no=1,2,3
-def cmd(no):
+def cmd(no, d=''):
     args = sys.argv
-    val = args[no] if len(args)>no else ''
+    val = args[no] if len(args)>no else d
     return val
 
 # 得到Url参数, d:默认值

@@ -23,19 +23,21 @@ class Pools:
         pass
 
     # 子进程要执行的代码
-    def dosub(self, no):
+    def dosub(self, act, no):
         print('Run psub %s (%s)...' % (no, os.getpid()))
-        param = self.setp(self.param)
-        #param = (db, 'test')
-        res = self.func(*param)
+        #param = self.setp(self.param)
+        #res = self.func(*param)
+        res = {'msg':'Doing sth. in dosub'}
         return res
 
+    # 子进程采集
     def caiji(self, act, no):
-        print('Run psub %s (%s)...' % (no, os.getpid()))
+        print('Run caiji : act=%s, no=%s, pid=(%s)...' % (act, no, os.getpid()))
         db = dbop.edb('cjdb')
         #param = self.setp(self.param)
-        param = (db, 'test')
-        res = cjfang.area(*param)
+        # urlp,datap,imgp,imgs,area
+        param = (db, 'test', 4)
+        res = cjfang.urlp(*param)
         return res
 
     def start(self, part, act, pcnt=4):
@@ -61,12 +63,5 @@ class Pools:
 
 
 '''
-        res = {}
-        for i in range(self.pcnt):
-            func = psubs[key]
-            p = Process(target=func, args=(key+':'+str(i),))
-            p.start()
-        print('Waiting for all Pools('+str(self.pcnt)+') done...')
-        print('All Pools done.')
-        print(res)
+
 '''
