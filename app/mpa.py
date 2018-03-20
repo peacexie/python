@@ -3,8 +3,8 @@
 import sys, os
 sys.path.append("../")
 from core import argv, config
-config.init() # mdo>_exts需要先init()
-from core import mdo
+config.init() # _exts需要先.init()
+from _exts import mdo
 
 if __name__=='__main__':
 

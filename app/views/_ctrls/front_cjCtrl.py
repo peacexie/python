@@ -2,7 +2,7 @@
 
 import copy
 from core import argv, dbop
-from _exts import cjfang
+from _exts import cjfang, mdo
 
 # main名称固定
 class main:
@@ -41,6 +41,13 @@ class main:
     def indexAct(self):
         data = {}
         return data
+
+    def batch(self):
+        mp = mdo.Pools('caiji'); # caiji,dosub
+        mp.start('area', 'test', 2)
+        data = {}
+        return data
+        pass
 
     def tqAct(self):
         data = {}
