@@ -1,9 +1,32 @@
 #coding=UTF-8 # 这个文件不该放在core里面
+# 鸡肋啦... 大批量采集容易封ip, 出错调试也易出问题
 
 import sys, os, time, random
 from core import argv, dbop
 from _exts import cjfang
 from multiprocessing import Process, Pool
+
+# 计算批次,给多进程使用
+def ranb(pcnt, no, cmax, cmin):
+    cbat = int(cmax / pcnt)
+    n1 = (no*cbat) + cmin
+    n2 = cmax if pcnt==no+1 else ((no*cbat)+cbat)
+    if n2>cmax:
+        n2 = cmax
+    res = {'n1':n1, 'n2':n2}
+    #print(res)
+    return res
+# 计算批次,给多进程使用
+def limb(pcnt, no, recs):
+    cbat = int(recs / pcnt)
+    if not no:
+        limit = "LIMIT " + str(cbat)
+    elif pcnt==no+1:
+        limit = "LIMIT " + str(no*cbat) + ',9912399'
+    else:
+        limit = "LIMIT " + str(no*cbat) + ',' + str(cbat)
+    #print(limit)
+    return limit
 
 class Pools:
 
@@ -41,10 +64,10 @@ class Pools:
         tab = 'img' if part=='save' else 'url'
         itmc = db.get("SELECT COUNT(*) AS cnt FROM {"+tab+"}")
         recs = itmc[0]['cnt']
-        limit = cjfang.mbrow(self.pcnt, no, recs)
+        limit = limb(self.pcnt, no, recs)
         res = {}
         if part=='url':
-            rng = cjfang.mburl(self.pcnt, no, cmax, cmin)
+            rng = ranb(self.pcnt, no, cmax, cmin)
             n1 = rng['n1']; n2 = rng['n2'];
             for i in range(n1, n2+1):
                 re = cjfang.urlp(db, act, i)

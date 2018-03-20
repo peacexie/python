@@ -4,32 +4,6 @@ from core import argv, dbop, files, urlpy
 from urllib import parse, request as ureq
 from pyquery import PyQuery as pyq
 
-# 计算批次,给多进程使用
-
-def mburl(pcnt, no, cmax, cmin):
-    cbat = int(cmax / pcnt)
-    n1 = (no*cbat) + cmin
-    n2 = cmax if pcnt==no+1 else ((no*cbat)+cbat)
-    if n2>cmax:
-        n2 = cmax
-    res = {'n1':n1, 'n2':n2}
-    #print(res)
-    return res
-
-def mbrow(pcnt, no, recs):
-
-    cbat = int(recs / pcnt)
-    if not no:
-        limit = "LIMIT " + str(cbat)
-    elif pcnt==no+1:
-        limit = "LIMIT " + str(no*cbat) + ',9912399'
-    else:
-        limit = "LIMIT " + str(no*cbat) + ',' + str(cbat)
-    #print(limit)
-    return limit
-
-# 采集
-
 def img(db, act):
     cbat = cfg('delimit')
     offset = random.randint(5, 15)
@@ -264,8 +238,9 @@ def urlp(db, act, page):
         return db.get("SELECT * FROM {url} ORDER BY id LIMIT "+page+",5")
 
     dmkey = '#newhouse_loupai_list li'
-    itms = ritms(cfg('url').replace('{page}',page), dmkey)
-    html = ritms(cfg('url').replace('{page}',page), 0)
+    url = liurl(page)
+    itms = ritms(url, dmkey)
+    html = ritms(url, 0)
 
     rids = r'\'vwn\.showhouseid\'\:\'([\d\,]+)\'\}\)\;'
     aids = re.findall(rids, html, re.S|re.M)[0].split(',')
@@ -321,7 +296,7 @@ def area(db, act):
     res = {}
     for dk in dic:
 
-        itms = ritms(cfg('url').replace('{page}','1'), dk['dmkey'])
+        itms = ritms(liurl(), dk['dmkey'])
         
         for i in itms:  
             fid = pyq(i).attr('href').replace('/house/s/','').replace('/','')
@@ -377,7 +352,7 @@ def cfg(key=None):
     cjcfg = argv.cfgs['cjcfg']; 
     return cjcfg[key] if key in cjcfg.keys() else None
 
-def url(page):
+def liurl(page=1):
     site = cfg('site')
     url = 'http://newhouse.{site}.fang.com/house/s/b9{page}/'
-    return url.replace('{site}',site).replace('{page}',page)
+    return url.replace('{site}',site).replace('{page}',str(page))
