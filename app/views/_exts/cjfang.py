@@ -377,3 +377,7 @@ def cfg(key=None):
     cjcfg = argv.cfgs['cjcfg']; 
     return cjcfg[key] if key in cjcfg.keys() else None
 
+def url(page):
+    site = cfg('site')
+    url = 'http://newhouse.{site}.fang.com/house/s/b9{page}/'
+    return url.replace('{site}',site).replace('{page}',page)

@@ -66,7 +66,7 @@ class Pools:
             res = {'limit':limit}
             pass
         else:
-            res = cjfang.area(db, 'test')
+            res = cjfang.area(db, act)
         return res
 
     def start(self, part, act, pcnt=4):
