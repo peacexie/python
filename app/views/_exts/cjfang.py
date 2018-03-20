@@ -16,30 +16,17 @@ def mburl(pcnt, no, cmax, cmin):
     #print(res)
     return res
 
-def mbrow(pcnt, no, tab, db):
-    itmc = db.get("SELECT COUNT(*) AS cnt FROM {url}")
-    cmax = itmc[0]['cnt']
-    cbat = int(cmax / pcnt)
+def mbrow(pcnt, no, recs):
+
+    cbat = int(recs / pcnt)
     if not no:
         limit = "LIMIT " + str(cbat)
     elif pcnt==no+1:
         limit = "LIMIT " + str(no*cbat) + ',9912399'
     else:
         limit = "LIMIT " + str(no*cbat) + ',' + str(cbat)
-    print(limit)
-    itms = db.get("SELECT * FROM {"+tab+"} WHERE f1=0 ORDER BY id "+limit)
     #print(limit)
-    return {'itms':itms, 'limit':limit}
-    pass
-
-'''
-        
-        if not itms:
-            data['_end'] = 1
-        for row in itms:
-            fid = row['fid']
-            res[fid] = datap(db, act, row)
-'''
+    return limit
 
 # 采集
 

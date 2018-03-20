@@ -37,8 +37,12 @@ class Pools:
         cmin = int(cjfang.cfg('pagemin'))
         cmax = int(cjfang.cfg('pagemax'))
         #cbat = int(cjfang.cfg('delimit'))
-        res = {}
         db = dbop.edb('cjdb')
+        tab = 'img' if part=='save' else 'url'
+        itmc = db.get("SELECT COUNT(*) AS cnt FROM {"+tab+"}")
+        recs = itmc[0]['cnt']
+        limit = cjfang.mbrow(self.pcnt, no, recs)
+        res = {}
         if part=='url':
             rng = cjfang.mburl(self.pcnt, no, cmax, cmin)
             n1 = rng['n1']; n2 = rng['n2'];
@@ -46,11 +50,20 @@ class Pools:
                 re = cjfang.urlp(db, act, i)
             res = rng
         elif part=='data':
-            re = cjfang.mbrow(self.pcnt, no, 'url', db)
-            for row in re['itms']:
+            itms = db.get("SELECT * FROM {url} WHERE f1=0 ORDER BY id "+limit)
+            for row in itms:
                 re = cjfang.datap(db, act, row)
-            res = {'limit':re['limit']}
-            #print(res)
+            res = {'limit':limit}
+        elif part=='img': # ???
+            itms = db.get("SELECT * FROM {url} WHERE f2=0 ORDER BY id "+limit)
+            for row in itms:
+                re = cjfang.imgp(db, act, row)
+            res = {'limit':limit}
+        elif part=='save':
+            itms = db.get("SELECT * FROM {img} WHERE f1=0 ORDER BY id "+limit)
+            for row in itms:
+                re = cjfang.imgs(db, act, row)
+            res = {'limit':limit}
             pass
         else:
             res = cjfang.area(db, 'test')
