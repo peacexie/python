@@ -3,6 +3,27 @@ import sys, os
 from flask import request as freq
 global cfgs
 
+# 计算批次,给多进程使用
+def range(pcnt, no, cmax, cmin):
+    cbat = int(cmax / pcnt)
+    n1 = (no*cbat) + cmin
+    n2 = cmax if pcnt==no+1 else ((no*cbat)+cbat)
+    if n2>cmax:
+        n2 = cmax
+    res = {'n1':n1, 'n2':n2}
+    #print(res)
+    return res
+def limit(pcnt, no, recs):
+    cbat = int(recs / pcnt)
+    if not no:
+        lmts = "LIMIT " + str(cbat)
+    elif pcnt==no+1:
+        lmts = "LIMIT " + str(no*cbat) + ',' + str(cbat+pcnt)
+    else:
+        lmts = "LIMIT " + str(no*cbat) + ',' + str(cbat)
+    #print(lmts)
+    return lmts
+
 # 得到命令行参数, no=1,2,3
 def cmd(no, d=''):
     args = sys.argv

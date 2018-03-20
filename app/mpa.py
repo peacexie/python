@@ -2,9 +2,9 @@
 
 import sys, os
 sys.path.append("../")
-sys.path.append("./views")
-from core import argv, config, mdo
-config.init() # , config
+from core import argv, config
+config.init() # mdo>_exts需要先init()
+from core import mdo
 
 if __name__=='__main__':
 

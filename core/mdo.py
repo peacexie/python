@@ -6,28 +6,6 @@ from core import argv, dbop
 from _exts import cjfang
 from multiprocessing import Process, Pool
 
-# 计算批次,给多进程使用
-def ranb(pcnt, no, cmax, cmin):
-    cbat = int(cmax / pcnt)
-    n1 = (no*cbat) + cmin
-    n2 = cmax if pcnt==no+1 else ((no*cbat)+cbat)
-    if n2>cmax:
-        n2 = cmax
-    res = {'n1':n1, 'n2':n2}
-    #print(res)
-    return res
-# 计算批次,给多进程使用
-def limb(pcnt, no, recs):
-    cbat = int(recs / pcnt)
-    if not no:
-        limit = "LIMIT " + str(cbat)
-    elif pcnt==no+1:
-        limit = "LIMIT " + str(no*cbat) + ',9912399'
-    else:
-        limit = "LIMIT " + str(no*cbat) + ',' + str(cbat)
-    #print(limit)
-    return limit
-
 class Pools:
 
     def __init__(self, mkey, dbk=''):
@@ -44,7 +22,6 @@ class Pools:
                 val = dbop.edb(val) if val else dbop.dbm()
             params.append(val)
         return tuple(params)
-        pass
 
     # 子进程要执行的代码
     def dosub(self, act, no):
@@ -64,10 +41,10 @@ class Pools:
         tab = 'img' if part=='save' else 'url'
         itmc = db.get("SELECT COUNT(*) AS cnt FROM {"+tab+"}")
         recs = itmc[0]['cnt']
-        limit = limb(self.pcnt, no, recs)
+        limit = argv.limit(self.pcnt, no, recs)
         res = {}
         if part=='url':
-            rng = ranb(self.pcnt, no, cmax, cmin)
+            rng = argv.range(self.pcnt, no, cmax, cmin)
             n1 = rng['n1']; n2 = rng['n2'];
             for i in range(n1, n2+1):
                 re = cjfang.urlp(db, act, i)
@@ -87,7 +64,6 @@ class Pools:
             for row in itms:
                 re = cjfang.imgs(db, act, row)
             res = {'limit':limit}
-            pass
         else:
             res = cjfang.area(db, act)
         return res
