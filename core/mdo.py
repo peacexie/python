@@ -1,4 +1,4 @@
-#coding=UTF-8
+#coding=UTF-8 # 这个文件不该放在core里面
 
 import sys, os, time, random
 from core import argv, dbop
@@ -11,6 +11,7 @@ class Pools:
         self.mkey = mkey
         #self.dbk = dbk
         #self.func = cjfang.area
+        self.pcnt = 2
 
     def setp(self, param={}):
         params = []
@@ -31,22 +32,38 @@ class Pools:
         return res
 
     # 子进程采集
-    def caiji(self, act, no):
-        print('Run caiji : act=%s, no=%s, pid=(%s)...' % (act, no, os.getpid()))
+    def caiji(self, part, act, no):
+        print('Run caiji : part=%s, no=%s, pid=(%s)...' % (part, no, os.getpid()))
+        cmin = int(cjfang.cfg('pagemin'))
+        cmax = int(cjfang.cfg('pagemax'))
+        #cbat = int(cjfang.cfg('delimit'))
+        res = {}
         db = dbop.edb('cjdb')
-        #param = self.setp(self.param)
-        # urlp,datap,imgp,imgs,area
-        param = (db, 'test', 4)
-        res = cjfang.urlp(*param)
+        if part=='url':
+            rng = cjfang.mburl(self.pcnt, no, cmax, cmin)
+            n1 = rng['n1']; n2 = rng['n2'];
+            for i in range(n1, n2+1):
+                re = cjfang.urlp(db, act, i)
+            res = rng
+        elif part=='data':
+            re = cjfang.mbrow(self.pcnt, no, 'url', db)
+            for row in re['itms']:
+                re = cjfang.datap(db, act, row)
+            res = {'limit':re['limit']}
+            #print(res)
+            pass
+        else:
+            res = cjfang.area(db, 'test')
         return res
 
     def start(self, part, act, pcnt=4):
+        self.pcnt = pcnt
         print('\nParent process %s.' % os.getpid())
         dofunc = self.getfunc(); 
         p = Pool(pcnt)
         res = {}
         for i in range(pcnt):
-            res = p.apply_async(dofunc, args=(act, i))
+            res = p.apply_async(dofunc, args=(part, act, i))
         print('Waiting for all Pools('+str(pcnt)+') done...')
         p.close()
         p.join()

@@ -4,6 +4,45 @@ from core import argv, dbop, files, urlpy
 from urllib import parse, request as ureq
 from pyquery import PyQuery as pyq
 
+# 计算批次,给多进程使用
+
+def mburl(pcnt, no, cmax, cmin):
+    cbat = int(cmax / pcnt)
+    n1 = (no*cbat) + cmin
+    n2 = cmax if pcnt==no+1 else ((no*cbat)+cbat)
+    if n2>cmax:
+        n2 = cmax
+    res = {'n1':n1, 'n2':n2}
+    #print(res)
+    return res
+
+def mbrow(pcnt, no, tab, db):
+    itmc = db.get("SELECT COUNT(*) AS cnt FROM {url}")
+    cmax = itmc[0]['cnt']
+    cbat = int(cmax / pcnt)
+    if not no:
+        limit = "LIMIT " + str(cbat)
+    elif pcnt==no+1:
+        limit = "LIMIT " + str(no*cbat) + ',9912399'
+    else:
+        limit = "LIMIT " + str(no*cbat) + ',' + str(cbat)
+    print(limit)
+    itms = db.get("SELECT * FROM {"+tab+"} WHERE f1=0 ORDER BY id "+limit)
+    #print(limit)
+    return {'itms':itms, 'limit':limit}
+    pass
+
+'''
+        
+        if not itms:
+            data['_end'] = 1
+        for row in itms:
+            fid = row['fid']
+            res[fid] = datap(db, act, row)
+'''
+
+# 采集
+
 def img(db, act):
     cbat = cfg('delimit')
     offset = random.randint(5, 15)
@@ -284,7 +323,7 @@ def urlp(db, act, page):
         
     return data
 
-def area(db, act, t1=0, t2=0):
+def area(db, act):
 
     if act=='view':
         return db.get("SELECT * FROM {attr} ORDER BY id")

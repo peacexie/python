@@ -3,8 +3,8 @@
 import sys, os
 sys.path.append("../")
 sys.path.append("./views")
-from core import argv, mdo
-#config.init() # , config
+from core import argv, config, mdo
+config.init() # , config
 
 if __name__=='__main__':
 
