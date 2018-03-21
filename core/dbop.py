@@ -1,6 +1,6 @@
 
 import copy
-from core import argv, config
+from core import argv
 #import pymysql, sqlite3, pymssql ... # 动态加载: 
 
 def edb(key):

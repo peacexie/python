@@ -2,8 +2,8 @@
 
 import sys, os
 sys.path.append("../")
-from core import argv, config
-config.init() # _exts需要先.init()
+from core import argv
+argv.init() # _exts需要先.init()
 from _exts import mdo
 
 if __name__=='__main__':
