@@ -42,16 +42,14 @@ class main:
         data = {}
         return data
 
-    def batch(self):
-        mp = mdo.Pools('caiji'); # caiji,dosub
-        mp.start('area', 'test', 2)
+    def batchAct(self):
         data = {}
+        #print('\nxxxx\n')
+        #mp = mdo.Pools('caiji');
+        #res = mp.start('area', 'test', 2)
+        #data['res'] = res
         return data
         pass
-
-    def tqAct(self):
-        data = {}
-        return data
 
 '''
 
