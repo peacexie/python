@@ -1,13 +1,13 @@
 #coding=UTF-8
 
 import sys, os, time
-from core import config, dbop, vjef, vext
+from core import argv, dbop, vjef, vext
 from flask import Flask, Blueprint, session, redirect, g, render_template, abort
 
 def web():
     timer = time.time()
     root = os.getcwd()
-    cfgs = config.init()
+    cfgs = argv.init()
     tpdir = root + cfgs['dir']['views']
     stdir = root + cfgs['dir']['static']
     app = Flask(__name__, template_folder=tpdir, static_folder=stdir)

@@ -1,8 +1,8 @@
 
 #import os, sys, platform
 import copy
-from flask import g
 from core import dbop, files, argv
+from flask import g
 
 # main名称固定
 class main:

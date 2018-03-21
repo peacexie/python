@@ -1,8 +1,8 @@
 
 #import os, sys, platform
 import copy
-from flask import g
 from core import dbop, files, argv
+from flask import g
 
 # 方法格式: {xxx}Act
 # xxx优先顺序 : mkvs.key > mkvs._type > '_def'
