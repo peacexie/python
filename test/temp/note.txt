@@ -3,6 +3,11 @@
 
 ------------------------------------------
 
+\static\common
+\static\common\fzg360
+\static\common\jslib
+\static\index
+
 
 ------------------------------------------
 
@@ -32,12 +37,4 @@ wap使用ajax吧 --- 列表首页(第一页)资料也ajax
 https://m.fang.com/news/dg.html 
 
 ------------------------------------------
-
-
-#54.36.148.157 txmao.txjia.com [21/Mar/2018:07:44:29 +0800] 404 941 0 7 "GET /dev.php?mkv=tools-ipaddr&api=Pcoln&uip=10.19.115.129 HTTP/1.1" "-" "Mozilla/5.0 (compatible; AhrefsBot/5.2; +http://ahrefs.com/robot/)" -
-
-<a href=
-
-Notice: Undefined index: catid in /home/bae/app/skin/umc/b_func/tex_faqs.php on line 154
-
 
