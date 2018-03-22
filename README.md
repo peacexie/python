@@ -27,7 +27,7 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
   - 特别提示：配置链接Mysql数据库 `[cdb]` 相关参数
 
 * 运行应用
-  - 直接运行：/trunk/app/webc.py
+  - 直接运行：/trunk/app/web.py
   - win模式下，可点 /trunk/run.cmd，直接进入命令行
   - 访问：http://127.0.0.1:8026/ (端口可在`appcfg.ini`配置中修改)
 
@@ -38,21 +38,22 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
   标记有：Porsonal Test Code! 的，可直接删除！
 
 ```
-    /branches/           --- Porsonal Test Code!
-      - /ex100/    
-      - /ex200/    
-      - /hipy/     
-    /trunk/app/          --- 微爬(Wepy)
-      - /_cache/  - 缓存目录
-      - /data/    - db, config
-      - /static/  - js,css 资源
-      - /views/   - 模板
-      - /webc.py  - 运行入口
-    /blog/               --- 单独blog演示
-    /core/               --- 核心库包
-    /import/             --- 导入库包
-    /impui/              --- 外部UI库
-    /test/               --- Porsonal Test Code!
+    /branches/                 --- Porsonal Test Code!
+      - /ex100/          
+      - /ex200/          
+      - /hipy/           
+    /trunk/app/                --- 微爬(Wepy)
+      - /_cache/       - 缓存目录
+      - /data/         - db, config
+      - /static/       - js,css 资源
+      - /views/        - 模板
+      - /web.py       - 运行入口
+      - /mpa.py       - 命令行-多进程运行入口(有点鸡肋味道)
+    /trunk/blog/               --- 单独blog演示 (v1)
+    /trunk/core/               --- 核心库包
+    /trunk/import/             --- 导入库包
+    /trunk/impui/              --- 外部UI库
+    /trunk/test/               --- Porsonal Test Code!
 ```
 
 
