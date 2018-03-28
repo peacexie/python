@@ -1,10 +1,10 @@
 
+2018-03-25, (v1.1) 继续爬：完善多进程采集
+
+### 微爬(Wepy) - /trunk/app
 
 生活是艰难的：甚至需要爬……  
 Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微爬(Wepy)，尽量让您轻松愉快的爬知识，爬价值，爬乐趣！
-
-
-### 微爬(Wepy) - /trunk/app
 
 微爬(Wepy,Wepthon)：是一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！  
 基于 Python, Flask/Blueprint/jinja, Mysql/Sqlite, PyQuery 等开源模块开发  
@@ -59,8 +59,7 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 
 ### 微爬(Wepy) - 问题遗留
 
-* 多进程在 Flask-Request 下运行问题
-* 命令行模式下 无上下文 使用 Flask-g 问题
-* Blueprint下 session/cookie 的问题
+* 多进程 目前只能在命令行运行；
+* Blueprint下 session/cookie 的问题；
 
 
