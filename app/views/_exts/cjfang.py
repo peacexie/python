@@ -89,14 +89,14 @@ def imgp(db, act, row):
             # save
             sql = "SELECT * FROM {img} WHERE fid=%s"
             urow = db.get(sql, (pid,),1) #str.strip([chars])
-            flval = (pid, pdic[pid]['title'], pcaid, pdic[pid]['price'], 
+            flval = (pid, row['fid'], pdic[pid]['title'], pcaid, pdic[pid]['price'], 
                 pdic[pid]['area'], pdic[pid]['thumb'])
             if not urow:
-                flids = 'fid,title,pcaid,price,area,thumb'
-                sql = "INSERT INTO {img} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s) "
+                flids = 'fid,pid,title,pcaid,price,area,thumb'
+                sql = "INSERT INTO {img} ("+flids+") VALUES (%s,%s,%s,%s,%s,%s,%s) "
                 pdic[pid]['_res'] = 'add';
             else:
-                flids = " fid=%s,title=%s,pcaid=%s,price=%s,area=%s,thumb=%s "
+                flids = " fid=%s,pid=%s,title=%s,pcaid=%s,price=%s,area=%s,thumb=%s "
                 whr = " WHERE fid='"+str(urow['fid'])+"' "
                 sql = "UPDATE {img} SET" + flids + whr
                 pdic[pid]['_res'] = 'upd';
