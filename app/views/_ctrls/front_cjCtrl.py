@@ -14,6 +14,14 @@ class main:
         cdb = dict(copy.deepcopy(argv.cfgs['cdb']), **argv.cfgs['cjdb'])
         self.db = dbop.dbm(cdb)
 
+    #fixSale
+    def fixSaleAct(self):
+        data = {}
+        cjfang.fixSale(self.db, 1)
+        res = data['res'] = 'res'
+        data['_end'] = 1
+        return data
+
     # `attr`方法
     def attrAct(self):
         data = {}
