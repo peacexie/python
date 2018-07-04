@@ -20,7 +20,7 @@ def page(url, cset='', ziped=0, head={}):
     return html
 
 # 从url保存一个文件
-def svurl(url, sdir, file='', path='./_cache'):
+def svurl(url, sdir, file='', path='../_cache'):
     if url.find('://')<0:
         return ''
     data = ureq.urlopen(url).read()
