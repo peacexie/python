@@ -1,6 +1,5 @@
 
-cj08cms-hy
 
-cj08cms-mz.py
-
-cjfang.py
+cj08cms-mz.py : 2018, 08cms-v7.1, dynamic
+cj08cms-hy.py : 2018, 08cms-v7.1, static
+cjfang-com.py : 2017, fang.com, 
