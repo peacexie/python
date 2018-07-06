@@ -1,5 +1,0 @@
-﻿
-bootstrap
-jq
-KindEditor
-layer
