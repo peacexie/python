@@ -10,10 +10,10 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='gb18030')
 
 # 
 """
-http://txmao.txjia.com/
+http://imcat.txjia.com/
 https://tieba.baidu.com/p/2460150866
 """
-url = "http://txmao.txjia.com/chn.php?cargo"
+url = "http://imcat.txjia.com/chn.php?cargo"
 html = urlpy.page(url)
 #print(html)
 
