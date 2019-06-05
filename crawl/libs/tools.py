@@ -61,14 +61,14 @@ def debug(debug={}):
     if 'run' not in debug.keys():
         return {
             'run':{'stamp1':time.time(), 'start':now},
-            'url':{}, 'save':{},
+            'link':{}, 'cont':{},
         }
     # end
     debug['run']['stamp2'] = time.time()
     debug['run']['end'] = now,
     debug['run']['timen'] = debug['run']['stamp2'] - debug['run']['stamp1']
     data = str(debug)
-    fp = time.strftime("%m%d-%H%M%S", time.localtime()) + '.txt'
+    fp = time.strftime("%Y%m%d-%H%M%S", time.localtime()) + '.txt'
     files.put('../_cache/debug/'+fp, data)
     return debug
 

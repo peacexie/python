@@ -16,46 +16,56 @@ class main:
         self.db.close(); #print('-end-')
 
     # 保存一笔详情数据
-    def saveDetail(self, rule, rowb):
+    def saveDetail(self, rule, rowb, istest=0):
         kid = str(rowb['id'])
         rowd = self.getDetail(rule, rowb['url'])
         frem = tools.skips(rule, rowb, rowd)
-        flag = '1' # '2' if len(frem)>0 else '1'; # 7-待入库/1-爬网址
+        flag = '2' if len(frem)>0 else '7';
         ftab = 'flag=%s,frem=%s,ctime=%s, detail=%s,dpub=%s,dfrom=%s, '
         ftab += 'catid=%s,sfrom=%s,suser=%s'
         ctime = time.strftime("%m-%d %H:%M", time.localtime())
         sqli = "UPDATE {crawl_data} SET "+ftab+" WHERE id=%s"
         rowi = (flag,frem,ctime, rowd['detail'],rowd['dpub'],rowd['dfrom'], 
             rule['catid'],rule['sfrom'],rule['suser'], kid)
-        res = self.db.exe(sqli,rowi)
+        if not istest:
+            res = self.db.exe(sqli,rowi)
+        else:
+            dt = rowd['detail']
+            rowd['detail'] = dt[0:48] +' ...... '+ dt[-24:]
+            print(rowd)
         if not frem:
-            frem = 'save-ok'
+            frem = 'update-ok'
         return 'data-'+kid+' : ' + frem
     # 取出未采集详情的列表
-    def getDList(self, part):
-        if not part or part=='0':
-            whr = '';
-        elif part.isdigit():
-            whr = " AND ruleid='"+part+"'";
-        else:
-            whr = " AND city='"+part+"'"
-        sql = "SELECT * FROM {crawl_data} WHERE flag=1"+whr
-        lists = self.db.get(sql,())
-        return lists;
-
-    # 获取规则
-    def getRules(self, part):
+    def getDList(self, part, istest=0):
         if not part or part=='0':
             whr = '';
         elif part.isdigit():
             whr = " AND id='"+part+"'";
         else:
             whr = " AND city='"+part+"'"
-        sql = "SELECT * FROM {crawl_rule} WHERE status=1"+whr
+        wtest = "1=1" if istest else "flag=1"
+        sql = "SELECT * FROM {crawl_data} WHERE "+wtest+whr
+        lists = self.db.get(sql,())
+        return lists;
+
+    # 获取规则
+    def getRules(self, part, act, istest=0):
+        if not part or part=='0':
+            whr = '';
+        elif part.isdigit():
+            rid = part
+            if act=='cont' and part.isdigit(): # 找出当前内容的规则id ??? 
+                rid = '1025'
+            whr = " AND id='"+rid+"'";
+        else:
+            whr = " AND city='"+part+"'"
+        wtest = "1=1" if istest else "status=1"
+        sql = "SELECT * FROM {crawl_rule} WHERE "+wtest+whr
         rules = self.db.get(sql,())
         return rules;
     # 爬1个规则的列表
-    def pyUrls(self, rule):
+    def pyUrls(self, rule, istest=0):
         res = {}; no = 0;
         lists = self.getUList(rule)
         for rb in lists:
@@ -66,12 +76,12 @@ class main:
                 fields = 'city,flag,ruleid,title,url'
                 sqli = "INSERT INTO {crawl_data} ("+fields+")VALUES(%s,%s,%s,%s,%s)"
                 rowi = (rule['city'],'1',rule['id'],rb['title'],rb['url'],)
-                rs = self.db.exe(sqli,rowi)
-                res[no] = 'save : '+url
+                if not istest:
+                    rs = self.db.exe(sqli,rowi)
+                res[no] = 'insert : '+url
             else: # print('skip')
                 res[no] = 'skip : '+url
             no += 1;
-        #rule = {'id':rule['id'], 'name':rule['name'], 'city':rule['city']}
         return res
 
     # 采集-获取Url列表
