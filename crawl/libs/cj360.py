@@ -6,6 +6,13 @@ from urllib import parse
 from pyquery import PyQuery as pyq
 from libs import tools
 
+'''
+0-默认,
+1-爬网址,2-已过滤,3/7-爬内容,4-爬图片,5-预留
+7-爬内容/待入库
+8-已入库,9-已删除
+'''
+
 class main:
 
     # 构造/析构
