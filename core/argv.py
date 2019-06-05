@@ -7,13 +7,15 @@ global cfgs
 # ---------------------------------------------- 
 
 # 初始化配置
-def init():
+def init(base=0):
     global cfgs
     cfgs = {}
     cfgs['envs'] = envs()
     bcfg = ucfg()
     for key in bcfg: # app, dir, path, db, blog ... 
         cfgs[key] = bcfg[key]
+    if base:
+        return cfgs
     sys.path.append(cfgs['dir']['cpdir'])
     #sys.path.append(cfgs['dir']['import'])
     sys.path.append(cfgs['dir']['views'])
