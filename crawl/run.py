@@ -12,6 +12,19 @@ part = argvs[1] if len(argvs)>=2 else '0'
 act = argvs[2] if len(argvs)>=3 else 'link'
 istest = 'test' if len(argvs)>=4 else ''
 
+
+# test-start
+'''
+cfgs = "\naaa\n"
+cfgs += "\ntab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>\n"
+cfgs += "\nbbb\n"
+res = cjtool.repCont(cfgs, 'tab_repd', 'abc')
+print(res)
+sys.exit()
+'''
+# test-end
+
+
 cj = cjnews.main()
 rules = cj.getRules(part, act, istest)
 if not rules:

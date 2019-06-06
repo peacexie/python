@@ -6,6 +6,31 @@ from urllib import parse
 from urllib.parse import urljoin
 from pyquery import PyQuery as pyq
 
+# 内容替换：tab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>@@
+def repCont(cfgs, key, val):
+    if not cfgs or not val:
+        return val
+    rg = re.search(key+'=='+'([^\n|\r])+', cfgs) #, re.I
+    if not rg:
+        return val
+    if rg:
+        rp = rg.span() #;print(rp)
+        cfg = cfgs[rp[0]+len(key)+2:rp[1]] #;print(cfg)
+        tab = re.split('@@', cfg)
+        for i in range(len(tab)):
+            iv = tab[i] #;print(iv)
+            if not iv:
+                continue
+            tb2 = re.split('=', iv)
+            if tb2[0] and '=' in iv and tb2[1]:
+                val = val.replace(tb2[0], tb2[1])
+            else:
+                reg = re.compile(re.escape(iv), re.IGNORECASE)
+                val = reg.sub('', val)
+                #val.replace(iv, '')
+            #print(tb2)
+    return val;
+
 def skips(rule, rowb, rowd):
     # 内容为空:返回过滤原因代码
     if not rowd['detail']:

@@ -62,8 +62,10 @@ class main:
             whr = '';
         elif part.isdigit():
             rid = part
-            if act=='cont' and part.isdigit(): # 找出当前内容的规则id ??? 
-                rid = '1025'
+            if act=='cont' and part.isdigit(): # 找出当前内容的 ruleid ??? 
+                sql = "SELECT * FROM {crawl_data} WHERE id="+rid
+                row = self.db.get(sql,(),1)
+                rid = str(row['ruleid']) if row else '0'
             whr = " AND id='"+rid+"'";
         else:
             whr = " AND city='"+part+"'"
@@ -111,6 +113,7 @@ class main:
         html = self.rhtml(url)
         doc = pyq(html)
         detail = cjtool.pqv(doc, rule['detail'], 'html')
+        detail = cjtool.repCont(rule['cfgs'], 'tab_repd', detail)
         dpub = cjtool.pqv(doc, rule['dpub'], 'text')
         dfrom = cjtool.pqv(doc, rule['dfrom'], 'text')
         return {'dpub':dpub, 'dfrom':dfrom, 'detail':detail}
@@ -119,10 +122,10 @@ class main:
     def rhtml(self, url, scet='', cache=-1):
         cfgs = self.cfgs
         if cache<0:
-            cache = int(cfgs['cj360']['cacexp'])
+            cache = int(cfgs['ucfg']['cacexp'])
         if not cache:
             return urlpy.page(url, scet)
-        fp = cfgs['cj360']['cacdir'] + '/pages/' + files.autnm(url, 1)
+        fp = cfgs['dir']['cache'] + '/pages/' + files.autnm(url, 1)
         ok = files.tmok(fp, cache)
         if ok:
             html = files.get(fp, 'utf-8')
