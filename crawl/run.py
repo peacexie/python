@@ -3,7 +3,7 @@
 import sys, time
 sys.path.append("./")
 sys.path.append("../")
-from libs import cj360, tools
+from libs import cjnews, cjtool
 
 # 运行参数 见 `_wm.cmd` 注释
 
@@ -12,13 +12,13 @@ part = argvs[1] if len(argvs)>=2 else '0'
 act = argvs[2] if len(argvs)>=3 else 'link'
 istest = 'test' if len(argvs)>=4 else ''
 
-cj = cj360.main()
+cj = cjnews.main()
 rules = cj.getRules(part, act, istest)
 if not rules:
     sys.exit('Null Rules!')
 
 # debug-start
-debug = tools.debug()
+debug = cjtool.debug()
 
 
 # 爬连接
@@ -48,7 +48,7 @@ if act=='cont' or act=='0':
 
 
 # debug-end
-debug = tools.debug(debug)
+debug = cjtool.debug(debug)
 print("\n", debug)
 
 '''

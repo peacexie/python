@@ -4,7 +4,7 @@ import copy, re, time
 from core import argv, dbop, files, urlpy
 from urllib import parse
 from pyquery import PyQuery as pyq
-from libs import tools
+from libs import cjtool
 
 '''
 0-默认,
@@ -26,7 +26,7 @@ class main:
     def saveDetail(self, rule, rowb, istest=0):
         kid = str(rowb['id'])
         rowd = self.getDetail(rule, rowb['url'])
-        frem = tools.skips(rule, rowb, rowd)
+        frem = cjtool.skips(rule, rowb, rowd)
         flag = '2' if len(frem)>0 else '7';
         ftab = 'flag=%s,frem=%s,ctime=%s, detail=%s,dpub=%s,dfrom=%s, '
         ftab += 'catid=%s,sfrom=%s,suser=%s'
@@ -98,8 +98,8 @@ class main:
         itms = []
         lists = doc(rule['slist'])
         for li in lists:
-            url = tools.pqv(li, rule['surl'], 'href')
-            title = tools.pqv(li, rule['stitle'], 'text')
+            url = cjtool.pqv(li, rule['surl'], 'href')
+            title = cjtool.pqv(li, rule['stitle'], 'text')
             if not url or not title:
                 continue
             url = urlpy.fxurl(url, rule['url'])
@@ -110,9 +110,9 @@ class main:
         res = {'errno':1, 'errmsg':''}
         html = self.rhtml(url)
         doc = pyq(html)
-        detail = tools.pqv(doc, rule['detail'], 'html')
-        dpub = tools.pqv(doc, rule['dpub'], 'text')
-        dfrom = tools.pqv(doc, rule['dfrom'], 'text')
+        detail = cjtool.pqv(doc, rule['detail'], 'html')
+        dpub = cjtool.pqv(doc, rule['dpub'], 'text')
+        dfrom = cjtool.pqv(doc, rule['dfrom'], 'text')
         return {'dpub':dpub, 'dfrom':dfrom, 'detail':detail}
 
     # cache: 1-系统配置, 0-无缓存, >0:缓存
