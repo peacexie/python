@@ -2,7 +2,7 @@
 
 import copy, re
 from core import argv, dbop, files, urlpy
-from _exts import cjfang
+from libs import cjfang
 from urllib import parse
 from flask import request, g
 from pyquery import PyQuery as pyq

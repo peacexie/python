@@ -2,7 +2,7 @@
 
 import copy
 from core import argv, dbop
-from _exts import cjfang, mdo
+from libs import cjfang, mdo
 
 # main名称固定
 class main:

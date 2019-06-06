@@ -21,7 +21,7 @@ class main:
         c = argv.get('c', 'homeCtrl')
         a = argv.get('a', 'coderAct')
         tpl = argv.get('tpl', 'root/home/coder.htm')
-        fctr = './views/_ctrls/'+c+'.py'
+        fctr = './ctrls/'+c+'.py'
         ftpl = './views/'+tpl
         sctr = files.get(fctr)
         stpl = files.get(ftpl)

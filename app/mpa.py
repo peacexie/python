@@ -3,8 +3,8 @@
 import sys, os
 sys.path.append("../")
 from core import argv
-argv.init() # _exts需要先.init()
-from _exts import mdo
+argv.init() # libs需要先.init()
+from libs import mdo
 
 if __name__=='__main__':
 

@@ -103,11 +103,11 @@ def view(app, group, cfgs, mkv):
 def cdata(app, tpath):
     g.run['Ctrl'] = g.run['Act'] = ''
     file = g.mkvs['group'] +'_'+ g.mkvs['mod'] + 'Ctrl'
-    flag = os.path.exists(g.dir['views']+'/_ctrls/'+file+'.py')
+    flag = os.path.exists('./ctrls/'+file+'.py')
     if not flag:
         return {'__msg': 'None ['+file+'] Class'}
     g.run['Ctrl'] = file
-    items = __import__('_ctrls.'+file)
+    items = __import__('ctrls.'+file)
     cobj = getattr(items, file).main(app)
     tabs = g.mkvs['key'] +','+ '_'+g.mkvs['type'] + ',_def'
     taba = tabs.split(',')

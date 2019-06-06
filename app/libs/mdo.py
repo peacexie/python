@@ -3,7 +3,7 @@
 
 import sys, os, time, random
 from core import argv, dbop
-from _exts import cjfang
+from libs import cjfang
 from multiprocessing import Process, Pool
 
 class Pools:
