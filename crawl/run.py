@@ -51,6 +51,8 @@ if act=='cont' or act=='0':
     # 取出未采集详情的列表
     lists = cj.getDList(part, istest)
     for itm in lists:
+        if not itm['ruleid'] in rdic.keys():
+            continue
         rule = rdic[itm['ruleid']];
         res = cj.saveDetail(rule, itm, istest)
         if istest or rule['debug']==1:

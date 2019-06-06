@@ -1,0 +1,39 @@
+
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}<title>前端分组 - front简介 - {{ g.sys['title']}}</title>{% endblock %}
+
+{% block head %}
+    <h1>前端分组 - front 简介</h1>
+    <p>Sqlite博客，Mysql专业采集，爬虫测试：三大模块</p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">nav</span>导航</h2>
+    <div>
+        <p><a href="/front/cj">Mysql专业采集</a></p>
+        <p><a href="/front/pa">爬虫测试</a></p>
+        <p><a href="/front/blog">Sqlite博客</a></p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">advert</span>前端简介</h2>
+    <div>
+        <p>这是一个综合首页 ……此处省略的很多很多内容……</p>
+        <p>
+            <a href="http://www.runoob.com/python3/python3-tutorial.html" target="_blank">Python3-教程</a> - 
+            <a href="http://www.cnblogs.com/linuxhui/p/5804380.html" target="_blank">jinja2-宏(macro)</a> - 
+            <a href="http://www.pythondoc.com/flask/quickstart.html" target="_blank">Flask-快速入门</a> - 
+            广告！！！
+        </p>
+    </div>
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}

@@ -1,0 +1,24 @@
+
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}<title>dev - {{ g.sys['title']}}</title>{% endblock %}
+
+{% block head %}
+    <h1>微爬(Wepy) dev</h1>
+    <p>
+        {{ d.data.title }}
+    </p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1">link</span>/static/root/doc/{{ d.data.fp }}</h2>
+    <textarea style='width:100%'; rows='32' wrap='off' >{{ d.data.slink|d('(Empty/Error File)',true) }}</textarea>
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}

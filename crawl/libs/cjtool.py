@@ -6,6 +6,35 @@ from urllib import parse
 from urllib.parse import urljoin
 from pyquery import PyQuery as pyq
 
+
+# <xml id="DocumentsDataSrc12">(*)</xml>
+def htmDeel(rule, html, key): # key=pre_list/pre_cont
+    rg = re.search(key+'=='+'([^\n|\r])+', rule['cfgs']) #, re.I
+    if not rg:
+        return html
+    rp = rg.span() #;print(rp)
+    cfg = rule['cfgs'][rp[0]+10:rp[1]] #;print(cfg)
+    if not '(*)' in cfg:
+        return html
+    tab = cfg.split('(*)')
+    html = urlpy.block(html, tab[0], tab[1])
+    if len(html)>51200: # 500多K文本，2400多条记录，空白（可能是溢出）
+        html = html[0:48000] +' ... '+ html[-2400:]
+    return html
+
+# 图片地址替换
+def repImgs(url, html):
+    reg = r'\<img([^\n\r]+)src=[\'\"]?([^\'\"]+)[\'\"]?'
+    res = re.findall(reg, html, re.S) #|re.M
+    for i in range(len(res)):
+        iv = res[i][1]
+        if not iv or 'data:image/' in iv or '://' in iv:
+            continue
+        iurl = urlpy.fxurl(iv, url)
+        html = html.replace(iv, iurl)
+        print(iurl)
+    return html
+
 # 内容替换：tab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>@@
 def repCont(cfgs, key, val):
     if not cfgs or not val:
@@ -13,22 +42,21 @@ def repCont(cfgs, key, val):
     rg = re.search(key+'=='+'([^\n|\r])+', cfgs) #, re.I
     if not rg:
         return val
-    if rg:
-        rp = rg.span() #;print(rp)
-        cfg = cfgs[rp[0]+len(key)+2:rp[1]] #;print(cfg)
-        tab = re.split('@@', cfg)
-        for i in range(len(tab)):
-            iv = tab[i] #;print(iv)
-            if not iv:
-                continue
-            tb2 = re.split('=', iv)
-            if tb2[0] and '=' in iv and tb2[1]:
-                val = val.replace(tb2[0], tb2[1])
-            else:
-                reg = re.compile(re.escape(iv), re.IGNORECASE)
-                val = reg.sub('', val)
-                #val.replace(iv, '')
-            #print(tb2)
+    rp = rg.span() #;print(rp)
+    cfg = cfgs[rp[0]+len(key)+2:rp[1]] #;print(cfg)
+    tab = re.split('@@', cfg)
+    for i in range(len(tab)):
+        iv = tab[i] #;print(iv)
+        if not iv:
+            continue
+        tb2 = re.split('=', iv)
+        if tb2[0] and '=' in iv and tb2[1]:
+            val = val.replace(tb2[0], tb2[1])
+        else:
+            reg = re.compile(re.escape(iv), re.IGNORECASE)
+            val = reg.sub('', val)
+            #val.replace(iv, '')
+        #print(val)
     return val;
 
 def skips(rule, rowb, rowd):
@@ -60,6 +88,8 @@ def skips(rule, rowb, rowd):
 
 # 取多个选择器(<pqs1>,<pqs2>)中一个的 值/属性
 def pqv(dom, pqs, attr='text'):
+    if not pqs:
+        return ''
     if not ',' in pqs:
         return pqone(dom, pqs, attr)
     else:

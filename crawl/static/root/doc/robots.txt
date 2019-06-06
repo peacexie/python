@@ -1,0 +1,12 @@
+#
+# robots.txt for Œ¢≈¿(Wepy)
+# Version 1.0
+#
+
+User-Agent: SomeSpider
+Disallow: /
+
+User-agent: *
+Disallow: /admin/
+Disallow: /tests/
+Disallow: /error

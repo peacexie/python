@@ -38,7 +38,7 @@ class main:
             res = self.db.exe(sqli,rowi)
         else:
             dt = rowd['detail']
-            rowd['detail'] = dt[0:48] +' ...... '+ dt[-24:]
+            rowd['detail'] = dt[0:240] +' ...... '+ dt[-120:]
             print(rowd)
         if not frem:
             frem = 'update-ok'
@@ -96,25 +96,37 @@ class main:
     # 采集-获取Url列表
     def getUList(self, rule={}):
         html = self.rhtml(rule['url'])
+        html = cjtool.htmDeel(rule, html, 'pre_list')
         doc = pyq(html)
         itms = []
         lists = doc(rule['slist'])
         for li in lists:
-            url = cjtool.pqv(li, rule['surl'], 'href')
+            attu = 'href' if rule['surl']=='a' else 'text'
+            url = cjtool.pqv(li, rule['surl'], attu)
             title = cjtool.pqv(li, rule['stitle'], 'text')
             if not url or not title:
                 continue
-            url = urlpy.fxurl(url, rule['url'])
+            ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I
+            if ug:
+                rp = ug.span() #;print(rp)
+                ubase = rule['cfgs'][rp[0]+9:rp[1]]
+                url = ubase + url
+            else:
+                url = urlpy.fxurl(url, rule['url'])
             itms.append({'url':url, 'title':title})
+        #print(itms[0])
         return itms;
     # 采集-获取详情
     def getDetail(self, rule={}, url=''):
         res = {'errno':1, 'errmsg':''}
         html = self.rhtml(url)
+        html = cjtool.htmDeel(rule, html, 'pre_cont')
         doc = pyq(html)
         detail = cjtool.pqv(doc, rule['detail'], 'html')
         detail = cjtool.repCont(rule['cfgs'], 'tab_repd', detail)
+        detail = cjtool.repImgs(url, detail)
         dpub = cjtool.pqv(doc, rule['dpub'], 'text')
+        dpub = cjtool.repCont(rule['cfgs'], 'tab_rept', dpub)
         dfrom = cjtool.pqv(doc, rule['dfrom'], 'text')
         return {'dpub':dpub, 'dfrom':dfrom, 'detail':detail}
 

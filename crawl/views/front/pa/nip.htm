@@ -1,0 +1,39 @@
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}
+<title>中国天气网图片采集 - {{ g.sys['title']}}</title>
+<meta name='robots' content='noindex, nofollow'>
+{% endblock %}
+
+{% block head %}
+    <h1>中国天气网图片</h1>
+    <p>http://www.weather.com.cn/</p>
+{% endblock %}
+
+{% block main %}
+
+<div class="out">
+
+<div class="in">
+    <h2><span class="tg1"><a href="./pa">返回</a></span>中国天气网图片</h2>
+    <div>
+        <p>开始爬昵图网图片，结果他处理了盗链...</p>
+        <p>图片地址 ： 
+        <a href="http://www.weather.com.cn/html/weather/101281601.shtml" target="_blank">http://www.weather.com.cn/html/weather/101281601.shtml</a>
+        </p>
+    </div>
+</div>
+
+<div class="in">
+    <h2><span class="tg1">result</span>执行结果</h2>
+    {% for itm in d.data %}
+    <div>
+        <p style="background:#CCC"><a target="_blank" href="{{ itm.link }}">{{ itm.title }}</a></p>
+        <p><img src="{{ itm.img }}" /></p>
+    </div>
+    {% endfor %}
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}

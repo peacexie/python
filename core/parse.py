@@ -96,4 +96,3 @@ class convXml(object):
         except:
             print('collectionToXML: Convert Error, collection convert to xml fail.')
             return None
-

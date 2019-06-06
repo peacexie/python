@@ -35,3 +35,18 @@ def fxurl(url, base=''):
     if not '://' in url:
         url = urljoin(base, url)
     return url
+
+# --- 以下函数,尽量使用PyQuery代替,这里出现只是练习的意义 --- 
+
+def block(html, tag, end=''):
+    p1 = html.find(tag)
+    if p1<0:
+        return ''
+    slen = len(html)
+    html = html[p1:slen]
+    p1 = html.find(end)
+    if p1<0 or end=='':
+        return html
+    p1 += len(end)
+    html = html[0:p1]
+    return html

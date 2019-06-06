@@ -1,0 +1,12 @@
+
+{% extends "root/_incs/lay_info.htm" %}
+
+{% block title %}
+<title>Error:{{ d.code }} - {{ d.message }}</title>
+<meta name='robots' content='noindex, nofollow'>
+{% endblock %}
+
+{% block head %}
+<h1>Error:{{ d.code }}</h1>
+<p class="ermsg">{{ d.message }}</p>
+{% endblock %}
