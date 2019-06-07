@@ -6,10 +6,18 @@
 <div class="out">
 
 <div class="in">
-<p><i class="r"><a href="/front/pa">pa理论...</a></i>生活是艰难的：甚至需要爬……</p>
-<p>Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！
-但是：微爬(Wepy)，尽量让您轻松愉快的爬知识，爬价值，爬乐趣！</p>
+<p><i class="r"><a href="/home">微爬(Wepy)-Home</a></i>生活是艰难的：甚至需要爬……</p>
+<p>专业资讯采集 …… 规则测试！</p>
 </div>
+
+{{ d.data }}
+
+    {% for rule in d.data.rules %}
+    <div>
+        <p style="background:#CCC">{{ rule }}</p>
+        
+    </div>
+    {% endfor %}
 
 <div class="block"><div class="in">
     <h2><span class="tg1">{root}</span>(根目录)</h2>
