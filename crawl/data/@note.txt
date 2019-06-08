@@ -1,0 +1,9 @@
+
+
+https://blog.csdn.net/harry5508/article/details/83079031
+python中传参数模糊查询mysql
+
+city:___
+title:___
+id:___
+搜索规则
