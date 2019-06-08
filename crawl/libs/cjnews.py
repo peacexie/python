@@ -57,7 +57,7 @@ class main:
         return lists;
 
     # 获取规则
-    def getRules(self, part, act, istest=0):
+    def getRules(self, part, act, istest=0, params=()):
         if not part or part=='0':
             whr = '';
         elif part.isdigit():
@@ -67,11 +67,14 @@ class main:
                 row = self.db.get(sql,(),1)
                 rid = str(row['ruleid']) if row else '0'
             whr = " AND id='"+rid+"'";
+        elif part=='sql':
+            whr = ""+act+"";
         else:
             whr = " AND city='"+part+"'"
         wtest = "1=1" if istest else "status=1"
+        print(wtest+whr)
         sql = "SELECT * FROM {crawl_rule} WHERE "+wtest+whr
-        rules = self.db.get(sql,())
+        rules = self.db.get(sql,params)
         return rules;
     # 爬1个规则的列表
     def pyUrls(self, rule, istest=0):

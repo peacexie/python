@@ -6,20 +6,38 @@
 <div class="out">
 
 <div class="in">
-<p><i class="r"><a href="/home">微爬(Wepy)-Home</a></i>生活是艰难的：甚至需要爬……</p>
-<p>专业资讯采集 …… 规则测试！</p>
+
+<form id="sofm" name="sofm" method="get" action="?">
+<table width="100%" border="1" class="tblist">
+  <tr class="tc">
+    <td>city:<input name="city" data-maxlength="24" width="40" value=""></td>
+    <td>title:<input name="name" data-maxlength="24" width="40" value=""></td>
+  </tr> 
+  <tr class="tc">
+    <td>rid:<input name="rid" data-maxlength="12" width="40" value=""></td>
+    <td><input type="submit" value="搜索规则"></td>
+  </tr> 
+</table>
+</form>
+
+
+{% for rule in d.data.rules %}
+<p>
+    <i class="r"><a href="#">爬网址调试</a></i>
+    <a href="{{ rule.url }}">[{{rule.city}}-{{rule.id}}] {{rule.name}}</a>
+    <span class="inb">--- status:{{rule.status}}, debug:{{rule.debug}}, agent:{{rule.agent}}</span>
+    <span class="inb">--- sfrom:{{rule.sfrom}}, suser:{{rule.suser}}</span>
+    <span class="inb">--- slist:{{rule.slist}}, surl:{{rule.surl}}, stitle:{{rule.stitle}}</span>
+    <span class="inb">--- detail:{{rule.detail}}, dpub:{{rule.dpub}}, dfrom:{{rule.dfrom}}</span>
+    <span class="inb">--- field:{{rule.field}}, fop:{{rule.fop}}, fval:{{rule.fval}}</span>
+    <span class="inb">--- cfgs:{{rule.cfgs}}</span>
+</p>
+{% endfor %}
+
 </div>
 
-{{ d.data }}
-
-    {% for rule in d.data.rules %}
-    <div>
-        <p style="background:#CCC">{{ rule }}</p>
-        
-    </div>
-    {% endfor %}
-
 <div class="block"><div class="in">
+    <form action="">
     <h2><span class="tg1">{root}</span>(根目录)</h2>
     <div>
         <p>
@@ -42,49 +60,7 @@
             错误页：403禁止直接访问
         </p>
     </div>
-</div></div>
-
-<div class="block"><div class="in">
-    <h2><span class="tg1">front</span>前端分组</h2>
-    <div>
-        <p><i class="r"><a xhref="/front/">home</a></i>首页:/front/</p>
-        <p><i class="r"><a xhref="/front/cj">采集</a></i>专业采集某网站：类别（地区等），信息列表，信息详情，关联图片……(Mysql保存)</p>
-        <p><i class="r"><a xhref="/front/pa">爬…</a></i>爬风景，爬美女，爬链接，专业爬…</p>
-        <p><i class="r"><a xhref="/front/blog">blog</a></i>Sqlite博客</p>
-    </div>
-</div></div>
-
-<div class="clear"></div>
-
-<div class="block"><div class="in">
-    <h2><span class="tg1">tests</span>测试分组</h2>
-    <div>
-        <p>
-            规则
-        </p>
-        <p>
-            -
-            &middot;
-            <a href="/tests/docs-udir">跳转:blog</a>
-            &middot;
-            <a href="/tests/docs-uerr">error</a>
-        </p>
-        <p>
-            <i class="r">docs</i>
-            <a href="/tests/docs-dev?fp=doc-note.txt">开发记录</a>
-            &middot;
-            <a href="/tests/docs-dev?fp=doc-link.txt">参考链接</a>
-            &middot;
-            <a href="/static/root/doc/hello.htm">hello静态文件</a>
-        </p>
-        <p>
-            <i class="r">admin</i>
-            后端测试分组，无实质功能：
-            <a href="/admin/home-login" target="_blank">login</a>
-            &middot;
-            <a href="/admin/" target="_blank">admin</a>
-        </p>
-    </div>
+    </form>
 </div></div>
 
 <div class="block"><div class="in">

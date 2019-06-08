@@ -18,19 +18,34 @@ class main:
 
     def indexAct(self):
 
-        city = argv.get('city', 'dg')
-        wd = argv.get('wd')
-        did = argv.get('wd')
-        rule = argv.get('rule', '88')
+        # rule-list
+        city = argv.get('city')
+        name = argv.get('name')
+        rid = argv.get('rid')
+        whr = ''; pms = ()
+        if city:
+            whr += " AND city=%s"
+            pms += (city,)
+        if name:
+            whr += " AND name LIKE %s"
+            pms += ('%'+name+'%',)
+        if rid:
+            whr += " AND id=%s"
+            pms += (rid,)
+
+        data = {}
+        cj = cjnews.main()
+        rules = cj.getRules('sql', whr, 0, pms)
+        data['rules'] = rules
+
+        # crawl-link
+        rule = argv.get('rule', '')
+        url = argv.get('rule', '')
 
         part = 'dg'
         act = 'link'
         istest = 0
 
-        cj = cjnews.main()
-        rules = cj.getRules(part, act, istest)
-
-        data = {'rules':rules}
         #
         print(data)
         return data

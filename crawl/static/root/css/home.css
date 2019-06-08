@@ -32,6 +32,10 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
 .head a i{ font-size:small; font-style:normal; color:#999; }
 .head p.ermsg{ color:#F00; background-color:#FFC; padding:5px; }
 
+input{ width:80px }
+.break{ word-wrap:break-word; white-space:pre-wrap; word-break:break-all; }
+.inb{ display:block; }
+
 .out{ margin:auto 10px; }
 .block{ width:100%; float:none; }
 .in{ 
