@@ -3,6 +3,9 @@
 https://blog.csdn.net/harry5508/article/details/83079031
 python中传参数模糊查询mysql
 
+https://www.runoob.com/python/python-tuples.html
+Python 元组
+
 city:___
 title:___
 id:___

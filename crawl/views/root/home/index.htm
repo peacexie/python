@@ -7,24 +7,30 @@
 
 <div class="in">
 
+{% for link in d.data.links %}
+<p>
+    {{link}}
+
+</p>
+{% endfor %}
+
 <form id="sofm" name="sofm" method="get" action="?">
 <table width="100%" border="1" class="tblist">
   <tr class="tc">
-    <td>city:<input name="city" data-maxlength="24" width="40" value=""></td>
-    <td>title:<input name="name" data-maxlength="24" width="40" value=""></td>
+    <td>city:<input name="city" data-maxlength="24" width="40" value="{{d.data.city}}"></td>
+    <td>title:<input name="name" data-maxlength="24" width="40" value="{{d.data.name}}"></td>
   </tr> 
   <tr class="tc">
-    <td>rid:<input name="rid" data-maxlength="12" width="40" value=""></td>
+    <td>rid:<input name="rid" data-maxlength="12" width="40" value="{{d.data.rid}}"></td>
     <td><input type="submit" value="搜索规则"></td>
   </tr> 
 </table>
 </form>
 
-
 {% for rule in d.data.rules %}
 <p>
-    <i class="r"><a href="#">爬网址调试</a></i>
-    <a href="{{ rule.url }}">[{{rule.city}}-{{rule.id}}] {{rule.name}}</a>
+    <i class="r"><a href="/links?rule={{rule.id}}" target="links{{rule.id}}">爬网址调试</a></i>
+    <a href="{{rule.url}}" target="_out">[{{rule.city}}-{{rule.id}}] {{rule.name}}</a>
     <span class="inb">--- status:{{rule.status}}, debug:{{rule.debug}}, agent:{{rule.agent}}</span>
     <span class="inb">--- sfrom:{{rule.sfrom}}, suser:{{rule.suser}}</span>
     <span class="inb">--- slist:{{rule.slist}}, surl:{{rule.surl}}, stitle:{{rule.stitle}}</span>
@@ -35,43 +41,6 @@
 {% endfor %}
 
 </div>
-
-<div class="block"><div class="in">
-    <form action="">
-    <h2><span class="tg1">{root}</span>(根目录)</h2>
-    <div>
-        <p>
-            <i class="r"><a href="/read">read</a></i>
-            微爬(Wepy)简介：微爬(Wepy)是一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！
-        </p>
-        <p>
-            <i class="r"><a href="/info">info</a></i>
-            系统信息
-        </p>
-        <p>
-            <a href="/favicon.ico">favicon图标</a>
-            &middot;
-            <a href="/robots.txt">robots协议</a>
-            &middot;
-            <a href="/coder">源码查看器</a>
-        </p>
-        <p>
-            <i class="r"><a href="/error">error</a></i>
-            错误页：403禁止直接访问
-        </p>
-    </div>
-    </form>
-</div></div>
-
-<div class="block"><div class="in">
-    <h2><span class="tg1">theory</span>理念/特色</h2>
-    <div>
-        <p>遵循MIT开原协议,共享于各种合法用途！</p>
-        <p>所有爬取的图片文字等资源，版权属于目标网站或原版权所有者！</p>
-        <p>基于Blueprint分组扩展，</p>
-        <p>基于MKV的控制器/方法扩展。</p>
-    </div>
-</div></div>
 
 </div><!--end.out-->
 

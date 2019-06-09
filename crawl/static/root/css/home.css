@@ -33,7 +33,7 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
 .head p.ermsg{ color:#F00; background-color:#FFC; padding:5px; }
 
 input{ width:80px }
-.break{ word-wrap:break-word; white-space:pre-wrap; word-break:break-all; }
+.break{ word-wrap:break-word; word-break:break-all; }
 .inb{ display:block; }
 
 .out{ margin:auto 10px; }
@@ -78,6 +78,7 @@ input{ width:80px }
     .head img{ display:block; float:none; margin:auto; }
     .head h1{ clear:both; margin:10px auto; }
     .head p{ display:block; margin:auto 0px 20px 0px; }
+    .head a.logo{ display:block; float:none; margin:auto; }
 } /*<=764(768)的设备*/
 
 

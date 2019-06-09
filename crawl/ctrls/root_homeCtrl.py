@@ -15,39 +15,29 @@ class main:
     def __init__(self, app):
         self.app = app
         self.data = {}
+        self.cfgs = argv.init('1')
+        self.db = dbop.dbm(self.cfgs['cdb'])
+        self.cj = cjnews.main()
 
+    # 规则搜索
     def indexAct(self):
+        parts = {}
+        parts['city'] = argv.get('city')
+        parts['name'] = argv.get('name')
+        parts['rid'] = argv.get('rid')
+        rules = self.cj.getRules(parts, 'dict', 1)
+        data = {'rules':rules, 'city':parts['city'], 'name':parts['name'], 'rid':parts['rid']}
+        return data
 
-        # rule-list
-        city = argv.get('city')
-        name = argv.get('name')
-        rid = argv.get('rid')
-        whr = ''; pms = ()
-        if city:
-            whr += " AND city=%s"
-            pms += (city,)
-        if name:
-            whr += " AND name LIKE %s"
-            pms += ('%'+name+'%',)
-        if rid:
-            whr += " AND id=%s"
-            pms += (rid,)
-
-        data = {}
-        cj = cjnews.main()
-        rules = cj.getRules('sql', whr, 0, pms)
-        data['rules'] = rules
-
-        # crawl-link
-        rule = argv.get('rule', '')
-        url = argv.get('rule', '')
-
-        part = 'dg'
-        act = 'link'
-        istest = 0
-
-        #
-        print(data)
+    # 爬连接-测试
+    def linksAct(self):
+        rid = argv.get('rule')
+        sql = "SELECT * FROM {crawl_rule} WHERE id="+rid
+        rule = self.db.get(sql,(),1)
+        if not rule:
+            return {'links':{}, 'rule':{}}
+        links = self.cj.getUList(rule)
+        data = {'links':links, 'rule':rule}
         return data
 
     # `coder`方法

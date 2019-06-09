@@ -56,25 +56,40 @@ class main:
         lists = self.db.get(sql,())
         return lists;
 
-    # 获取规则
-    def getRules(self, part, act, istest=0, params=()):
-        if not part or part=='0':
-            whr = '';
-        elif part.isdigit():
-            rid = part
-            if act=='cont' and part.isdigit(): # 找出当前内容的 ruleid ??? 
-                sql = "SELECT * FROM {crawl_data} WHERE id="+rid
-                row = self.db.get(sql,(),1)
-                rid = str(row['ruleid']) if row else '0'
-            whr = " AND id='"+rid+"'";
-        elif part=='sql':
-            whr = ""+act+"";
+    # 获取规则 part:{city,name,rid,did,act}
+    def getRules(self, part, act, istest=0):
+        # dict.get(key, default=None)
+        whr = ''; pms = ()
+        if act=='dict':
+            if part['city']:
+                whr += " AND city=%s"
+                pms += (part['city'],)
+            if part['name']:
+                whr += " AND name LIKE %s"
+                pms += ('%'+part['name']+'%',)
+            if part['rid']:
+                whr += " AND id=%s"
+                pms += (part['rid'],)
+            topn = 3
         else:
-            whr = " AND city='"+part+"'"
+            if not part or part=='0':
+                whr = '';
+                pms += ()
+            elif part.isdigit():
+                rid = part
+                if act=='cont' and part.isdigit(): # 找出当前内容的 ruleid ??? 
+                    sql = "SELECT * FROM {crawl_data} WHERE id="+rid
+                    row = self.db.get(sql,(),1)
+                    rid = str(row['ruleid']) if row else '0'
+                whr = " AND id=%s";
+                pms += (parts['rid'],)
+            else:
+                whr += " AND city=%s"
+                pms += (part,)
+            topn = None
         wtest = "1=1" if istest else "status=1"
-        print(wtest+whr)
         sql = "SELECT * FROM {crawl_rule} WHERE "+wtest+whr
-        rules = self.db.get(sql,params)
+        rules = self.db.get(sql,pms,topn)
         return rules;
     # 爬1个规则的列表
     def pyUrls(self, rule, istest=0):
