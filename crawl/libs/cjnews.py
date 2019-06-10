@@ -4,7 +4,7 @@ import copy, re, time
 from core import argv, dbop, files, urlpy
 from urllib import parse
 from pyquery import PyQuery as pyq
-from libs import cjtool
+from libs import cjtool, proxys
 
 '''
 0-默认,
@@ -114,7 +114,7 @@ class main:
 
     # 采集-获取Url列表
     def getUList(self, rule={}):
-        html = self.rhtml(rule['url'])
+        html = self.rhtml(rule['url'], rule['agent'])
         html = cjtool.htmDeel(rule, html, 'pre_list')
         doc = pyq(html)
         itms = []
@@ -138,7 +138,7 @@ class main:
     # 采集-获取详情
     def getDetail(self, rule={}, url=''):
         res = {'errno':1, 'errmsg':''}
-        html = self.rhtml(url)
+        html = self.rhtml(url, rule['agent'])
         html = cjtool.htmDeel(rule, html, 'pre_cont')
         doc = pyq(html)
         detail = cjtool.pqv(doc, rule['detail'], 'html')
@@ -150,21 +150,27 @@ class main:
         return {'dpub':dpub, 'dfrom':dfrom, 'detail':detail}
 
     # cache: 1-系统配置, 0-无缓存, >0:缓存
-    def rhtml(self, url, scet='', cache=-1):
+    def rhtml(self, url, agent=0, cache=-1):
         cfgs = self.cfgs
         if cache<0:
             cache = int(cfgs['ucfg']['cacexp'])
         if not cache:
-            return urlpy.page(url, scet)
+            return self.rdata(url, agent)
         fp = cfgs['dir']['cache'] + '/pages/' + files.autnm(url, 1)
         ok = files.tmok(fp, cache)
         if ok:
             html = files.get(fp, 'utf-8')
             html = files.get(fp)
         else:
-            html = urlpy.page(url, scet)
+            html = self.rdata(url, agent)
             files.put(fp, html)
         return html
+
+    def rdata(self, url, agent=0):
+        uag = proxys.getAgent()
+        uip = {} #proxys.getProxy() if agent else {}
+        data = urlpy.page(url, {'User-Agent':uag}, uip)
+        return data
 
 '''
 

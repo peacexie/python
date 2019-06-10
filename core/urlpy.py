@@ -6,11 +6,11 @@ from core import files
 from urllib import request
 from urllib.parse import urljoin
 
-def page(url, cset='', ziped=0, head={}):
-    agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/31.0"}
+def page(url, head={}, proxy={}):
+    agent = {"User-Agent": "Mozilla/5.0 (Window 7) Chrome/72.0"}
     if head:
         head = dict(agent, **head)
-    r = requests.get(url, headers=head)
+    r = requests.get(url, headers=head, proxies=proxy)
     if r.encoding == 'ISO-8859-1':
         c = re.search(r'charset=["\']?([^\'"]*)', r.text)
         if c:
@@ -25,7 +25,7 @@ def svurl(url, sdir, file='', path='../_cache'):
     data = request.urlopen(url).read()
     if len(data)==0:
         return ''
-    file = files.autnm(url)
+    file = file if file else files.autnm(url)
     fp = path + '/' + sdir + '/' + file
     with open(fp, "wb") as fo:
         fo.write(data) #写文件用bytes而不是str

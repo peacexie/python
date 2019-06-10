@@ -1,7 +1,7 @@
 
 #import os, sys, platform
 import copy
-from core import dbop, files, argv
+from core import dbop, files, argv, urlpy
 from flask import g
 from libs import cjnews, cjtool
 
@@ -21,6 +21,9 @@ class main:
 
     # 规则搜索
     def indexAct(self):
+        #url = 'http://txjia.com/'
+        #a = urlpy.svurl(url, 'debug')
+        #print(a)
         parts = {}
         parts['city'] = argv.get('city')
         parts['name'] = argv.get('name')

@@ -24,7 +24,8 @@ def put(fp, data):
 def autnm(url, full=0):
     if len(url)==0:
         url = 'index.htm'
-    file = re.sub("http(s)?://",'',url) if full else os.path.basename(url)
+    file = url if (full or not os.path.basename(url)) else os.path.basename(url)
+    file = re.sub("http(s)?://",'',file)
     file = file.replace('/','!').replace('?','---').replace('&',',')
     file = re.sub('[:*"<>|]','`',file)
     if len(file)>160: # /|\?& :*<>

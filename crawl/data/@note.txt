@@ -1,26 +1,10 @@
 
------------------------------------
-
-* 图片，
-* 代理
-
-https://www.cnblogs.com/jackyspy/p/6027385.html
-玩Python之HTTP代理
 
 -----------------------------------
 
+### 规则规范
 
-https://blog.csdn.net/harry5508/article/details/83079031
-python中传参数模糊查询mysql
-
-https://www.runoob.com/python/python-tuples.html
-Python 元组
-
------------------------------------
-
-view-source:http://zjj.dg.gov.cn/business/htmlfiles/dgjsj/ptzgg/list.htm
-这种东西；现在规则是调出来了，实际可能不现实；
-吧所有列表都保存为 一个js 的数据结构；
+* web后台 - 设置采集规则
 
 * url前缀：
  - url不是相对于当前页时，需要此参数
@@ -37,8 +21,47 @@ view-source:http://zjj.dg.gov.cn/business/htmlfiles/dgjsj/ptzgg/list.htm
 * 发布时间替换
  - tab_rept==发布日期：
 
--------------------------------------
+-----------------------------------
 
+### 代理ip配置
+
+* 代理ip配置：\crawl\libs\proxys.py
+* web后台，启用代理
+* 请先跟技术确认，代理是否可用，可能需要购买代理ip
+
+-----------------------------------
+
+### 不能采集的提示
+
+* 数据太多，暂用资源
+view-source:http://zjj.dg.gov.cn/business/htmlfiles/dgjsj/ptzgg/list.htm
+这种东西；现在规则是调出来了，实际可能不现实；
+吧所有列表都保存为 一个js 的数据结构；
+
+* 数据/附件下载 类型
+ - 主要问题 不是 能不能采集；
+ - 而是采集后放哪里？怎样显示？
+
+-----------------------------------
+
+* 图片，
+* 代理
+
+https://www.cnblogs.com/jackyspy/p/6027385.html
+玩Python之HTTP代理
+
+https://www.cnblogs.com/z-x-y/p/9355223.html
+requests ip代理池单ip和多ip设置方式
+
+-----------------------------------
+
+https://blog.csdn.net/harry5508/article/details/83079031
+python中传参数模糊查询mysql
+
+https://www.runoob.com/python/python-tuples.html
+Python 元组
+
+-------------------------------------
 
 0-默认,
 1-爬网址,2-已过滤,3/7-爬内容,4-爬图片,5-预留
