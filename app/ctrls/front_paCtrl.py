@@ -106,7 +106,7 @@ class main:
             html = files.get(fp, 'utf-8')
             html = files.get(fp)
         else:
-            html = urlpy.page(url, scet)
+            html = urlpy.page(url)
             files.put(fp, html)
         return html
         #

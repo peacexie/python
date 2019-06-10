@@ -323,7 +323,7 @@ def ritms(url, dkey):
     if ok:
         html = files.get(fp, 'utf-8')
     else:
-        html = urlpy.page(url, 'utf-8', 1, {"Accept-Encoding":"gzip"})
+        html = urlpy.page(url)
         files.put(fp, html)
     if not dkey:
         return html
