@@ -32,7 +32,7 @@ def repImgs(url, html):
             continue
         iurl = urlpy.fxurl(iv, url)
         html = html.replace(iv, iurl)
-        print(iurl)
+        #print(iurl)
     return html
 
 # 内容替换：tab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>@@

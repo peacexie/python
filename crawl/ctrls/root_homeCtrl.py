@@ -31,35 +31,29 @@ class main:
 
     # 爬连接-测试
     def linksAct(self):
-        rid = argv.get('rule')
-        sql = "SELECT * FROM {crawl_rule} WHERE id="+rid
-        rule = self.db.get(sql,(),1)
+        rule = self.getRule()
         if not rule:
             return {'links':{}, 'rule':{}}
         links = self.cj.getUList(rule)
         data = {'links':links, 'rule':rule}
         return data
 
-    # `coder`方法
-    def coderAct(self):
-        g = argv.get('g', 'root')
-        c = argv.get('c', 'homeCtrl')
-        a = argv.get('a', 'coderAct')
-        tpl = argv.get('tpl', 'root/home/coder.htm')
-        fctr = './ctrls/'+c+'.py'
-        ftpl = './views/'+tpl
-        sctr = files.get(fctr)
-        stpl = files.get(ftpl)
-        print(stpl)
-        data = {'stpl':stpl, 'sctr':sctr, 'ftpl':ftpl, 'fctr':fctr, 'fact':a}
+    # 爬详情-测试
+    def detailAct(self):
+        rule = self.getRule()
+        if not rule:
+            return {'detail':{}, 'rule':{}}
+        url = argv.get('url')
+        title = argv.get('title')
+        detail = self.cj.getDetail(rule, url)
+        skips = cjtool.skips(rule, {'title':title}, detail);
+        data = {'detail':detail, skips:skips, 'rule':rule}
         return data
 
-    # `read`方法
-    def readAct(self):
-        sread = files.get("../README.md")
-        sread = sread.replace('\n', '<br>\n').replace(' ', '&nbsp;')
-        data = {'sread':sread}
-        return data
+    def getRule(self):
+        rid = argv.get('rule')
+        sql = "SELECT * FROM {crawl_rule} WHERE id="+rid
+        return self.db.get(sql,(),1)
 
 '''
 
