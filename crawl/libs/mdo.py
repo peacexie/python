@@ -3,7 +3,7 @@
 
 import sys, os, time, random
 from core import argv, dbop
-from libs import cjfang
+from libs import cjnews, cjtool, cjfang
 from multiprocessing import Process, Pool
 
 class Pools:
@@ -12,7 +12,11 @@ class Pools:
         self.mkey = mkey
         #self.dbk = dbk
         #self.func = cjfang.area
+        #self.cj = cjnews.main()
         self.pcnt = 2
+    def __del__(self):
+        print('-Pools:end-')
+        #self.db.close(); 
 
     def setp(self, param={}):
         params = []
@@ -24,10 +28,11 @@ class Pools:
         return tuple(params)
 
     # 子进程要执行的代码
-    def dosub(self, act, no):
+    def dosub(self, part, act, no):
         print('Run psub %s (%s)...' % (no, os.getpid()))
         #param = self.setp(self.param)
         #res = self.func(*param)
+        cj = cjnews.main()
         res = {'msg':'Doing sth. in dosub'}
         return res
 
@@ -80,6 +85,7 @@ class Pools:
         p.close()
         p.join()
         print('All Pools done.\n   === res: === \n')
+        #self.cj.db.close(); 
         print(res.get())
 
     def getfunc(self):

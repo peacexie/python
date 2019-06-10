@@ -15,12 +15,7 @@ istest = 'test' if len(argvs)>=4 else ''
 
 # test-start
 '''
-cfgs = "\naaa\n"
-cfgs += "\ntab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>\n"
-cfgs += "\nbbb\n"
-res = cjtool.repCont(cfgs, 'tab_repd', 'abc')
-print(res)
-sys.exit()
+
 '''
 # test-end
 
