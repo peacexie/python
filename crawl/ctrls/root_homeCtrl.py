@@ -46,7 +46,8 @@ class main:
         url = argv.get('url')
         title = argv.get('title')
         detail = self.cj.getDetail(rule, url)
-        skips = cjtool.skips(rule, {'title':title}, detail);
+        rowb = {'title':title,'url':url}
+        skips = cjtool.skips(rule, rowb, detail);
         data = {'detail':detail, skips:skips, 'rule':rule}
         return data
 

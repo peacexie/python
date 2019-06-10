@@ -1,0 +1,55 @@
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block main %}
+
+<p style="line-height:1px;">&nbsp;</p>
+<div class="out">
+
+<div class="in">
+
+<form id="sofm" name="sofm" method="get" action="?">
+<table width="100%" border="1" class="tblist">
+  <tr>
+    <td>
+      [{{d.data.rule.city}}-{{d.data.rule.id}}] {{d.data.rule.name}}
+    </td>
+    <td>
+      status:{{d.data.rule.status}}, debug:{{d.data.rule.debug}}, agent:{{d.data.rule.agent}}
+    </td>
+  </tr> 
+  <tr>
+    <td>
+      sfrom:{{d.data.rule.sfrom}}, suser:{{d.data.rule.suser}}
+    </td>
+    <td>
+      slist:{{d.data.rule.slist}}, surl:{{d.data.rule.surl}}, stitle:{{d.data.rule.stitle}}
+    </td>
+  </tr> 
+  <tr>
+    <td class="break">
+      detail:{{d.data.rule.detail}}, dpub:{{d.data.rule.dpub}}, dfrom:{{d.data.rule.dfrom}}
+    </td>
+    <td>
+      field:{{d.data.rule.field}}, fop:{{d.data.rule.fop}}, fval:{{d.data.rule.fval}}
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="2" class="break">
+      {{d.data.rule.cfgs}}
+    </td>
+  </tr> 
+</table>
+</form>
+
+{% for link in d.data.links %}
+<p>
+    <i class="r"><a href="/detail?rule={{d.data.rule.id}}&url={{link.url}}&title={{link.title}}" target="detail">爬详情调试</a></i>
+    <a href="{{link.url}}" target="_out">{{link.title}}</a>
+</p>
+{% endfor %}
+
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}
