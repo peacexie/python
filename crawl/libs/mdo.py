@@ -15,7 +15,8 @@ class Pools:
         #self.cj = cjnews.main()
         self.pcnt = 2
     def __del__(self):
-        print("\n -Pools:end-")
+        return
+        #print("\n -Pools:end-")
         #self.db.close(); 
 
     def setp(self, param={}):

@@ -4,9 +4,9 @@
 goto main
 :: Readme
 
-    > web.py # web服务器/调试规则
+    > web.py # Py-Web服务器/调试规则
     > run.py # 命令行执行
-    > mpa.py # 多线程执行(执行所有规则,手动设置分组)
+    > mpa.py # 多进程执行(执行所有规则,手动设置分组)
 
     命令行-运行参数
     run.py <city|id> <link|cont|0|auto> [test]

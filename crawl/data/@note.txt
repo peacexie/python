@@ -1,4 +1,14 @@
 
+-----------------------------------
+
+* 图片，
+* 代理
+
+https://www.cnblogs.com/jackyspy/p/6027385.html
+玩Python之HTTP代理
+
+-----------------------------------
+
 
 https://blog.csdn.net/harry5508/article/details/83079031
 python中传参数模糊查询mysql
@@ -6,7 +16,63 @@ python中传参数模糊查询mysql
 https://www.runoob.com/python/python-tuples.html
 Python 元组
 
-city:___
-title:___
-id:___
-搜索规则
+-----------------------------------
+
+view-source:http://zjj.dg.gov.cn/business/htmlfiles/dgjsj/ptzgg/list.htm
+这种东西；现在规则是调出来了，实际可能不现实；
+吧所有列表都保存为 一个js 的数据结构；
+
+* url前缀：
+ - url不是相对于当前页时，需要此参数
+ - pre_url==http://zjj.dg.gov.cn/publicfiles/business/htmlfiles/
+
+* 内容前置处理：
+ - 内容太多截取；内容不是普通html，如从js数据结构中截取
+ - pre_list==<xml id="DocumentsDataSrc12">(*)</xml>
+ - 支持：pre_list/pre_cont
+
+* 内容替换
+ - tab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>
+
+* 发布时间替换
+ - tab_rept==发布日期：
+
+-------------------------------------
+
+
+0-默认,
+1-爬网址,2-已过滤,3/7-爬内容,4-爬图片,5-预留
+7-爬内容/待入库
+8-已入库,9-已删除
+
+-------------------------------------
+
+to: 陈国强，
+cc: 杨益强，黄炜杰
+
+关于 新闻采集：
+* 服务端已支持多进程；
+* 后期看如何交接国强那边，及服务端部署
+* 前期，我将继续维护关注一阵子...
+
+-------------------------------------
+
+### 采集后期
+
+* 综合整理
+ - web后台/服务端/Py网页端
+ - 文档整理
+
+* 规则交接
+ - 与国强商量
+ - 怎么扩展
+ - 不能采集的，说明+另分析？
+
+* 分权维护：
+ - 哪些人维护，与国强商量
+ - web后台 - 权限设置/更新
+
+* 程序提示
+ - 运行说明：见：@run.cmd
+ - 多进程运行（是否会出问题，进一步测试）
+ - 调试相关

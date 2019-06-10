@@ -24,6 +24,8 @@ def htmDeel(rule, html, key): # key=pre_list/pre_cont
 
 # 图片地址替换
 def repImgs(url, html):
+    if not html:
+        return ''
     reg = r'\<img([^\n\r]+)src=[\'\"]?([^\'\"]+)[\'\"]?'
     res = re.findall(reg, html, re.S) #|re.M
     for i in range(len(res)):

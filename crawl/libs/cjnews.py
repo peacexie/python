@@ -20,7 +20,7 @@ class main:
         self.cfgs = argv.init('1')
         self.db = dbop.dbm(self.cfgs['cdb'])
     def __del__(self):
-        print('-cjnews:end-')
+        #print('-cjnews:end-')
         self.db.close(); 
 
     # 保存一笔详情数据

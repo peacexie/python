@@ -7,8 +7,10 @@ from libs import mdo
 
 if __name__=='__main__':
 
-    # > mpa.py
-    parts = [ # 手动设置分组
+    # eg. > mpa.py
+    # parts分组: 手动设置, 若8核cpu,设置4-6个分组
+
+    parts = [
         ['dg'],
         ['gz'],
         ['sz'],
