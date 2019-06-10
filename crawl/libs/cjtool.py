@@ -65,13 +65,13 @@ def skips(rule, rowb, rowd):
         return 'no-detail'
     tf = ['title','dfrom']
     key = rule['field'] #tf[i0]
-    val = rowb[key] if (key=='title' or key=='url') else rowd[key]
     op = rule['fop'] # inc-包含, exc-排除
     fval = rule['fval'] # A特征, B特征
     # 没设置有效值:不过滤,返回空
     if len(key)==0 or len(op)==0 or len(fval)==0:
         return ''
     else:
+        val = rowb[key] if (key=='title' or key=='url') else rowd[key]
         if len(val)==0:
             return 'skip-Null.'+key
     # 包含统计

@@ -2,8 +2,8 @@
 # 鸡肋啦... 大批量采集容易封ip, 出错调试也易出问题
 
 import sys, os, time, random
-from core import argv, dbop
-from libs import cjnews, cjtool, cjfang
+from core import argv, files, dbop
+from libs import cjnews, cjtool
 from multiprocessing import Process, Pool
 
 class Pools:
@@ -15,7 +15,7 @@ class Pools:
         #self.cj = cjnews.main()
         self.pcnt = 2
     def __del__(self):
-        print('-Pools:end-')
+        print("\n -Pools:end-")
         #self.db.close(); 
 
     def setp(self, param={}):
@@ -32,65 +32,67 @@ class Pools:
         print('Run psub %s (%s)...' % (no, os.getpid()))
         #param = self.setp(self.param)
         #res = self.func(*param)
-        cj = cjnews.main()
+        #cj = cjnews.main()
         res = {'msg':'Doing sth. in dosub'}
         return res
 
-    # 子进程采集
-    def caiji(self, part, act, no):
-        print('Run caiji : part=%s, no=%s, pid=(%s)...' % (part, no, os.getpid()))
-        cmin = int(cjfang.cfg('pagemin'))
-        cmax = int(cjfang.cfg('pagemax'))
-        #cbat = int(cjfang.cfg('delimit'))
-        db = dbop.edb('cjdb')
-        tab = 'img' if part=='save' else 'url'
-        itmc = db.get("SELECT COUNT(*) AS cnt FROM {"+tab+"}")
-        recs = itmc[0]['cnt']
-        limit = argv.limit(self.pcnt, no, recs)
-        res = {}
-        if part=='url':
-            rng = argv.range(self.pcnt, no, cmax, cmin)
-            n1 = rng['n1']; n2 = rng['n2'];
-            for i in range(n1, n2+1):
-                re = cjfang.urlp(db, act, i)
-            res = rng
-        elif part=='data':
-            itms = db.get("SELECT * FROM {url} WHERE f1=0 ORDER BY id "+limit)
-            for row in itms:
-                re = cjfang.datap(db, act, row)
-            res = {'limit':limit}
-        elif part=='img': # ???
-            itms = db.get("SELECT * FROM {url} WHERE f2=0 ORDER BY id "+limit)
-            for row in itms:
-                re = cjfang.imgp(db, act, row)
-            res = {'limit':limit}
-        elif part=='save':
-            itms = db.get("SELECT * FROM {img} WHERE f1=0 ORDER BY id "+limit)
-            for row in itms:
-                re = cjfang.imgs(db, act, row)
-            res = {'limit':limit}
-        else:
-            res = cjfang.area(db, act)
-        return res
+    # 子进程-一组城市
+    def cjtab1(self, ctab1, act, no):
+        print('Run cjtab1 : ctab1=%s, no=%s, pid=(%s)...' % (ctab1, no, os.getpid()))
+        resm = {}
+        for i in range(len(ctab1)):
+            city = ctab1[i]
+            resm[i] = self.cjcity(ctab1[i], act, no)
+        stamp = time.strftime("%Y%m%d-%H%M%S", time.localtime())
+        fp = stamp + '-' + '+'.join(ctab1) + '.txt' #;print(fp)
+        files.put('../_cache/debug/'+fp, str(resm))
+        return resm;
 
-    def start(self, part, act, pcnt=4):
+    # 子进程-一个城市
+    def cjcity(self, city, act, no):
+        debug = cjtool.debug()    
+        # 得到规则
+        cj = cjnews.main()
+        rules = cj.getRules(city, act, 0)
+        if not rules:
+            return {'errno':'1001', 'errmsg':'规则为空',}
+        # 爬连接
+        for rule in rules:
+            res = cj.pyUrls(rule)
+            debug['link'][rule['id']] = res
+        # 按下标整理规则字典
+        rdic = {}
+        for rule in rules:
+            rdic[rule['id']] = rule
+        # 取出未采集详情的列表
+        lists = cj.getDList(city)
+        for itm in lists:
+            if not itm['ruleid'] in rdic.keys():
+                continue
+            rule = rdic[itm['ruleid']];
+            res = cj.saveDetail(rule, itm)
+            debug['cont'][itm['id']] = res
+        return {'errno':'0', 'debug':debug}
+
+    def start(self, parts, act, pcnt=4):
         self.pcnt = pcnt
         print('\nParent process %s.' % os.getpid())
         dofunc = self.getfunc(); 
         p = Pool(pcnt)
         res = {}
-        for i in range(pcnt):
-            res = p.apply_async(dofunc, args=(part, act, i))
+        for i in range(len(parts)):
+            ctab1 = parts[i]; k = int(1%2)
+            #res = self.cjtab1(ctab1, act, i)
+            res = p.apply_async(dofunc, args=(ctab1, act, i))
         print('Waiting for all Pools('+str(pcnt)+') done...')
         p.close()
         p.join()
         print('All Pools done.\n   === res: === \n')
-        #self.cj.db.close(); 
-        print(res.get())
+        #print(res.get())
 
     def getfunc(self):
         mtab = {
-            'caiji':self.caiji,
+            'cjtab1':self.cjtab1,
             # dosub for test 
             'dosub':self.dosub
         }

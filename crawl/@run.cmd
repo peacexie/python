@@ -6,13 +6,14 @@ goto main
 
     > web.py # web服务器/调试规则
     > run.py # 命令行执行
+    > mpa.py # 多线程执行(执行所有规则,手动设置分组)
 
     命令行-运行参数
     run.py <city|id> <link|cont|0|auto> [test]
-    argv[0] : 运行文件
-    argv[1] : 城市(eg.dg)或规则id(eg.1024)或数据id(eg.5678)或不限(eg.0)
-    argv[2] : link:采集网址, cont:采集详情, 0:link+cont, auto:备用
-    argv[3] : 可选, 不为空即当成`test`模式,测试规则不保存到数据库
+        argv[0] : 运行文件
+        argv[1] : 城市(eg.dg)或规则id(eg.1024)或数据id(eg.5678)或不限(eg.0)
+        argv[2] : link:采集网址, cont:采集详情, 0:link+cont, auto:备用
+        argv[3] : 可选, 不为空即当成`test`模式,测试规则不保存到数据库
     eg: 
         - run.py 1025 link test --- 测试-规则id=1025 的列表规则
         - run.py dg   link      --- 采集-所有dg规则 的网址

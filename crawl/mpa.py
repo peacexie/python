@@ -3,16 +3,19 @@
 import sys, os
 sys.path.append("./")
 sys.path.append("../")
-from core import argv
-argv.init() # libs需要先.init()
 from libs import mdo
 
 if __name__=='__main__':
 
-    # > mpa.py url test/done
-    part = argv.cmd(1)
-    act = argv.cmd(2)
-    pcnt = argv.cmd(3, 2)
+    # > mpa.py
+    parts = [ # 手动设置分组
+        ['dg'],
+        ['gz'],
+        ['sz'],
+        ['hz','zs','zh']
+    ]
+    pcnt = len(parts)
+    act = '0'
 
-    mp = mdo.Pools('dosub'); # caiji,dosub
-    mp.start(part, act, int(pcnt))
+    mp = mdo.Pools('cjtab1'); # cjtab1,dosub
+    mp.start(parts, act, int(pcnt))

@@ -8,26 +8,6 @@
 <div class="in">
 
 <table width="100%" border="1" class="tblist">
-  <tr class="tc">
-    <td width="20%">
-      {% if d.data.skips %} 被过滤{% else %} 通过 {% endif %}
-    </td>
-    <td width="20%">
-      {% if d.data.skips %} {{d.data.skips}} {% else %} OK! {% endif %}
-    </td>
-    <td>
-      dpub:{{d.data.detail.dpub}} / dfrom:{{d.data.detail.dfrom}}
-    </td>
-  </tr> 
-  <tr>
-    <td colspan="3">
-      {{d.data.detail.detail}}
-    </td>
-  </tr> 
-</table>
-
-<form id="sofm" name="sofm" method="get" action="?">
-<table width="100%" border="1" class="tblist">
   <tr>
     <td>
       [{{d.data.rule.city}}-{{d.data.rule.id}}] {{d.data.rule.name}}
@@ -58,7 +38,30 @@
     </td>
   </tr> 
 </table>
-</form>
+<hr>
+<table width="100%" border="1" class="tblist">
+  <tr class="tc">
+    <td colspan="3">
+      <a href="{{d.data.rowb.url}}" target="_od">{{d.data.rowb.title}}</a>
+    </td>
+  </tr> 
+  <tr class="tc">
+    <td width="20%">
+      {% if d.data.skips %} 被过滤{% else %} 通过 {% endif %}
+    </td>
+    <td width="20%">
+      {% if d.data.skips %} {{d.data.skips}} {% else %} OK! {% endif %}
+    </td>
+    <td>
+      dpub:{{d.data.detail.dpub}} / dfrom:{{d.data.detail.dfrom}}
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="3">
+      {{d.data.detail.detail}}
+    </td>
+  </tr> 
+</table>
 
 {% for link in d.data.links %}
 <p>

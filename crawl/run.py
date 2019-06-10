@@ -13,20 +13,13 @@ act = argvs[2] if len(argvs)>=3 else 'link'
 istest = 'test' if len(argvs)>=4 else ''
 
 
-# test-start
-'''
-
-'''
-# test-end
-
+# debug-start
+debug = cjtool.debug()
 
 cj = cjnews.main()
 rules = cj.getRules(part, act, istest)
 if not rules:
     sys.exit('Null Rules!')
-
-# debug-start
-debug = cjtool.debug()
 
 
 # 爬连接
