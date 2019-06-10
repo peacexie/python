@@ -8,21 +8,19 @@
 <div class="in">
 
 <table width="100%" border="1" class="tblist">
-  <tr>
-    <td>
-      过滤结果：
-      {% if d.data.skips %}
-      被过滤：{{d.data.skips}}
-      {% else %}
-      OK! 通过过滤检查!
-      {% endif %}
+  <tr class="tc">
+    <td width="20%">
+      {% if d.data.skips %} 被过滤{% else %} 通过 {% endif %}
+    </td>
+    <td width="20%">
+      {% if d.data.skips %} {{d.data.skips}} {% else %} OK! {% endif %}
     </td>
     <td>
       dpub:{{d.data.detail.dpub}} / dfrom:{{d.data.detail.dfrom}}
     </td>
   </tr> 
   <tr>
-    <td colspan="2">
+    <td colspan="3">
       {{d.data.detail.detail}}
     </td>
   </tr> 

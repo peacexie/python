@@ -71,6 +71,9 @@ def skips(rule, rowb, rowd):
     # 没设置有效值:不过滤,返回空
     if len(key)==0 or len(op)==0 or len(fval)==0:
         return ''
+    else:
+        if len(val)==0:
+            return 'skip-Null.'+key
     # 包含统计
     tab = re.split(r'[,]', pqs) if (',' in fval) else [fval]
     incs = 0 # 包含次数

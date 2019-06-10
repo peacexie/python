@@ -48,7 +48,7 @@ class main:
         detail = self.cj.getDetail(rule, url)
         rowb = {'title':title,'url':url}
         skips = cjtool.skips(rule, rowb, detail);
-        data = {'detail':detail, skips:skips, 'rule':rule}
+        data = {'detail':detail, 'skips':skips, 'rule':rule}
         return data
 
     def getRule(self):
