@@ -1,46 +1,40 @@
 
+Life is short
+I need python
 
 -----------------------------------
 
-### 规则规范
+* py-news
 
-* web后台 - 设置采集规则
+* py-rand
 
-* url前缀：
- - url不是相对于当前页时，需要此参数
- - pre_url==http://zjj.dg.gov.cn/publicfiles/business/htmlfiles/
-
-* 内容前置处理：
- - 内容太多截取；内容不是普通html，如从js数据结构中截取
- - pre_list==<xml id="DocumentsDataSrc12">(*)</xml>
- - 支持：pre_list/pre_cont
-
-* 内容替换
- - tab_repd==阳光网=房掌柜@@<UCAPCONTENT>@@</UCAPCONTENT>
-
-* 发布时间替换
- - tab_rept==发布日期：
+import random
+print(random.randint(0,9))
 
 -----------------------------------
 
-### 代理ip配置
+http://baijiahao.baidu.com/s?id=1596465591200328534&wfr=spider&for=pc
+玩转 Python 中的随机数
 
-* 代理ip配置：\crawl\libs\proxys.py
-* web后台，启用代理
-* 请先跟技术确认，代理是否可用，可能需要购买代理ip
+Python生成随机数的方法
+https://www.cnblogs.com/mfryf/p/4556007.html
 
 -----------------------------------
 
-### 不能采集的提示
+https://blog.igevin.info/posts/how-to-deploy-flask-apps/
+Flask 应用如何部署
 
-* 数据太多，暂用资源
-view-source:http://zjj.dg.gov.cn/business/htmlfiles/dgjsj/ptzgg/list.htm
-这种东西；现在规则是调出来了，实际可能不现实；
-吧所有列表都保存为 一个js 的数据结构；
+https://blog.csdn.net/qq_24504591/article/details/81670766
+Apache2.4.34+Python3.x+Window 实现CGI编程
 
-* 数据/附件下载 类型
- - 主要问题 不是 能不能采集；
- - 而是采集后放哪里？怎样显示？
+https://support.microsoft.com/zh-cn/help/276494/using-python-scripts-with-iis
+与 IIS 使用 Python 脚本
+
+https://blog.csdn.net/lap2004/article/details/78549260
+2017IIS+python+flask环境搭建
+
+https://www.cnblogs.com/xiaolecn/p/5111076.html
+用wfastcgi在IIS下部署Django&Flask
 
 -----------------------------------
 
@@ -60,58 +54,3 @@ python中传参数模糊查询mysql
 https://www.runoob.com/python/python-tuples.html
 Python 元组
 
--------------------------------------
-
-0-默认,
-1-爬网址,2-已过滤,3/7-爬内容,4-爬图片,5-预留
-7-爬内容/待入库
-8-已入库,9-已删除
-
--------------------------------------
-
-to: 国强
-cc: 杨益强，黄炜杰
-
-关于资讯采集：
-
-* 我们何时沟通一下，先交付一批给你们那边；
- --- 你们那边 先录入一批规则，同时熟悉规则操作
- --- 同时作一些必要的说明
-
-* 通过你们的规则，我再次调试服务端（各种异常）
-或修正一些东西
-
-* 后续就上线，叫杨配置服务器；
-到时完全有你们那边维护。
-
--------------------------------------
-
-to: 陈国强，
-cc: 杨益强，黄炜杰
-
-关于 新闻采集：
-* 服务端已支持多进程；
-* 后期看如何交接国强那边，及服务端部署
-* 前期，我将继续维护关注一阵子...
-
--------------------------------------
-
-### 采集后期
-
-* 综合整理
- - web后台/服务端/Py网页端
- - 文档整理
-
-* 规则交接
- - 与国强商量
- - 怎么扩展
- - 不能采集的，说明+另分析？
-
-* 分权维护：
- - 哪些人维护，与国强商量
- - web后台 - 权限设置/更新
-
-* 程序提示
- - 运行说明：见：@run.cmd
- - 多进程运行（是否会出问题，进一步测试）
- - 调试相关
