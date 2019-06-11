@@ -83,7 +83,7 @@ class main:
                     row = self.db.get(sql,(),1)
                     rid = str(row['ruleid']) if row else '0'
                 whr = " AND id=%s";
-                pms += (parts['rid'],)
+                pms += (part,)
             else:
                 whr += " AND city=%s"
                 pms += (part,)
@@ -120,9 +120,8 @@ class main:
         itms = []
         lists = doc(rule['slist'])
         for li in lists:
-            attu = 'href' if rule['surl']=='a' else 'text'
-            url = cjtool.pqv(li, rule['surl'], attu)
-            title = cjtool.pqv(li, rule['stitle'], 'text')
+            url = cjtool.pqv(li, rule['surl'], 'href')
+            title = cjtool.pqv(li, rule['stitle'])
             if not url or not title:
                 continue
             ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I

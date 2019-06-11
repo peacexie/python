@@ -37,10 +37,10 @@ def autnm(url, full=0):
     return file
 
 # 未超时判断
-def tmok(fp, tmout=6):
+def tmok(fp, tmout=60):
     flag = os.path.exists(fp)
     if not flag:
         return 0
     ft = os.path.getmtime(fp)
     st = time.time()
-    return 1 if st-ft<tmout*3600 else 0
+    return 1 if st-ft<tmout*60 else 0
