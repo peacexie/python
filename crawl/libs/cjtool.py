@@ -18,8 +18,9 @@ def htmDeel(rule, html, key): # key=pre_list/pre_cont
         return html
     tab = cfg.split('(*)')
     html = urlpy.block(html, tab[0], tab[1])
-    if len(html)>51200: # 500多K文本，2400多条记录，空白（可能是溢出）
-        html = html[0:48000] +' ... '+ html[-2400:]
+    if len(html)>48000: # 500多K文本，2400多条记录，空白（可能是溢出）
+        html = html[0:36000] +' ... '+ html[-2400:]
+    #print(html)
     return html
 
 # 图片地址替换
@@ -101,6 +102,7 @@ def pqv(dom, pqs, attr='text'):
         tab = re.split(r'[;,]', pqs)
         for i in range(len(tab)):
             res = pqone(dom, tab[i], attr)
+            #print(tab[i]+' :::: '+str(res))
             if res:
                 return res
     return ''

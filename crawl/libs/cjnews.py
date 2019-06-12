@@ -120,9 +120,11 @@ class main:
         itms = []
         lists = doc(rule['slist'])
         for li in lists:
-            url = cjtool.pqv(li, rule['surl'], 'href')
-            title = cjtool.pqv(li, rule['stitle'])
-            if not url or not title:
+            atu = 'href' if rule['surl']=='a' else 'text';
+            url = cjtool.pqv(li, rule['surl'], atu)
+            atu = 'href' if rule['stitle']=='a' else 'text';
+            title = cjtool.pqv(li, rule['stitle'], atu)
+            if (not url) or (not title):
                 continue
             ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I
             if ug:

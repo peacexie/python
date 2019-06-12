@@ -11,7 +11,9 @@
 <table width="100%" border="1" class="tblist">
   <tr>
     <td>
-      [{{d.data.rule.city}}-{{d.data.rule.id}}] {{d.data.rule.name}}
+        <a href="{{d.data.rule.url}}" target="_ol">
+          [{{d.data.rule.city}}-{{d.data.rule.id}}] {{d.data.rule.name}}
+        </a>
     </td>
     <td>
       status:{{d.data.rule.status}}, debug:{{d.data.rule.debug}}, agent:{{d.data.rule.agent}}
