@@ -1,6 +1,7 @@
 
-#cd app
-#webc.py
+
+rem cd app
+rem webc.py
 
 cd app
 cmd

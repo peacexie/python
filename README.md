@@ -1,5 +1,50 @@
 
-2018-03-25, (v1.1) 继续爬：完善多进程采集
+
+* 2019-06-13, 增加专业资讯采集
+
+
+### 运行提示
+
+```
+
+    命令行-运行参数
+    pynews.py <city|id> <link|cont|0|auto> [test]
+        argv[0] : 运行文件
+        argv[1] : 城市(eg.dg)或规则id(eg.1024)或数据id(eg.5678)或不限(eg.0)
+        argv[2] : link:采集网址, cont:采集详情, 0:link+cont, auto:备用
+        argv[3] : 可选, 不为空即当成`test`模式,测试规则不保存到数据库
+    eg: 
+        - pynews.py 1025 link test --- 测试-规则id=1025 的列表规则
+        - pynews.py dg   link      --- 采集-所有dg规则 的网址
+        - pynews.py 1024 link      --- 采集-规则id=1024 的网址
+        - pynews.py 5678 cont test --- 测试-数据id=5678 的详情规则
+        - pynews.py dg   cont      --- 采集-所有dg规则 的详情
+        - pynews.py 5678 cont      --- 采集-数据id=5678 的详情
+        - pynews.py 0    0         --- 采集所有 - 网址和详情
+```
+
+### 重要文件
+
+* /trunk/app/
+  - web.py    # Py-Web服务器/调试规则
+  - pynews.py # 新闻采集-命令行执行
+  - pynm.py   # 新闻采集-多进程执行(执行所有规则,手动设置分组)
+
+* /trunk/app/libs/
+  - cjnews.py # 新闻采集类
+  - cjtool.py # 采集工具函数
+  - mpnews.py # 多进程新闻采集类
+
+* /trunk/views/front/npa/
+  - Py-Web端 - 调试规则 - 模板
+
+--- --- --- --- --- --- --- --- --- --- --- 
+--- --- --- --- --- --- --- --- --- --- --- 
+
+* 2018-03-25, (v1.1) 继续爬：完善多进程采集
+
+--- --- --- --- --- --- --- --- --- --- --- 
+--- --- --- --- --- --- --- --- --- --- --- 
 
 ### 微爬(Wepy) - /trunk/app
 
@@ -16,7 +61,7 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 
 * 环境安装
   - Python环境：Python3.5+, 
-  - 第三方模块：Flask, Mysql/Sqlite, PyQuery
+  - 第三方模块：Flask, Mysql/Sqlite, PyQuery, requests
 
 * 安装Mysql数据库（爬虫要用）
   - 安装Mysql数据库
