@@ -3,7 +3,7 @@
 import sys, os
 sys.path.append("./")
 sys.path.append("../")
-from libs import mdo
+from libs import mpnews
 
 if __name__=='__main__':
 
@@ -19,5 +19,5 @@ if __name__=='__main__':
     pcnt = len(parts)
     act = '0'
 
-    mp = mdo.Pools('cjtab1'); # cjtab1,dosub
+    mp = mpnews.Pools('cjtab1'); # cjtab1,dosub
     mp.start(parts, act, int(pcnt))
