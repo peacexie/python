@@ -15,26 +15,26 @@
 {% endblock %}
 
 {% block main %}
-<script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
-<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+
 <style>
+.tbform{ border-collapse:collapse; }
+.tbform td{ padding:0.5rem; text-align:center; }
+.tbcont{ border-collapse:collapse; margin:1rem 0 0 0; }
+.tbcont td{ padding:0.5rem; text-align:center; font-size:larger; }
+.tbcont td b{ font-size:larger; }
+.tbcont td p{ font-size:larger; color:#999; margin:0.5rem 0 0 0; }
 input{ width:60px; }
 .w40{ width:40px; }
 .w60{ width:60px; }
-canvas{
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
 </style>
 
 <div class="out">
 
 <form id="sofm" name="sofm" method="get" action="?">
-<table width="100%" border="1" class="tblist">
-  <tr class="tc">
+<table width="100%" border="1" class="tbform">
+  <tr>
     <td colspan="2">
-        <select name="type" val='{{d.data.argv.tp}}'>
+        <select name="type" id='type' val='{{d.data.argv.tp}}'>
             <option value="0">纯数字</option>
             <option value="A">大写字母</option>
             <option value="a">小写字母</option>
@@ -46,28 +46,33 @@ canvas{
         </select>
     </td>
   </tr> 
-  <tr class="tc">
+  <tr>
     <td>
-        每行:<input name="rn" data-maxlength="24" value="{{d.data.argv.rn}}">
+        每行<input name="rn" data-maxlength="24" value="{{d.data.argv.rn}}">个
     </td>
     <td>
-        共:<input name="all" data-maxlength="6" value="{{d.data.argv.ax}}">个
+        共<input name="all" data-maxlength="6" value="{{d.data.argv.ax}}">个
     </td>
   </tr> 
-  <tr class="tc">
+  <tr>
     <td>
-        每列:<input name="cm" data-maxlength="24" value="{{d.data.argv.cm}}">
+        每列<input name="cm" data-maxlength="24" value="{{d.data.argv.cm}}">个
     </td>
     <td><input type="submit" value="生成" class="w60"></td>
   </tr> 
 </table>
 </form>
 
-<table width="100%" border="1" class="tblist">
+<table width="100%" border="1" class="tbcont">
     {% for k1 in d.data.tabs %}
     <tr>
         {% for k2 in d.data.tabs[k1] %}
-            <td>{{ d.data.tabs[k1][k2] }}</td>
+            <td>
+                <b>{{ d.data.tabs[k1][k2] }}</b>
+                <p>
+                    {{k1}}:{{k2}}
+                </p>
+            </td>
         {% endfor %}
     </tr>
     {% endfor %}
@@ -76,7 +81,9 @@ canvas{
 </div><!--end.out-->
 
 <script>
-
+window.onload=function(){
+    setDev('type');
+}
 </script>
 
 {% endblock %}
