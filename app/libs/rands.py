@@ -1,3 +1,4 @@
+#coding=UTF-8
 
 import copy, re, json, random, math
 from random import shuffle
@@ -59,9 +60,20 @@ def strg(s0, rn, cm, sub=0):
         re[ino] = istr if sub else strg(istr, cm, 0, 1)
         no += rn
         ino += 1
-    print(re)
     return re
-    #
+
+def puke(r=1):
+    t = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
+    h = ['♠','♥','♦','♣']
+    re = []
+    for t0 in t:
+        for h0 in h:
+            s = h0 +' '+ t0
+            re.append(s)
+    if r:
+        random.shuffle(re)
+    return re
+
 
 '''
     define('KEY_NUM10',  '0123456789');

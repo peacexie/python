@@ -18,6 +18,9 @@
 <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
 <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
 <style>
+input{ width:60px; }
+.w40{ width:40px; }
+.w60{ width:60px; }
 canvas{
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -25,171 +28,55 @@ canvas{
 }
 </style>
 
-{{d.data}}
-
-
-<p style="line-height:1px;">&nbsp;</p>
 <div class="out">
-
-<div class="in">
 
 <form id="sofm" name="sofm" method="get" action="?">
 <table width="100%" border="1" class="tblist">
   <tr class="tc">
-    <td>city:<input name="city" data-maxlength="24" width="40" value="{{d.data.city}}"></td>
-    <td>title:<input name="name" data-maxlength="24" width="40" value="{{d.data.name}}"></td>
+    <td colspan="2">
+        <select name="type" val='{{d.data.argv.tp}}'>
+            <option value="0">纯数字</option>
+            <option value="A">大写字母</option>
+            <option value="a">小写字母</option>
+            <option value="Aa">大小字母混合</option>
+            <option value="0A">(大写)数字混合</option>
+            <option value="0a">(小写)数字混合</option>
+            <option value="0F">(大写)16进制</option>
+            <option value="0f">(小写)16进制</option>
+        </select>
+    </td>
   </tr> 
   <tr class="tc">
-    <td>rid:<input name="rid" data-maxlength="12" width="40" value="{{d.data.rid}}"></td>
-    <td><input type="submit" value="搜索规则"></td>
+    <td>
+        每行:<input name="rn" data-maxlength="24" value="{{d.data.argv.rn}}">
+    </td>
+    <td>
+        共:<input name="all" data-maxlength="6" value="{{d.data.argv.ax}}">个
+    </td>
+  </tr> 
+  <tr class="tc">
+    <td>
+        每列:<input name="cm" data-maxlength="24" value="{{d.data.argv.cm}}">
+    </td>
+    <td><input type="submit" value="生成" class="w60"></td>
   </tr> 
 </table>
 </form>
 
-    <div style="width:100%;margin:auto;">
-        <canvas id="canvas"></canvas>
-    </div>
-
-</div>
-
-<button id="randomizeData">Randomize Data</button>
-<button id="addDataset">Add Dataset</button>
-<button id="removeDataset">Remove Dataset</button>
-<button id="addData">Add Data</button>
-<button id="removeData">Remove Data</button>
+<table width="100%" border="1" class="tblist">
+    {% for k1 in d.data.tabs %}
+    <tr>
+        {% for k2 in d.data.tabs[k1] %}
+            <td>{{ d.data.tabs[k1][k2] }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
 
 </div><!--end.out-->
 
 <script>
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var config = {
-        type: 'line',
-        data: {
-            labels: ['2018-06', '2018-07', '2018-08', '2018-09', '2018-10', '2018-11', '2018-12', '2019-13', '2019-02', '2019-03', '2019-04', '2019-05'],
-            datasets: [{
-                label: '月活跃数(万)',
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [
-                    972, 964, 975, 1102, 988, 971, 1143, 1001, 959, 1043, 1035, 1042
-                ],
-                fill: false,
-            }/*, {
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [
-                    randomScalingFactor(), randomScalingFactor()
-                ],
-            }*/]
-        },
-        options: {
-            elements: {
-                line: {
-                    tension: 0 // disables bezier curves
-                }
-            },
-            legend: {
-                labels: {
-                    fontColor: 'black'
-                }
-            },
-            responsive: true,
-            title: {
-                display: true,
-                text: '2018-06 ~ 2019-05 XXX-APP月活跃数'
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: '统计月份(1年)'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: '(万)活跃数'
-                    }
-                }]
-            }
-        }
-    };
 
-    window.onload = function() {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myLine = new Chart(ctx, config);
-    };
-
-    document.getElementById('randomizeData').addEventListener('click', function() {
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
-                return randomScalingFactor();
-            });
-
-        });
-
-        window.myLine.update();
-    });
-
-    var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function() {
-        var colorName = colorNames[config.data.datasets.length % colorNames.length];
-        var newColor = window.chartColors[colorName];
-        var newDataset = {
-            label: 'Dataset ' + config.data.datasets.length,
-            backgroundColor: newColor,
-            borderColor: newColor,
-            data: [],
-            fill: false
-        };
-
-        for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-        }
-
-        config.data.datasets.push(newDataset);
-        window.myLine.update();
-    });
-
-    document.getElementById('addData').addEventListener('click', function() {
-        if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data.push(randomScalingFactor());
-            });
-
-            window.myLine.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function() {
-        config.data.datasets.splice(0, 1);
-        window.myLine.update();
-    });
-
-    document.getElementById('removeData').addEventListener('click', function() {
-        config.data.labels.splice(-1, 1); // remove the label first
-
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-        });
-
-        window.myLine.update();
-    });
 </script>
 
 {% endblock %}
