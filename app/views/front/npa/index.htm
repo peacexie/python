@@ -1,0 +1,48 @@
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}<title>专业资讯采集 - 规则列表</title>{% endblock %}
+{% block head %}
+    <h1>专业资讯采集</h1>
+    <p>
+        规则列表 --- <a href="/">返回</a>
+    </p>
+{% endblock %}
+
+{% block main %}
+
+<p style="line-height:1px;">&nbsp;</p>
+<div class="out">
+
+<div class="in">
+
+<form id="sofm" name="sofm" method="get" action="?">
+<table width="100%" border="1" class="tblist">
+  <tr class="tc">
+    <td>city:<input name="city" data-maxlength="24" width="40" value="{{d.data.city}}"></td>
+    <td>title:<input name="name" data-maxlength="24" width="40" value="{{d.data.name}}"></td>
+  </tr> 
+  <tr class="tc">
+    <td>rid:<input name="rid" data-maxlength="12" width="40" value="{{d.data.rid}}"></td>
+    <td><input type="submit" value="搜索规则"></td>
+  </tr> 
+</table>
+</form>
+
+{% for rule in d.data.rules %}
+<p>
+    <i class="r"><a href="./npa-links?rule={{rule.id}}" target="links{{rule.id}}">爬网址调试</a></i>
+    <a href="{{rule.url}}" target="_out">[{{rule.city}}-{{rule.id}}] {{rule.name}}</a>
+    <span class="inb">--- status:{{rule.status}}, debug:{{rule.debug}}, agent:{{rule.agent}}</span>
+    <span class="inb">--- sfrom:{{rule.sfrom}}, suser:{{rule.suser}}</span>
+    <span class="inb">--- slist:{{rule.slist}}, surl:{{rule.surl}}, stitle:{{rule.stitle}}</span>
+    <span class="inb">--- detail:{{rule.detail}}, dpub:{{rule.dpub}}, dfrom:{{rule.dfrom}}</span>
+    <span class="inb">--- field:{{rule.field}}, fop:{{rule.fop}}, fval:{{rule.fval}}</span>
+    <span class="inb">--- cfgs:{{rule.cfgs}}</span>
+</p>
+{% endfor %}
+
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}

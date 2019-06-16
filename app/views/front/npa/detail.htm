@@ -1,0 +1,85 @@
+{% extends "root/_incs/lay_root.htm" %}
+
+{% block title %}<title>爬详情调试 - {{d.data.rowb.url}} - [{{d.data.rule.city}}-{{d.data.rule.id}}]</title>{% endblock %}
+{% block head %}
+    <h1>爬详情调试</h1>
+    <p>
+        <a href="{{d.data.rowb.url}}">Url</a>@{{d.data.rule.name}} --- <a href="./npa">返回</a>
+    </p>
+{% endblock %}
+
+{% block main %}
+
+<p style="line-height:1px;">&nbsp;</p>
+<div class="out">
+
+<div class="in">
+
+<table width="100%" border="1" class="tblist">
+  <tr>
+    <td>
+      [{{d.data.rule.city}}-{{d.data.rule.id}}] {{d.data.rule.name}}
+    </td>
+    <td>
+      status:{{d.data.rule.status}}, debug:{{d.data.rule.debug}}, agent:{{d.data.rule.agent}}
+    </td>
+  </tr> 
+  <tr>
+    <td>
+      sfrom:{{d.data.rule.sfrom}}, suser:{{d.data.rule.suser}}
+    </td>
+    <td>
+      slist:{{d.data.rule.slist}}, surl:{{d.data.rule.surl}}, stitle:{{d.data.rule.stitle}}
+    </td>
+  </tr> 
+  <tr>
+    <td class="break">
+      detail:{{d.data.rule.detail}}, dpub:{{d.data.rule.dpub}}, dfrom:{{d.data.rule.dfrom}}
+    </td>
+    <td>
+      field:{{d.data.rule.field}}, fop:{{d.data.rule.fop}}, fval:{{d.data.rule.fval}}
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="2" class="break">
+      {{d.data.rule.cfgs}}
+    </td>
+  </tr> 
+</table>
+<hr>
+<table width="100%" border="1" class="tblist">
+  <tr class="tc">
+    <td colspan="3">
+      <a href="{{d.data.rowb.url}}" target="_od">{{d.data.rowb.title}}</a>
+    </td>
+  </tr> 
+  <tr class="tc">
+    <td width="20%">
+      {% if d.data.skips %} 被过滤{% else %} 通过 {% endif %}
+    </td>
+    <td width="20%">
+      {% if d.data.skips %} {{d.data.skips}} {% else %} OK! {% endif %}
+    </td>
+    <td>
+      dpub:{{d.data.detail.dpub}} / dfrom:{{d.data.detail.dfrom}}
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="3" class="break">
+      {{d.data.detail.detail}}
+    </td>
+  </tr> 
+</table>
+
+{% for link in d.data.links %}
+<p>
+    <i class="r"><a href="/detail?rule={{d.data.rule.id}}&url={{link.url}}&title={{link.title}}" target="detail">爬详情调试</a></i>
+    <a href="{{link.url}}" target="_out">{{link.title}}</a>
+</p>
+{% endfor %}
+
+</div>
+
+</div><!--end.out-->
+
+{% endblock %}
