@@ -49,10 +49,20 @@ def rn(k, n):
         chp = ch
     return re
 
+def rd(mi, ma, n, d=0, ins=0):
+    re = []; add = 0
+    for i in range(n):
+        iv = add + random.randint(mi, ma)
+        if d:
+            iv = format(iv/math.pow(10,d), '.'+str(d)+'f')
+        re.append(iv)
+        add += ins
+    return re
+
 # 字符串分组
 # rn : 每行rn个
 # cm : 每列cm个
-def strg(s0, rn, cm, sub=0):
+def strg(s0, rn, cm=1, sub=0):
     slen = len(s0); re = {}
     no = 0; ino = 1
     while no<slen:

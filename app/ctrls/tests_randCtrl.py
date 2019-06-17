@@ -42,8 +42,8 @@ class main:
     def dataAct(self):
         data = {}
         tp = argv.get('type', 'su')
-        ma = argv.get('max', '200') # 8/7/6/5
         mi = argv.get('min', '1')
+        ma = argv.get('max', '200')
         cm = argv.get('cm', '5')
         primes = rands.Primes(int(mi), int(ma));
         data['tabs'] = rands.strg(primes, int(cm), 1);
@@ -53,13 +53,14 @@ class main:
     # chart
     def chartAct(self):
         data = {}
-        tp = argv.get('type', '0')
-        rn = argv.get('rn', '20') # 10/20
-        cm = argv.get('cm', '2')
-        ax = argv.get('all', '100')
-        s0 = rands.rn(tp, int(ax));
-        data['tabs'] = rands.strg(s0, int(rn), int(cm));
-        data['argv'] = {'tp':tp, 'rn':rn, 'cm':cm, 'ax':ax};
+        mi = argv.get('min', '3200')
+        ma = argv.get('max', '6400')
+        ax = argv.get('all', '12')
+        do = argv.get('dot', '2')
+        ins = argv.get('ins', '200') 
+        s0 = rands.rd(int(mi), int(ma), int(ax), int(do), int(ins));
+        data['tabs'] = ', '.join(s0); #rands.strg(s0, int(cm));
+        data['argv'] = {'ma':ma, 'mi':mi, 'ins':ins, 'ax':ax, 'do':do};
         return data
 
 '''
