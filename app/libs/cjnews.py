@@ -122,12 +122,11 @@ class main:
         for li in lists:
             atu = 'href' if rule['surl']=='a' else 'text';
             url = cjtool.pqv(li, rule['surl'], atu)
-            atu = 'href' if rule['stitle']=='a' else 'text';
-            title = cjtool.pqv(li, rule['stitle'], atu)
+            title = cjtool.pqv(li, rule['stitle'], 'text')
             if (not url) or (not title):
                 continue
             ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I
-            if ug:
+            if ug and (not '://' in url):
                 rp = ug.span() #;print(rp)
                 ubase = rule['cfgs'][rp[0]+9:rp[1]]
                 url = ubase + url
