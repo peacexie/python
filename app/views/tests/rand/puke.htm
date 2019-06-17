@@ -26,8 +26,9 @@
     {% for k1 in d.data.tabs %}
     <tr>
         {% for k2 in d.data.tabs[k1] %}
+            {% set card = d.data.tabs[k1][k2][0] %}
             <td>
-                <b>{{ d.data.tabs[k1][k2][0] }}</b>
+                <b class="{% if card[0:1] in '♥♦' %}cF0F{% endif %}">{{ card }}</b>
                 <p>
                     {{k1}}:{{k2}}
                 </p>

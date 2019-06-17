@@ -8,6 +8,9 @@
 .cF00, a.cF00:link, a.cF00:visited {
     color: #F00;
 }
+.cF0F, a.cF0F:link, a.cF0F:visited {
+    color: #F0F;
+}
 
 .tc{ text-align:center; }
 
