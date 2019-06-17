@@ -1,0 +1,10 @@
+
+.tbform{ border-collapse:collapse; }
+.tbform td{ padding:0.5rem; text-align:center; }
+.tbcont{ border-collapse:collapse; margin:1rem 0 0 0; }
+.tbcont td{ word-wrap:nowrap; white-space:nowrap; padding:0.5rem; text-align:center; font-size:larger; }
+.tbcont td b{ font-size:larger; }
+.tbcont td p{ font-size:larger; color:#999; margin:0.5rem 0 0 0; }
+input{ width:60px; }
+.w40{ width:40px; }
+.w60{ width:60px; }

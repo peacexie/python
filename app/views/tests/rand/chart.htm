@@ -1,26 +1,11 @@
-{% extends "root/_incs/lay_root.htm" %}
+{% extends "root/_incs/lay_rand.htm" %}
 
 {% block title %}<title>随机数应用 - 图表</title>{% endblock %}
-{% block head %}
-    <h1>随机数应用</h1>
-    <p>
-        <a href="./rand">字符</a>
-        #
-        <a href="./rand-puke">扑克</a>
-        #
-        <a href="./rand-data">数据</a>
-        #
-        <a href="./rand-chart">图表</a>
-    </p>
-{% endblock %}
 
 {% block main %}
 <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
 <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
 <style>
-input{ width:60px; }
-.w40{ width:40px; }
-.w60{ width:60px; }
 canvas{
     -moz-user-select: none;
     -webkit-user-select: none;

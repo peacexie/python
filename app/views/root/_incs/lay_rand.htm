@@ -1,0 +1,38 @@
+{% from 'root/_incs/mac_base.htm' import mete,menu,head,foot %}
+<!doctype html>
+<html>
+<head>
+{{ mete(d) }}
+{% block title %}
+    <title>微爬(Wepy) v1.0 - Python微框架</title>
+    <meta name='keywords' content='微爬,Wepy,Wepthon,Python,微框架'>
+    <meta name='description' content='微爬(Wepy,Wepthon),一款轻量、免费、共享的通用Python微框架；适用于CMS开发,爬虫开发！'>
+{% endblock %}
+<link href='{{ g.path.css}}/rand.css' type='text/css' rel='stylesheet'/>
+</head>
+<body>
+
+{{ menu(d) }}
+
+<div class="head">
+    {% block head %}
+    <h1>随机数应用</h1>
+    <p>
+        <a href="./rand">字符</a>
+        #
+        <a href="./rand-puke">扑克</a>
+        #
+        <a href="./rand-data">数据</a>
+        #
+        <a href="./rand-chart">图表</a>
+    </p>
+    {% endblock %}
+</div>
+
+{% block main %}{% endblock %}
+
+{{ foot(d) }}
+
+<script src="{{ g.path.js}}/basic.js"></script>
+</body>
+</html>

@@ -68,7 +68,7 @@ def puke(r=1):
     re = []
     for t0 in t:
         for h0 in h:
-            s = h0 +' '+ t0
+            s = h0 +''+ t0
             re.append(s)
     if r:
         random.shuffle(re)

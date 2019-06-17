@@ -13,33 +13,12 @@
 <form id="sofm" name="sofm" method="get" action="?">
 <table width="100%" border="1" class="tbform">
   <tr>
-    <td colspan="2">
-        <select name="type" id='type' val='{{d.data.argv.tp}}'>
-            <option value="0">纯数字</option>
-            <option value="A">大写字母</option>
-            <option value="a">小写字母</option>
-            <option value="Aa">大小字母混合</option>
-            <option value="0A">(大写)数字混合</option>
-            <option value="0a">(小写)数字混合</option>
-            <option value="0F">(大写)16进制</option>
-            <option value="0f">(小写)16进制</option>
-        </select>
-    </td>
-  </tr> 
-  <tr>
     <td>
         每行<input name="rn" data-maxlength="24" value="{{d.data.argv.rn}}">个
     </td>
-    <td>
-        共<input name="all" data-maxlength="6" value="{{d.data.argv.ax}}">个
-    </td>
-  </tr> 
-  <tr>
-    <td>
-        每列<input name="cm" data-maxlength="24" value="{{d.data.argv.cm}}">个
-    </td>
     <td><input type="submit" value="生成" class="w60"></td>
   </tr> 
+
 </table>
 </form>
 
@@ -48,7 +27,7 @@
     <tr>
         {% for k2 in d.data.tabs[k1] %}
             <td>
-                <b>{{ d.data.tabs[k1][k2] }}</b>
+                <b>{{ d.data.tabs[k1][k2][0] }}</b>
                 <p>
                     {{k1}}:{{k2}}
                 </p>
@@ -62,7 +41,7 @@
 
 <script>
 window.onload=function(){
-    setDev('type');
+    //setDev('type');
 }
 </script>
 
