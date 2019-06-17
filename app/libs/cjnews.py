@@ -144,6 +144,9 @@ class main:
         detail = cjtool.pqv(doc, rule['detail'], 'html')
         detail = cjtool.repCont(rule['cfgs'], 'tab_repd', detail)
         detail = cjtool.repImgs(url, detail)
+        #reg = r'\<script[^>]*\>(.*)\<\/script\>'
+        reg = re.compile(r"<script.*?</script>", re.S|re.I)
+        detail = re.sub(reg, '', detail)
         dpub = cjtool.pqv(doc, rule['dpub'], 'text')
         dpub = cjtool.repCont(rule['cfgs'], 'tab_rept', dpub)
         dfrom = cjtool.pqv(doc, rule['dfrom'], 'text')
