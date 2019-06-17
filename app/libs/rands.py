@@ -74,6 +74,20 @@ def puke(r=1):
         random.shuffle(re)
     return re
 
+def isPrime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def Primes(n, m):
+    re = []
+    for i in range(n, m):
+        if isPrime(i):
+            re.append(i)
+    return re
 
 '''
     define('KEY_NUM10',  '0123456789');

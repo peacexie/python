@@ -1,6 +1,6 @@
 {% extends "root/_incs/lay_rand.htm" %}
 
-{% block title %}<title>随机数应用 - 扑克</title>{% endblock %}
+{% block title %}<title>随机数应用 - 素数/数列</title>{% endblock %}
 
 {% block main %}
 
@@ -13,12 +13,26 @@
 <form id="sofm" name="sofm" method="get" action="?">
 <table width="100%" border="1" class="tbform">
   <tr>
+    <td colspan="2">
+        <select name="type" id='type' val='{{d.data.argv.tp}}'>
+            <option value="su">素数</option>
+        </select>
+    </td>
+  </tr> 
+  <tr>
     <td>
-        每行<input name="rn" data-maxlength="24" value="{{d.data.argv.rn}}">个
+        最小<input name="min" data-maxlength="6" value="{{d.data.argv.mi}}">个
+    </td>
+    <td>
+        最大<input name="max" data-maxlength="24" value="{{d.data.argv.ma}}">个
+    </td>
+  </tr> 
+  <tr>
+    <td>
+        每列<input name="cm" data-maxlength="24" value="{{d.data.argv.cm}}">个
     </td>
     <td><input type="submit" value="生成" class="w60"></td>
   </tr> 
-
 </table>
 </form>
 
@@ -26,11 +40,10 @@
     {% for k1 in d.data.tabs %}
     <tr>
         {% for k2 in d.data.tabs[k1] %}
-            {% set card = d.data.tabs[k1][k2][0] %}
             <td>
-                <b class="{% if card[0:1] in '♥♦' %}cF0F{% endif %}">{{ card }}</b>
+                <b>{{ d.data.tabs[k1][k2][0] }}</b>
                 <p>
-                    {{k1}}:{{k2}}
+                    {{ k1 }}:{{ k2 }}
                 </p>
             </td>
         {% endfor %}
@@ -41,9 +54,8 @@
 </div><!--end.out-->
 
 <script>
-
 window.onload=function(){
-    //setDev('type');
+    setDev('type');
 }
 </script>
 

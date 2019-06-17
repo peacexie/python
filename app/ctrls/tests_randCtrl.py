@@ -38,6 +38,18 @@ class main:
         data['argv'] = {'rn':rn, 'cm':cm};
         return data
 
+    # `data`方法
+    def dataAct(self):
+        data = {}
+        tp = argv.get('type', 'su')
+        ma = argv.get('max', '200') # 8/7/6/5
+        mi = argv.get('min', '1')
+        cm = argv.get('cm', '5')
+        primes = rands.Primes(int(mi), int(ma));
+        data['tabs'] = rands.strg(primes, int(cm), 1);
+        data['argv'] = {'tp':tp, 'ma':ma, 'mi':mi, 'cm':cm};
+        return data
+
     # chart
     def chartAct(self):
         data = {}
