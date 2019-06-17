@@ -67,8 +67,8 @@ def strg(s0, rn, cm=1, sub=0):
     no = 0; ino = 1
     while no<slen:
         istr = s0[no:rn+no]
-        vno = ino*rn if sub else ino
-        re[vno] = istr if sub else strg(istr, cm, 0, 1)
+        #vno = ino*rn if sub else ino
+        re[ino] = istr if sub else strg(istr, cm, 0, 1)
         no += rn
         ino += 1
     return re

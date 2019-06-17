@@ -1,10 +1,5 @@
 
 
-随机序列 + 图表
-素数数列
-完全数
-
-
 Life is short
 I need python
 
