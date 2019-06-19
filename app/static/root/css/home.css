@@ -21,6 +21,7 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
 .gwidth{ width:760px; display:block; margin:0px auto; clear:both; }
 .ie6{ display:block; color:#F00; background-color:#FFC; text-align:center; padding:10px 0; margin:10px 0px; }
 .clear { clear:both; }
+.break{ word-break:break-all; }
 
 
 .nav{ text-align:center; font-size:larger; padding:20px 0 0 0; }
