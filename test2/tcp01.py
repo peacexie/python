@@ -5,7 +5,7 @@ import socket
 
 # 创建一个socket:
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# 建立连接:http://txjia.com/proxy/pcheck.php
+# 建立连接:http://txjia.com/proxy/pcheck.php 
 s.connect(('txjia.com', 80))
 
 # 发送数据:
