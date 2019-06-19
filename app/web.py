@@ -5,4 +5,6 @@ sys.path.append("./")
 sys.path.append("../")
 
 from core import vop
-vop.web().run()
+
+if __name__ == '__main__':
+    vop.web().run()
