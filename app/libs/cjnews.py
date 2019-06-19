@@ -71,7 +71,7 @@ class main:
             if part['rid']:
                 whr += " AND id=%s"
                 pms += (part['rid'],)
-            topn = 3
+            topn = 30
         else:
             if not part or part=='0':
                 whr = '';
@@ -89,7 +89,7 @@ class main:
                 pms += (part,)
             topn = None
         wtest = "1=1" if istest else "status=1"
-        sql = "SELECT * FROM {crawl_rule} WHERE "+wtest+whr
+        sql = "SELECT * FROM {crawl_rule} WHERE "+wtest+whr+" ORDER BY id DESC"
         rules = self.db.get(sql,pms,topn)
         return rules;
     # 爬1个规则的列表
@@ -120,9 +120,15 @@ class main:
         itms = []
         lists = doc(rule['slist'])
         for li in lists:
-            atu = 'href' if (not rule['surl'] or rule['surl']=='a') else 'text';
-            url = cjtool.pqv(li, rule['surl'], atu)
-            title = cjtool.pqv(li, rule['stitle'], 'text')
+            if not rule['surl']:
+                url = pyq(li).attr('href')
+            else:
+                atu = 'href' if rule['surl']=='a' else 'text';
+                url = cjtool.pqv(li, rule['surl'], atu)
+            if not rule['stitle']:
+                title = pyq(li).text()
+            else:
+                title = cjtool.pqv(li, rule['stitle'], 'text')
             if (not url) or (not title):
                 continue
             ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I

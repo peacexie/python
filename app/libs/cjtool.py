@@ -94,6 +94,8 @@ def skips(rule, rowb, rowd):
 
 # 取多个选择器(<pqs1>,<pqs2>)中一个的 值/属性
 def pqv(dom, pqs, attr='text'):
+    if not pqs:
+        return ''
     if not ',' in pqs:
         return pqone(dom, pqs, attr)
     else:
@@ -107,7 +109,7 @@ def pqv(dom, pqs, attr='text'):
 
 # 取一个(<pqs>)选择器的 值/属性
 def pqone(dom, pqs, attr='text'):
-    e = pyq(dom).find(pqs) if pqs else pyq(dom)
+    e = pyq(dom).find(pqs) # if pqs else pyq(dom)
     if attr=='text':
         return pyq(e).text()
     elif attr=='html':
