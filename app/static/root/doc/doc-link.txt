@@ -1,5 +1,55 @@
 ﻿
 
+http://baijiahao.baidu.com/s?id=1596465591200328534&wfr=spider&for=pc
+玩转 Python 中的随机数
+
+Python生成随机数的方法
+https://www.cnblogs.com/mfryf/p/4556007.html
+
+* 代理
+
+https://www.cnblogs.com/jackyspy/p/6027385.html
+玩Python之HTTP代理
+
+https://www.cnblogs.com/z-x-y/p/9355223.html
+requests ip代理池单ip和多ip设置方式
+
+-----------------------------------
+
+https://blog.csdn.net/harry5508/article/details/83079031
+python中传参数模糊查询mysql
+
+https://www.runoob.com/python/python-tuples.html
+Python 元组
+
+-----------------------------------
+
+https://my.oschina.net/u/2333235/blog/1616788
+Windows IIS 部署 Flask应用 (ok)
+
+https://blog.csdn.net/cysion1989/article/details/78952958
+Apache部署flask的一些踩坑记录(win64+python36)
+
+Python第一篇：python + mod_wsgi + apache 部署用flask框架的py程序----window环境（亲测成功）
+https://blog.csdn.net/zhangtao0417/article/details/81564444
+
+https://blog.igevin.info/posts/how-to-deploy-flask-apps/
+Flask 应用如何部署
+
+https://blog.csdn.net/qq_24504591/article/details/81670766
+Apache2.4.34+Python3.x+Window 实现CGI编程
+
+https://support.microsoft.com/zh-cn/help/276494/using-python-scripts-with-iis
+与 IIS 使用 Python 脚本
+
+https://blog.csdn.net/lap2004/article/details/78549260
+2017IIS+python+flask环境搭建
+
+https://www.cnblogs.com/xiaolecn/p/5111076.html
+用wfastcgi在IIS下部署Django&Flask
+
+------------------------------------ 
+
 https://www.cnblogs.com/weikunzz/p/6857971.html
 python2 与 python3的区别
 
@@ -8,8 +58,6 @@ python socket编程（传输字符、文件、图片）
 
 http://blog.csdn.net/haluoluo211/article/details/42679715
 Python socket聊天室程序
-
-
 
 ------------------------------------ 
 
