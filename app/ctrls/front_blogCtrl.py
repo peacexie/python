@@ -73,6 +73,10 @@ class main:
         # logout
         if act=="del": # ?cid=&page=&kw=
             oid = argv.get('id')
+            if 'txjia.com' in request.host:
+                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+                #data['msg'] = 'Can NOT oprate @DemoSite!'
+                return data
             self.db.exe('DELETE FROM {article} WHERE id=?',(oid,))
             data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
             return data
@@ -97,6 +101,10 @@ class main:
         # post
         data['id'] = oid = argv.get('id')
         if request.method == 'POST':
+            if 'txjia.com' in request.host:
+                data['d'] = {'tpname':'dir', 'message':'/front/blog-lists'}
+                #data['msg'] = 'Can NOT oprate @DemoSite!'
+                return data
             title = request.form['title']
             detail = request.form['detail']
             cid = request.form['cid']
