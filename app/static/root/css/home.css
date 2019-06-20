@@ -78,6 +78,7 @@ p i.r{ display:inline-block; float:right; color:#999; padding:0px 5px; }
     .head img{ display:block; float:none; margin:auto; }
     .head h1{ clear:both; margin:10px auto; }
     .head p{ display:block; margin:auto 0px 20px 0px; }
+    .head a.logo{ display:block; float:none; margin:1rem auto; }
 } /*<=764(768)的设备*/
 
 
