@@ -33,7 +33,7 @@
         <p>
             <i class="r">
                 <a href="./blog-form?id={{itm['id']}}&_r=v2">Edit</a> - 
-                <a href="./blog-lists?act=del&id={{itm['id']}}&_r=v2">Del</a>
+                <a {% if 'txjia.com' not in d['data']['host'] %}href="./blog-lists?act=del&id={{itm['id']}}&_r=v2{% endif %}">Del</a>
             </i>
             {{ itm['title'] }}
         </p>

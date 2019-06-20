@@ -37,7 +37,7 @@
             <textarea name="detail" rows="12" style="width:100%">{{ d.data.row['detail'] }}</textarea>
             <input type="text" name="pass" style="width:100%">
         </p>
-        <p class="tc"><input type="submit" name="submit" id="button" value="{{ d.data.msg }}"></p>
+        <p class="tc"><input type="submit" name="submit" id="button" value="{{ d.data.msg }}" {% if 'txjia.com' in d['data']['host'] %}disabled{% endif %}></p>
     </div>
 
 </div>

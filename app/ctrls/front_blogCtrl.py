@@ -63,6 +63,7 @@ class main:
         return data
 
     def listsAct(self): # +<del>
+        #session['logged'] = True ;g.ses['logged'] = 1
         data = self.data
         act = argv.get('act')
         # check
@@ -81,10 +82,12 @@ class main:
         where = "cid='"+cid+"'" if cid else '1=1' # 安全???
         sql = 'SELECT * FROM {article} WHERE '+where+' ORDER BY id DESC'
         data['blog'] = self.db.get(sql, (), 20)
+        data['host'] = request.host
         return data
 
     # `form`方法
     def formAct(self): # add/edit
+        #session['logged'] = True ;g.ses['logged'] = 1
         data = self.data
         # check
         if not g.ses['logged']:
@@ -116,6 +119,7 @@ class main:
             data['id'] = oid = ''
         data['r_cid'] = data['row']['cid'] if data['row'] else ''
         data['msg'] = '修改:id='+str(oid) if oid else '增加'
+        data['host'] = request.host
         return data
 
     # `_detail`方法
