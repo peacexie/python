@@ -1,0 +1,14 @@
+﻿
+
+### wepy 发布记录
+
+*  svn:####  yyyy  mmdd hh:mm    wepy-git    online
+
+*  svn:277   2019  0621 13:00    v            -
+
+------------------------------------- 
+
+* compare                        wepy-git    online
+ - --------------------
+ - /trunk/@read/                 无私密信息   -
+ - /trunk/app/data/appcfg.ini    -           db连接
