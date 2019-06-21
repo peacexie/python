@@ -63,7 +63,7 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 
 * 环境安装
   - Python环境：Python3.5+, 
-  - 第三方模块：Flask, Mysql/Sqlite, PyQuery, requests
+  - 第三方模块：sqlite3, flask, pymysql, requests, pyquery
 
 * 安装Mysql数据库（爬虫要用）
   - 安装Mysql数据库
@@ -76,7 +76,7 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
 * 运行应用
   - 直接运行：/trunk/app/web.py
   - win模式下，可点 /trunk/run.cmd，直接进入命令行
-  - 访问：http://127.0.0.1:8026/ (端口可在`appcfg.ini`配置中修改)
+  - 访问：http://127.0.0.1:5000/ (端口可在`appcfg.ini`配置中修改)
 
 
 ### 微爬(Wepy) - 目录结构
@@ -88,9 +88,10 @@ Weipa, Weipy, Wepy, 微爬 …… 又是失眠中名字出来了！ 但是：微
     /branches/                 --- Porsonal Test Code!
       - /ex100/          
       - /ex200/          
-      - /hipy/           
+      - /hipy/      
+    /trunk/_cache/             --- 缓存目录           
     /trunk/app/                --- 微爬(Wepy)
-      - /_cache/       - 缓存目录
+      - /ctrls/        - 控制器
       - /data/         - db, config
       - /static/       - js,css 资源
       - /views/        - 模板
