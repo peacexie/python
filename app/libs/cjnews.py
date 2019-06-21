@@ -138,6 +138,9 @@ class main:
                 url = ubase + url
             else:
                 url = urlpy.fxurl(url, rule['url'])
+            # >255 的资料，应该是出错，不要的，这里保存供后续调试分析
+            url = url if len(url)<254 else url[0:254]
+            title = title if len(title)<254 else title[0:254]
             itms.append({'url':url, 'title':title})
         #print(itms[0])
         return itms;

@@ -1,4 +1,13 @@
 
+
+* 财经：
+ - wap，及跳转
+ - app，合并
+
+* 
+
+-----------------------------------
+
 HTTP 错误 500.0 - Internal Server Error
 无法在<fastCGI>应用程序配置中找到<handler> scriptProcessor
 
