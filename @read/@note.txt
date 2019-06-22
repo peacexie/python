@@ -1,5 +1,18 @@
 
 
+不见得吧？！
+现在 我们公司拖欠着工资呢；
+工作也不太好找… 
+
+其实，无论是谁，无论在哪里，也不管文化高低；
+在注意身体，保持健康的大前提下；
+积极努力的学习，生活，工作就够了！
+
+StaticFileModule,DefaultDocumentModule,DirectoryListingModule
+StaticFile
+
+
+
 * 财经：
  - wap，及跳转
  - app，合并
