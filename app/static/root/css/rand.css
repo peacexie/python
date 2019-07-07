@@ -8,3 +8,8 @@
 input{ width:60px; }
 .w40{ width:40px; }
 .w60{ width:60px; }
+
+.mh1 { margin:1rem auto !important; }
+.ph1 { padding:1rem auto; }
+.pa1 { padding:1rem; }
+.inline{ display:inline-block; }
