@@ -29,6 +29,7 @@ def autnm(url, full=0):
     file = file.replace('/','!').replace('?','---').replace('&',',')
     file = re.sub('[:*"<>|]','`',file)
     if len(file)>160: # /|\?& :*<>
+        file = re.sub("[^A-Za-z0-9\!\%\[\]\,\.\&\=]", "", file) #有汉字会出错?
         m5 = hashlib.md5(file.encode("latin1")).hexdigest()
         file = file[:60] +'---'+ m5 +'---'+ file[-60:]
     reg = r'\.(jpg|jpeg|gif|png|htm|html)$'

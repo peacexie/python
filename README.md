@@ -23,7 +23,7 @@
         - pynews.py dg   cont      --- 采集-所有dg规则 的详情
         - pynews.py 1024 cont      --- 采集-规则id=1024 的详情
         - pynews.py 5678 rowc test --- 测试-数据id=5678 的详情规则
-        - pynews.py 5678 rowc      --- 测试-数据id=5678 的详情规则
+        - pynews.py 5678 rowc      --- 采集-数据id=5678 的详情规则
         - pynews.py 0    0         --- 采集所有 - 网址和详情      
 ```
 

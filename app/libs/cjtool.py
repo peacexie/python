@@ -17,10 +17,10 @@ def htmDeel(rule, html, key): # key=pre_list/pre_cont
     if not '(*)' in cfg:
         return html
     tab = cfg.split('(*)')
-    if '":"' in html and '({' in html: # json特征(改进)
+    if '</' not in cfg and '":"' in html and '({' in html: # json特征(改进)
         p1 = len(tab[0])
         html = html[p1:len(html)-len(tab[1])]
-        res = json.loads(html)
+        res = json.loads(html, strict=False)
         dlay = rule['slist'].split('.') # data.list
         for i in range(len(dlay)):
             if dlay[i] in res.keys():
