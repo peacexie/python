@@ -1,13 +1,13 @@
 #coding=UTF-8
 
-import copy, re, time
+import copy, re, time, json
 from core import argv, dbop, files, urlpy
 from urllib import parse
 from urllib.parse import urljoin
 from pyquery import PyQuery as pyq
 
-
 # <xml id="DocumentsDataSrc12">(*)</xml>
+# jQuery17105123_156123((*))
 def htmDeel(rule, html, key): # key=pre_list/pre_cont
     rg = re.search(key+'=='+'([^\n|\r])+', rule['cfgs']) #, re.I
     if not rg:
@@ -17,11 +17,25 @@ def htmDeel(rule, html, key): # key=pre_list/pre_cont
     if not '(*)' in cfg:
         return html
     tab = cfg.split('(*)')
-    html = urlpy.block(html, tab[0], tab[1])
-    if len(html)>48000: # 500多K文本，2400多条记录，空白（可能是溢出）
-        html = html[0:36000] +' ... '+ html[-2400:]
-    #print(html)
-    return html
+    if '":"' in html and '({' in html: # json特征(改进)
+        p1 = len(tab[0])
+        html = html[p1:len(html)-len(tab[1])]
+        arr0 = json.loads(html)
+        tab0 = rule['slist'].split('.') # data.list
+        for i in range(len(tab0)):
+            if tab0[i] in arr0.keys():
+                arr0 = arr0[tab0[i]]
+        res = []
+        if len(arr0)>0:
+            for i in range(len(arr0)):
+                row = arr0[i]
+                res.append({'url':row[rule['surl']], 'title':row[rule['stitle']]})
+        return res
+    else: 
+        html = urlpy.block(html, tab[0], tab[1])
+        if len(html)>48000: # 500多K文本，2400多条记录，空白（可能是溢出）
+            html = html[0:36000] +' ... '+ html[-2400:]
+        return html
 
 # 图片地址替换
 def repImgs(url, html):

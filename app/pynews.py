@@ -30,14 +30,14 @@ if act=='link' or act=='0':
             debug['link'][rule['id']] = res
         #print(res,rule['debug'])
 
-# 爬内容
-if act=='cont' or act=='0':
+# 爬内容-一个规则
+if act=='cont' or act=='rowc' or act=='0':
     # 按下标整理规则字典
     rdic = {}
     for rule in rules:
         rdic[rule['id']] = rule
     # 取出未采集详情的列表
-    lists = cj.getDList(part, istest)
+    lists = cj.getDList(part, act, istest)
     for itm in lists:
         if not itm['ruleid'] in rdic.keys():
             continue
@@ -46,7 +46,7 @@ if act=='cont' or act=='0':
         if istest or rule['debug']==1:
             debug['cont'][itm['id']] = res
         #print("\n", res)
-    
+
 # 爬图片?
 
 

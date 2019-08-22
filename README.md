@@ -19,10 +19,12 @@
         - pynews.py 1025 link test --- 测试-规则id=1025 的列表规则
         - pynews.py dg   link      --- 采集-所有dg规则 的网址
         - pynews.py 1024 link      --- 采集-规则id=1024 的网址
-        - pynews.py 5678 cont test --- 测试-数据id=5678 的详情规则
+        - pynews.py 1024 cont test --- 测试-规则id=1024 的详情规则
         - pynews.py dg   cont      --- 采集-所有dg规则 的详情
-        - pynews.py 5678 cont      --- 采集-数据id=5678 的详情
-        - pynews.py 0    0         --- 采集所有 - 网址和详情
+        - pynews.py 1024 cont      --- 采集-规则id=1024 的详情
+        - pynews.py 5678 rowc test --- 测试-数据id=5678 的详情规则
+        - pynews.py 5678 rowc      --- 测试-数据id=5678 的详情规则
+        - pynews.py 0    0         --- 采集所有 - 网址和详情      
 ```
 
 ### 重要文件

@@ -45,11 +45,12 @@ class main:
             frem = 'update-ok'
         return 'data-'+kid+' : ' + frem
     # 取出未采集详情的列表
-    def getDList(self, part, istest=0):
+    def getDList(self, part, act='', istest=0):
         if not part or part=='0':
             whr = '';
         elif part.isdigit():
-            whr = " AND id='"+part+"'";
+            fid = "id" if act=='rowc' else "ruleid"
+            whr = " AND "+fid+"='"+part+"'";
         else:
             whr = " AND city='"+part+"'"
         wtest = "1=1" if istest else "flag=1"
@@ -78,12 +79,12 @@ class main:
                 pms += ()
             elif part.isdigit():
                 rid = part
-                if act=='cont' and part.isdigit(): # 找出当前内容的 ruleid ??? 
+                if act=='rowc' and part.isdigit(): # 找出当前内容的 ruleid ??? 
                     sql = "SELECT * FROM {crawl_data} WHERE id="+rid
                     row = self.db.get(sql,(),1)
                     rid = str(row['ruleid']) if row else '0'
                 whr = " AND id=%s";
-                pms += (part,)
+                pms += (rid,)
             else:
                 whr += " AND city=%s"
                 pms += (part,)
@@ -116,6 +117,8 @@ class main:
     def getUList(self, rule={}):
         html = self.rhtml(rule['url'], rule['agent'])
         html = cjtool.htmDeel(rule, html, 'pre_list')
+        if isinstance(html, list):
+            return html
         doc = pyq(html)
         itms = []
         lists = doc(rule['slist'])
