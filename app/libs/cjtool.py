@@ -20,16 +20,11 @@ def htmDeel(rule, html, key): # key=pre_list/pre_cont
     if '":"' in html and '({' in html: # json特征(改进)
         p1 = len(tab[0])
         html = html[p1:len(html)-len(tab[1])]
-        arr0 = json.loads(html)
-        tab0 = rule['slist'].split('.') # data.list
-        for i in range(len(tab0)):
-            if tab0[i] in arr0.keys():
-                arr0 = arr0[tab0[i]]
-        res = []
-        if len(arr0)>0:
-            for i in range(len(arr0)):
-                row = arr0[i]
-                res.append({'url':row[rule['surl']], 'title':row[rule['stitle']]})
+        res = json.loads(html)
+        dlay = rule['slist'].split('.') # data.list
+        for i in range(len(dlay)):
+            if dlay[i] in res.keys():
+                res = res[dlay[i]]
         return res
     else: 
         html = urlpy.block(html, tab[0], tab[1])

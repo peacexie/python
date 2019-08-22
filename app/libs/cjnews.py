@@ -117,10 +117,14 @@ class main:
     def getUList(self, rule={}):
         html = self.rhtml(rule['url'], rule['agent'])
         html = cjtool.htmDeel(rule, html, 'pre_list')
-        if isinstance(html, list):
-            return html
-        doc = pyq(html)
         itms = []
+        if isinstance(html, list):
+            if len(html)>0:
+                for i in range(len(html)):
+                    row = html[i]
+                    itms.append({'url':row[rule['surl']], 'title':row[rule['stitle']]})
+            return itms
+        doc = pyq(html)
         lists = doc(rule['slist'])
         for li in lists:
             if not rule['surl']:
