@@ -78,8 +78,8 @@ class main:
                 whr = '';
                 pms += ()
             elif part.isdigit():
-                rid = part
-                if act=='rowc' and part.isdigit(): # 找出当前内容的 ruleid ??? 
+                rid = part  
+                if act=='rowc': # 找出当前内容的 ruleid ??? 
                     sql = "SELECT * FROM {crawl_data} WHERE id="+rid
                     row = self.db.get(sql,(),1)
                     rid = str(row['ruleid']) if row else '0'
