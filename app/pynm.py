@@ -11,6 +11,7 @@ if __name__=='__main__':
     # parts分组: 手动设置, 若8核cpu,设置4-6个分组
 
     parts = [
+        ['all'],
         ['dg'],
         ['gz'],
         ['sz'],
