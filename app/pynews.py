@@ -1,8 +1,8 @@
 #coding=UTF-8
 
 import sys, time
-sys.path.append("./")
-sys.path.append("../")
+sys.path.append(sys.path[0])
+sys.path.append(sys.path[0] + "/../")
 from libs import cjnews, cjtool
 
 # 运行参数 见 `_wm.cmd` 注释

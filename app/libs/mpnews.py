@@ -1,7 +1,7 @@
 #coding=UTF-8 # 这个文件不该放在core里面
 # 鸡肋啦... 大批量采集容易封ip, 出错调试也易出问题
 
-import sys, os, time, random
+import sys, os, json, time, random
 from core import argv, files, dbop
 from libs import cjnews, cjtool
 from multiprocessing import Process, Pool
@@ -10,9 +10,6 @@ class Pools:
 
     def __init__(self, mkey, dbk=''):
         self.mkey = mkey
-        #self.dbk = dbk
-        #self.func = cjfang.area
-        #self.cj = cjnews.main()
         self.pcnt = 2
     def __del__(self):
         return
@@ -42,11 +39,17 @@ class Pools:
         print('Run cjtab1 : ctab1=%s, no=%s, pid=(%s)...' % (ctab1, no, os.getpid()))
         resm = {}
         for i in range(len(ctab1)):
-            city = ctab1[i]
-            resm[i] = self.cjcity(ctab1[i], act, no)
+            try:
+                city = ctab1[i]
+                resm[i] = self.cjcity(ctab1[i], act, no)
+            except Exception as ex:
+                resm[i] = ex
         stamp = time.strftime("%Y%m%d-%H%M%S", time.localtime())
-        fp = stamp + '-' + '+'.join(ctab1) + '.txt' #;print(fp)
-        files.put('../_cache/debug/'+fp, str(resm))
+        cfgs = argv.init('1')
+        fp = stamp +'-'+ '+'.join(ctab1) +'.txt'
+        data = json.dumps(resm, indent=4, separators=(',',': '), ensure_ascii=True)
+        # sort_keys=True,indent=4, separators=(',',': '), ensure_ascii=True
+        files.put(cfgs['dir']['cache']+'/debug/'+fp, data)
         return resm;
 
     # 子进程-一个城市
@@ -99,7 +102,3 @@ class Pools:
         }
         return mtab[self.mkey]
 
-
-'''
-
-'''

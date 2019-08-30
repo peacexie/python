@@ -117,8 +117,12 @@ def pqv(dom, pqs, attr='text'):
     return ''
 
 # 取一个(<pqs>)选择器的 值/属性
+# div h3 a
 def pqone(dom, pqs, attr='text'):
-    e = pyq(dom).find(pqs) # if pqs else pyq(dom)
+    if ':eq(' in pqs:
+        e = peq(dom, pqs)
+    else:
+        e = pyq(dom).find(pqs) # if pqs else pyq(dom)
     if attr=='text':
         return pyq(e).text()
     elif attr=='html':
@@ -126,7 +130,17 @@ def pqone(dom, pqs, attr='text'):
     else:
         return pyq(e).attr(attr)
 
+# td:eq(2) a (-=>) pyq(li).find('td').eq(2).find('a').attr('href')
+def peq(dom, pqs):
+    ta = pqs.split(":eq(")
+    e1 = pyq(dom).find(ta[0]);
+    tb = ta[1].split(")")
+    e2 = pyq(e1).eq(int(tb[0]));
+    tb1 = tb[1].strip();
+    return pyq(e2).find(tb1) if tb1 else e2;
+
 def debug(debug={}):
+    cfgs = argv.init('1')
     now = time.strftime("%m-%d %H:%M:%S", time.localtime())
     # start
     if 'run' not in debug.keys():
@@ -140,7 +154,7 @@ def debug(debug={}):
     debug['run']['timen'] = debug['run']['stamp2'] - debug['run']['stamp1']
     data = str(debug)
     fp = time.strftime("%Y%m%d-%H%M%S", time.localtime()) + '.txt'
-    files.put('../_cache/debug/'+fp, data)
+    files.put(cfgs['dir']['cache']+'/debug/'+fp, data)
     return debug
 
 # 

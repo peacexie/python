@@ -20,8 +20,9 @@ class main:
         self.cfgs = argv.init('1')
         self.db = dbop.dbm(self.cfgs['cdb'])
     def __del__(self):
+        return
         #print('-cjnews:end-')
-        self.db.close(); 
+        #self.db.close(); 
 
     # 保存一笔详情数据
     def saveDetail(self, rule, rowb, istest=0):
@@ -31,7 +32,7 @@ class main:
         flag = '2' if len(frem)>0 else '7';
         ftab = 'flag=%s,frem=%s,ctime=%s, detail=%s,dpub=%s,dfrom=%s, '
         ftab += 'catid=%s,sfrom=%s,suser=%s'
-        ctime = time.strftime("%m-%d %H:%M", time.localtime())
+        ctime = time.strftime("%Y-%m-%d %H:%M", time.localtime())
         sqli = "UPDATE {crawl_data} SET "+ftab+" WHERE id=%s"
         rowi = (flag,frem,ctime, rowd['detail'],rowd['dpub'],rowd['dfrom'], 
             rule['catid'],rule['sfrom'],rule['suser'], kid)
@@ -102,9 +103,10 @@ class main:
             sql = "SELECT * FROM {crawl_data} WHERE url=%s"
             odb = self.db.get(sql,(url,),1)
             if not odb:
-                fields = 'city,flag,ruleid,title,url'
-                sqli = "INSERT INTO {crawl_data} ("+fields+")VALUES(%s,%s,%s,%s,%s)"
-                rowi = (rule['city'],'1',rule['id'],rb['title'],rb['url'],)
+                fields = 'city,flag,ruleid,title,url,list_ext1,list_ext2,list_ext3'
+                sqli = "INSERT INTO {crawl_data} ("+fields+")VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+                ex = rb['exts'] ;print(ex)
+                rowi = (rule['city'],'1',rule['id'],rb['title'],rb['url'],ex['ext1'],ex['ext2'],ex['ext3'])
                 if not istest:
                     rs = self.db.exe(sqli,rowi)
                 res[no] = 'insert : '+url
@@ -130,12 +132,13 @@ class main:
             if not rule['surl']:
                 url = pyq(li).attr('href')
             else:
-                atu = 'href' if rule['surl']=='a' else 'text';
+                atu = 'href' if (rule['surl']=='a' or ' a' in rule['surl']) else 'text';
                 url = cjtool.pqv(li, rule['surl'], atu)
             if not rule['stitle']:
                 title = pyq(li).text()
             else:
                 title = cjtool.pqv(li, rule['stitle'], 'text')
+            #print(' aaa: ', url, title)
             if (not url) or (not title):
                 continue
             ug = re.search('pre_url=='+'([^\n|\r])+', rule['cfgs']) #, re.I
@@ -145,10 +148,15 @@ class main:
                 url = ubase + url
             else:
                 url = urlpy.fxurl(url, rule['url'])
+            exts = {}
+            for i in range(1,4):
+                exts['ext'+str(i)] = ''
+                if rule['list_ext'+str(i)]:
+                    exts['ext'+str(i)] = cjtool.pqv(li, rule['list_ext'+str(i)], 'text')
             # >255 的资料，应该是出错，不要的，这里保存供后续调试分析
             url = url if len(url)<254 else url[0:254]
             title = title if len(title)<254 else title[0:254]
-            itms.append({'url':url, 'title':title})
+            itms.append({'url':url, 'title':title, 'exts':exts})
         #print(itms[0])
         return itms;
     # 采集-获取详情

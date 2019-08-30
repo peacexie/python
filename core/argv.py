@@ -32,8 +32,9 @@ def envs():
 
 # 读取应用配置
 def ucfg():
-    conf = configparser.ConfigParser()
-    conf.read("./data/appcfg.ini", encoding="utf-8-sig")
+    # ConfigParser|RawConfigParser:有特殊字符用后者
+    conf = configparser.RawConfigParser()
+    conf.read(sys.path[0]+"/data/appcfg.ini", encoding="utf-8-sig")
     secs = conf.sections()
     ucfg = {}
     for key in secs:

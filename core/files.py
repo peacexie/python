@@ -1,9 +1,11 @@
 # files:文件相关
 
-import os, time, hashlib, re
+import sys, os, time, hashlib, re
 from urllib import parse
 
 def get(fp, cset='utf-8', mode='rb'):
+    if not (sys.path[0] in fp):
+        fp = sys.path[0] + '/' + fp
     flag = os.path.exists(fp)
     if not flag:
         return ''
@@ -16,7 +18,9 @@ def get(fp, cset='utf-8', mode='rb'):
     return data
 
 def put(fp, data): 
-    with open(fp,'w', encoding='utf-8') as f:
+    if not (sys.path[0] in fp):
+        fp = sys.path[0] + '/' + fp
+    with open(fp, 'w', encoding='utf-8') as f:
         f.write(data)
     f.close()
 
@@ -39,6 +43,8 @@ def autnm(url, full=0):
 
 # 未超时判断
 def tmok(fp, tmout=60):
+    if not (sys.path[0] in fp):
+        fp = sys.path[0] + '/' + fp
     flag = os.path.exists(fp)
     if not flag:
         return 0
