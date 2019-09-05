@@ -12,9 +12,18 @@ def page(url, head={}, proxy={}):
         head = dict(agent, **head)
     r = requests.get(url, headers=head, proxies=proxy)
     if r.encoding == 'ISO-8859-1':
+        encodes = requests.utils.get_encodings_from_content(r.text)
+        if encodes:
+            encode = encodes[0]
+        else:
+            encode = r.apparent_encoding
+        html = r.content.decode(encode, 'replace') #如果设置为replace，则会用?取代非法字符；
+        return html;
+        '''
         c = re.search(r'charset=["\']?([^\'"]*)', r.text)
         if c:
             r.encoding = c.group(1)
+        '''
     html = r.text
     return html
 
