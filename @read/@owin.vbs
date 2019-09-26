@@ -1,5 +1,5 @@
 
-' vbs鎵撳紑ie涓ょ鏂规硶 鍦╒BScript涓惎鍔↖E娴忚鍣ㄧ殑瀹炵幇浠ｇ爜
+' vbs打开ie两种方法 在VBScript中启动IE浏览器的实现代码
 ' http://hant.ask.helplib.com/javascript/post_5938169
 ' Split("42, 12, 19")
 
@@ -11,23 +11,25 @@ rem http://qiyeweb.dongguan.net.cn/
 rem http://www.pswpower.com
 
 
-Dim tab,wsh,ie 
+Dim tab,wsh,ie,url
 
-Set ie = WScript.CreateObject("InternetExplorer.Application") 
-ie.visible = True 
-
-
-tab = Split("imcat,imblog,ourhouse,wepy,im3n,txjia.com,qiyeweb.dongguan.net.cn,www.pswpower.com", ",")
+tab = Split("imcat.txjia.com,imblog.txjia.com,ourhouse.txjia.com,wepy.txjia.com,im3n.txjia.com,txjia.com,qiyeweb.dongguan.net.cn,www.pswpower.com", ",")
 For i=0 to 7
+
+  Set ie = WScript.CreateObject("InternetExplorer.Application") 
+  ie.visible = True 
+
     'print tab(i)
-    If inStr(".", tab(i))>0 Then
-        url = "http://" & tab(i)
-    Else
-        url = "http://" & tab(i) & ".txjia.com"
-    End If
-    ie.navigate tab(i)
-    WScript.Sleep 3000
+    'If inStr(".", tab(i))>0 Then
+        url = tab(i)
+    'Else
+        'url = tab(i) & ".txjia.com"
+    'End If
+    ie.navigate url
+    WScript.Sleep 4000
+
+  ie.Quit()
+
 Next
 
 WScript.Sleep 3000
-ie.Quit()
