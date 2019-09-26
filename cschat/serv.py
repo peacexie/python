@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import socket ,os
-server = socket.socket()#声明socket类型并生产连接对象
-server.bind(('localhost',9999))#绑定ip和port
+server = socket.socket() #声明socket类型并生产连接对象
+server.bind(('192.168.1.228',8930)) #绑定ip和port
 server.listen()#监听
 print('等待连接……')
 

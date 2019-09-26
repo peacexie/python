@@ -3,7 +3,7 @@
 
 import socket
 client = socket.socket()#声明socket类型并生产连接对象
-client.connect(('localhost',9999))#发起连接
+client.connect(('192.168.1.228',8930))#发起连接
 
 #循环输入指令
 while True:
