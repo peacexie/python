@@ -55,7 +55,7 @@
     var oInput=document.getElementById('message');
     var ws=null;
     oConnect.onclick=function(){
-        ws=new WebSocket('ws://127.0.0.1:10083');
+        ws=new WebSocket('ws://192.168.1.228:10083');
          ws.onopen=function(){
              oUl.innerHTML+="<li>客户端已连接</li>";
          }
