@@ -1,5 +1,43 @@
 
 
+https://www.php.cn/php-weizijiaocheng-89026.html
+为什么现在pc份额越来越小，但是web前端技术却这么火热，难道是因为移动端的需求？
+
+-----------------------------------
+
+### 大趋势
+
+* python,php,javascript 份额大趋势
+  - 截止2019-09，他们的全球份额排名分别为：3, 7, 9 （第1,2分别为java,c）
+  - 份额百分比分别为：9.874%, 2.128%, 1.863
+  - 随着 移动端 + nodejs 兴起，javascript 超越了 php
+  - 随着 大数据 + AI 兴起，python 超越了 php
+  - 大趋势下，php已老矣！！！
+
+* 公司 后台程序 概况
+  - pc/后台：php+think 为主
+  - 聊天：使用 nodejs 后端
+  - 爬虫：大批量 使用 python，小量用 php
+  - APP：后端 php，前端 nodejs+vue
+
+* 现状分析
+  - 理论上：php也可做 websocket,采集；  
+    nodejs也可做web后台，采集；  
+    python也可做web后台 和 websocket；
+  - 表面上看，web/聊天/爬虫：都
+
+
+
+-----------------------------------
+
+
+* todo
+  - web : flask
+  - websocket : socket
+  - crawl : scrapy+pyquery
+
+
+
 -----------------------------------
 
 
