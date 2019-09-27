@@ -1,71 +1,25 @@
-﻿#!/usr/bin/python
-# -*- coding: UTF-8 -*-
+﻿# -*- coding: UTF-8 -*-
 
-import socket
-import struct
-import hashlib
-import base64
+import json
 import threading
+import socket
+import chats
 
 # const
 HOST = "192.168.1.228"
 PORT = 10083 # 192.168.1.228:8830
-WSKEY = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
-# see:https://tools.ietf.org/html/rfc6455
-
-def getHeaders(data):
-    headers = {}
-    data = str(data, encoding="utf-8")
-    header, body = data.split("\r\n\r\n", 1)
-    hlist = header.split("\r\n")
-    for i in hlist:
-        hitem = i.split(":", 1)
-        if len(hitem) >= 2:
-            headers[hitem[0]] = "".join(hitem[1::]).strip()
-        else:
-            hitem = i.split(" ", 1)
-            if hitem and len(hitem) == 2:
-                headers["method"] = hitem[0]
-                headers["protocol"] = hitem[1]
-    return headers
 
 
-def parseData(payload):
-    plen = payload[1] & 127
-    if plen == 126:
-        exlen = payload[2:4]
-        mask = payload[4:8]
-        decoded = payload[8:]
-    elif plen == 127:
-        exlen = payload[2:10]
-        mask = payload[10:14]
-        decoded = payload[14:]
+
+def xxsendMsg(conn, mbytes):
+    bstr = chats.b2str(mbytes)
+    conn.sendall(bstr)
+    '''
+    if bdic['key']=='initUser':
+        print(bdic['val'])
     else:
-        exlen = None
-        mask = payload[2:6]
-        decoded = payload[6:]
-    # 这里我们使用字节将数据全部收集，再去字符串编码，这样不会导致中文乱码
-    blist = bytearray()
-    for i in range(len(decoded)):
-        # 解码方式
-        chunk = decoded[i] ^ mask[i % 4]
-        blist.append(chunk)
-    body = str(blist, encoding='utf-8')
-    return body
-
-
-def sendMsg(conn, mbytes):
-    # 接收的第一字节，一般都是x81不变
-    firstb = b"\x81"
-    length = len(mbytes)
-    if length < 126:
-        firstb += struct.pack("B", length)
-    elif length <= 0xFFFF:
-        firstb += struct.pack("!BH", 126, length)
-    else:
-        firstb += struct.pack("!BQ", 127, length)
-    msg = firstb + mbytes
-    conn.sendall(msg)
+        conn.sendall(json.dumps(msg))
+    '''
     return True
 
 
@@ -74,28 +28,28 @@ def handlerMsg(conn):
         while True:
             drecv = c.recv(8096)
             if drecv[0:1] == b"\x81":
-                dparse = parseData(drecv)
-                print(dparse)
-            sendMsg(c, bytes("recv: {}".format(dparse), encoding="utf-8"))
+                data = chats.parseData(drecv)
+                bits = bytes(data, encoding="utf-8")
+            else:
+                print('not b|x81', drecv)
+                bits = bytes('', encoding="utf-8")
+            c.sendall(chats.b2str(bits))
+            
+
+
+'''
+
+
+'''
 
 
 def handlerAccept(sock):
     while True:
         conn, addr = sock.accept()
-        data = conn.recv(8096)
-        headers = getHeaders(data)
-        # 对请求头中的sec-websocket-key进行加密
-        tpl = "HTTP/1.1 101 Switching Protocols\r\n" \
-            "Upgrade:websocket\r\n" \
-            "Connection: Upgrade\r\n" \
-            "Sec-WebSocket-Accept: %s\r\n" \
-            "WebSocket-Location: ws://%s\r\n\r\n"
-        # 第一次连接发回报文
-        if headers.get('Sec-WebSocket-Key'):
-            value = headers['Sec-WebSocket-Key'] + WSKEY
-        ac = base64.b64encode(hashlib.sha1(value.encode('utf-8')).digest())
-        res = tpl % (ac.decode('utf-8'), headers.get("Host"))
-        conn.sendall(bytes(res, encoding="utf-8"))
+        users.append(conn) #;print(users)
+        data = conn.recv(8096)  # 获取握手数据
+        acinfo = chats.getAcinfo(data)
+        conn.sendall(acinfo)  # (第一次)连接发回报文
         t = threading.Thread(target=handlerMsg, args=(conn, ))
         t.start()
 
@@ -109,13 +63,34 @@ def multiSocket():
     t.start()
 
 
-sock_pool = []
+users = []
 
 if __name__ == "__main__":
     multiSocket()
 
 
 '''
+
+### 基础思路
+
+* 自己是谁？ --- id, (或系统消息-system)
+* 发给谁？   --- id, (或房间号)
+
+### 结构规划
+
+* 用户资料   - user: {uid, uname, thumb...}
+* 聊天对方   - uto: {toid, toroom}
+* 初始化     - act=initUser: (user, uto)
+* 更新用户   - act=userUpd: (user, uto) - 由游客到登录
+* 设置聊天方 - act=setTo: (uto)
+* 发送消息   - act=sendMsg: (fid, uto, type, msg)
+* 消息类型   - type=text, pic, video, audio, info
+* info类型   - info=news, house, rent, sale...
+
+### 辅助方法
+
+* pullConversationList, setTopConversation, delConversation
+* pullUnreads, pullHistoryMessages, clearUnreadStatus
 
 
 '''

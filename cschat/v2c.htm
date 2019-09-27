@@ -1,87 +1,96 @@
 ﻿<!DOCTYPE html>
 <html>
 <head lang="en">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta charset="UTF-8">
-    <title></title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .message{
-            width: 60%;
-            margin: 0 10px;
-            display: inline-block;
-            text-align: center;
-            height: 40px;
-            line-height: 40px;
-            font-size: 20px;
-            border-radius: 5px;
-            border: 1px solid #B3D33F;
-        }
-        .form{
-            width:100%;
-            position: fixed;
-            bottom: 300px;
-            left: 0;
-        }
-        .connect{
-            height: 40px;
-            vertical-align: top;
-            /* padding: 0; */
-            width: 80px;
-            font-size: 20px;
-            border-radius: 5px;
-            border: none;
-            background: #B3D33F;
-            color: #fff;
-        }
-    </style>
-
+    <title>client</title>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script xsrc="./client.js"></script>
+    
 </head>
 <body>
-<ul id="content"></ul>
+
+
+<ul id="lists"></ul>
 <form class="form">
-<input type="text" placeholder="请输入发送的消息" class="message" id="message"/>
-<input type="button" value="发送" id="send" class="connect"/>
-<input type="button" value="连接" id="connect" class="connect"/>
+<input type="text" placeholder="请输入发送的消息" id="message"/>
+<input type="button" value="发送" id="send"/>
+<input type="button" value="连接" id="connect"/>
 </form>
+
+
+<p> 
+    <a href="?">[游客]</a> (点击模拟登录如下用户) 
+    <br>
+    鸽子： <a href="?uid=1234&to=5678&uname=和平鸽(Peace)">和平鸽(peace)>神秘客服</a>(1234>5678)<br>
+    客服： <a href="?uid=5678&to=1234&uname=神秘客服">神秘客服>和平鸽(peace)</a>(5678>1234)<br>
+    <br>
+</p>
+
+
 <script>
 
-    var oUl=document.getElementById('content');
-    var oConnect=document.getElementById('connect');
-    var oSend=document.getElementById('send');
-    var oInput=document.getElementById('message');
-    var ws=null;
-    oConnect.onclick=function(){
-        ws=new WebSocket('ws://192.168.1.228:10083');
-         ws.onopen=function(){
-             oUl.innerHTML+="<li>客户端已连接</li>";
-         }
+var oConnect = document.getElementById('connect');
+var oSend = document.getElementById('send');
+var ws = null;
 
-        ws.onmessage=function(evt){
-            console.log("fdsa")
-            oUl.innerHTML+="<li>"+evt.data+"</li>";
-        }
-        ws.onclose=function(){
-            oUl.innerHTML+="<li>客户端已断开连接</li>";
-        };
-        ws.onerror=function(evt){
-            oUl.innerHTML+="<li>"+evt.data+"</li>";
-
-        };
-    };
-    oSend.onclick=function(){
-        if(ws){
-             ws.send($("#message").val())
-        }
+var msgShow = function(act, msg){
+    var old = $('#lists').html();
+    $('#lists').append("<li>("+act+"): "+msg+"</li>");
+}
+oConnect.onclick = function(){
+    ws = new WebSocket('ws://192.168.1.228:10083'); // 10083
+    ws.onopen = function(){
+        var data = {key:"initUser",val:{uid:uid,uname:uname,touid:touid}}
+        ws.send(JSON.stringify(data))
+        msgShow('Info', '客户端已连接');
     }
+    ws.onmessage = function(evt){
+        console.log("fdsa")
+        msgShow('Get', evt.data);
+    }
+    ws.onclose = function(){
+        msgShow('Info', '客户端已断开连接');
+    };
+    ws.onerror = function(evt){
+        msgShow('Error', evt.data);
+    };
+};
+oSend.onclick = function(){
+    if(!ws) return;
+    var msg = $("#message").val(),
+        cjson = {text:msg};
+    if(!msg || !uid) return;
+    var Now = new Date(), id = uid +'_'+ Now.getTime(), 
+        time = Now.getHours() +":"+ Now.getMinutes(),
+        cnow = {uid:uid, uname:uname, touid:touid},
+        row = {id:id, time:time, ufrom:uid, type:'text', uinfo:cnow, cjson:cjson};
+    var data = JSON.stringify({key:"sendMessage",val:row})
+    ws.send(data)
+    $("#message").val('')
+    msgShow('Send', data)
+}
+
+var uid = urlPara('uid'),
+    touid = urlPara('to'),
+    uname = decodeURI(urlPara('uname')); 
+
+// 获取HTML页面参数
+function urlPara(key,def,url){
+    url = url ? url : location.href;
+    var re = (new RegExp("([^(&|\?)]*)" + key + "=([^&|#]*)").test(url+"#")) ? RegExp.$2 : '';
+    if(def && !re) re = def;
+    return re;
+}
 
 </script>
 
+
+<p>
 python版websocket<br>
 https://www.jianshu.com/p/e3fe5805e51c
+</p>
+
 
 </body>
 </html>
