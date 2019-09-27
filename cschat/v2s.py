@@ -10,38 +10,22 @@ HOST = "192.168.1.228"
 PORT = 10083 # 192.168.1.228:8830
 
 
-
-def xxsendMsg(conn, mbytes):
-    bstr = chats.b2str(mbytes)
-    conn.sendall(bstr)
-    '''
-    if bdic['key']=='initUser':
-        print(bdic['val'])
-    else:
-        conn.sendall(json.dumps(msg))
-    '''
-    return True
-
-
 def handlerMsg(conn):
     with conn as c:
         while True:
+
+            #'''
             drecv = c.recv(8096)
             if drecv[0:1] == b"\x81":
                 data = chats.parseData(drecv)
                 bits = bytes(data, encoding="utf-8")
+                c.sendall(chats.b2str(bits))
             else:
                 print('not b|x81', drecv)
-                bits = bytes('', encoding="utf-8")
-            c.sendall(chats.b2str(bits))
+                #bits = bytes('', encoding="utf-8")
+                c.sendall(drecv)
+            #'''
             
-
-
-'''
-
-
-'''
-
 
 def handlerAccept(sock):
     while True:
