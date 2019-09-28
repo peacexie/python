@@ -66,8 +66,8 @@ def getAcinfo(data):
     res = tpl % (ac.decode('utf-8'), headers.get("Host"))
     return bytes(res, encoding="utf-8")
 
-# 字节转字符串
-def b2str(mbytes):
+# 网络字节流包装
+def bstring(mbytes):
     # 接收的第一字节，一般都是x81不变
     firstb = b"\x81"
     length = len(mbytes)

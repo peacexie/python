@@ -3,37 +3,75 @@
 import json
 import threading
 import socket
-import chats
+import chatws
+
 
 # const
-HOST = "192.168.1.228"
-PORT = 10083 # 192.168.1.228:8830
+HOST = "127.0.0.1"  #192.168.1.228
+PORT = 10083  # 192.168.1.228:8830
 
+
+def sendMsg(conn, mstr):
+    mbytes = bytes(format(mstr), encoding="utf-8")
+    bstr = chatws.bstring(mbytes)
+    conn.sendall(bstr)
+    return True
+
+# 消息处理转发
+def opMsg(conn, mstr):
+    
+    send = 1; 
+    try:
+        mdic = json.loads(mstr)
+    except Exception as e1:
+        print('Exception: ', e1)
+    else:
+        if 'key' in mdic:
+            if mdic['key']=='initUser':
+                send = 0
+                users[mdic['val']['uid']] = {"conn":conn, "row":mdic['val']}
+            elif mdic['key']=='sendMessage':
+                send = 0
+                for uid in users:
+                    udic = users[uid]; urow = udic['row']
+                    if(str(urow['uid'])==str(mdic['val']['uto'])):
+                        send = 2  # 未成功
+                        sendMsg(udic['conn'], mstr)
+            else:
+                pass
+        else:
+            print('Error: ', mdic)
+    finally:
+        pass
+    if send:
+        sendMsg(conn, mstr)
 
 def handlerMsg(conn):
-    with conn as c:
+    with conn as con:
         while True:
-
-            #'''
-            drecv = c.recv(8096)
-            if drecv[0:1] == b"\x81":
-                data = chats.parseData(drecv)
-                bits = bytes(data, encoding="utf-8")
-                c.sendall(chats.b2str(bits))
+            drecv = con.recv(8096)
+            data = ''
+            if drecv[0:1] == b"\x81":  # 发送数据
+                data = chatws.parseData(drecv)
+                print('x81 - data: ', data)
+            elif drecv[0:1] == b"\x88":  # 断开连接
+                for uid in users:
+                    if(users[uid]['conn']==conn):
+                        del users[uid]
+                print('x88 - end: ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
+                return
             else:
-                print('not b|x81', drecv)
-                #bits = bytes('', encoding="utf-8")
-                c.sendall(drecv)
-            #'''
-            
+                print('else - drecv: ', drecv)
+            opMsg(con, data)
+
 
 def handlerAccept(sock):
     while True:
         conn, addr = sock.accept()
-        users.append(conn) #;print(users)
+        #users.add(conn)  ;print('b: ', len(users))
         data = conn.recv(8096)  # 获取握手数据
-        acinfo = chats.getAcinfo(data)
-        conn.sendall(acinfo)  # (第一次)连接发回报文
+        acinfo = chatws.getAcinfo(data)
+        conn.sendall(acinfo)  # 响应【握手】信息
         t = threading.Thread(target=handlerMsg, args=(conn, ))
         t.start()
 
@@ -47,7 +85,7 @@ def multiSocket():
     t.start()
 
 
-users = []
+users = {}
 
 if __name__ == "__main__":
     multiSocket()
