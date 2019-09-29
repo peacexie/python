@@ -75,8 +75,22 @@ oConnect.onclick = function(){
         msgShow('Info', '客户端已连接');
     }
     ws.onmessage = function(evt){
-        console.log("fdsa")
-        msgShow('Get', evt.data);
+        var pre = 'Get', data = evt.data, 
+            fquan = data.indexOf('"key":"sendRoom"')>0,
+            froom = data.indexOf('"uroom":"'+uroom+'"')>0,
+            fone = data.indexOf('"key":"sendOne"')>0,
+            fget = data.indexOf('"uto":"'+uid+'"')>0,
+            fsend = data.indexOf('"ufrom":"'+uid+'"')>0;
+        if(fquan && send){
+            pre = '[群发]'
+        }else if(fquan && froom){
+            pre = '[群收]'
+        }else if(fone && fsend){
+            pre = '[发]'
+        }else if(fone && fget){
+            pre = '[收]'
+        }
+        msgShow(pre, data);
     }
     ws.onclose = function(){
         msgShow('Info', '客户端已断开连接');
