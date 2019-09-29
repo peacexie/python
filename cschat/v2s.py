@@ -89,10 +89,10 @@ def handlerMsg(conn):
                         del users[uid]
                         break
                 #conns.remove(con)
-                print('x88 - end: ', drecv, con)  # b'\x88\x82uR\xdf\xc6v\xbb'
+                print('x88 - end: ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
                 return
             else:
-                print('else - drecv: ', drecv)
+                print('else - recv: ', drecv)
             handlerOne(con, data)
 
 # socket监听
