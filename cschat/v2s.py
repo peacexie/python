@@ -20,30 +20,44 @@ def sendMsg(conn, mstr):
 # 消息处理转发
 def opMsg(conn, mstr):
     
-    send = 1; 
+    remsg = '';
     try:
         mdic = json.loads(mstr)
     except Exception as e1:
         print('Exception: ', e1)
     else:
-        if 'key' in mdic:
-            if mdic['key']=='initUser':
-                send = 0
-                users[mdic['val']['uid']] = {"conn":conn, "row":mdic['val']}
-            elif mdic['key']=='sendMessage':
-                send = 0
-                for uid in users:
-                    udic = users[uid]; urow = udic['row']
-                    if(str(urow['uid'])==str(mdic['val']['uto'])):
-                        send = 2  # 未成功
-                        sendMsg(udic['conn'], mstr)
+        if 'key' in mdic and 'val' in mdic:
+            key, val = mdic['key'], mdic['val']
+            if key=='initUser':
+                if 'uid' in val:
+                    users[val['uid']] = {"conn":conn, "row":val, 'uroom':''}
+                remsg = ''
+            elif key=='sendOne' and 'uto' in val:  # 发单个人
+                uto = val['uto']
+                if uto in users:
+                    sendMsg(users[uto]['conn'], mstr)
+                    remsg = '成功!'
+                else:
+                    remsg = '未成功'
+            elif key=='joinRoom' and 'uid' in val and 'uroom' in val:  # 进入聊天室
+                users[val['uid']]['uroom'] = val['uroom']
+            elif key=='exitRoom' and 'uid' in val:  # 退出聊天室
+                users[val['uid']]['uroom'] = ''
+            elif key=='sendRoom' and 'uroom' in val:  # 发聊天室
+                for uid in users.keys():
+                #for uid in users:  # 推荐用 key in dic, 但是循环中可能被删除?
+                    if(users[uid]['uroom']==val['uroom']):
+                        sendMsg(users[uid]['conn'], mstr)
+                remsg = '成功!'
             else:
                 pass
         else:
             print('Error: ', mdic)
     finally:
         pass
-    if send:
+    if remsg:
+        sendMsg(conn, remsg)
+    else:
         sendMsg(conn, mstr)
 
 def handlerMsg(conn):
@@ -55,7 +69,8 @@ def handlerMsg(conn):
                 data = chatws.parseData(drecv)
                 print('x81 - data: ', data)
             elif drecv[0:1] == b"\x88":  # 断开连接
-                for uid in users:
+                for uid in users.keys():
+                #for uid in users:
                     if(users[uid]['conn']==conn):
                         del users[uid]
                 print('x88 - end: ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
@@ -103,6 +118,7 @@ if __name__ == "__main__":
 * 用户资料   - user: {uid, uname, thumb...}
 * 聊天对方   - uto: {toid, toroom}
 * 初始化     - act=initUser: (user, uto)
+* 更新用户   - act=joinRoom: (user, uto) - 加入聊天室
 * 更新用户   - act=userUpd: (user, uto) - 由游客到登录
 * 设置聊天方 - act=setTo: (uto)
 * 发送消息   - act=sendMsg: (fid, uto, type, msg)
