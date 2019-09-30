@@ -16,5 +16,6 @@ class QuotesbotItem(scrapy.Item):
 #'''
 class ImagespiderItem(scrapy.Item):
     imgurl = scrapy.Field()
+    imgname = scrapy.Field()
     pass
 #'''
