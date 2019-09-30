@@ -71,7 +71,7 @@ def handlerOne(conn, data):
         pass
     if key!='sendRoom':  # 群发不重复发送
         sendMsg(conn, data)
-    if tips:
+    if tips:  # 发送提示
         sendTips(conn, tips)
 
 # 监听消息
