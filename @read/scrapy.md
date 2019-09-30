@@ -1,5 +1,10 @@
 
 
+
+https://www.jianshu.com/p/a412c0277f8a
+使用FilesPipeline和ImagesPipeline
+
+
 ==================================
 
 
