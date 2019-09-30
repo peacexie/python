@@ -1,15 +1,12 @@
 
 
-为生活而爬:scrapy!
-
-掌握爬虫框架scrapy, 
-熟悉分布式爬虫管理框架Gerapy
-
-
 ==================================
 
 
 ### python爬虫库scrapy
+
+
+* scrapy 教程
 
 非常专业的 python爬虫库scrapy
 https://docs.scrapy.org/en/latest/intro/tutorial.html
@@ -17,6 +14,11 @@ https://docs.scrapy.org/en/latest/intro/tutorial.html
 
 http://www.scrapyd.cn/doc/165.html
 scrapy1.5中文文档
+
+https://www.runoob.com/python3/python3-tutorial.html
+Python 3 菜鸟教程
+
+
 
 
 ### 基本操作
