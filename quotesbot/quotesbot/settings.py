@@ -22,6 +22,13 @@ NEWSPIDER_MODULE = 'quotesbot.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+IMAGES_STORE = 'E:/www/peace/wepy.git/@tmps/pics'  # pics, thumb
+#启动图片下载中间件
+ITEM_PIPELINES = {
+    'scrapy.pipelines.images.ImagesPipeline': 1,
+    'quotesbot.pipelines.ImagespiderPipeline': 300
+}
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 

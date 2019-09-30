@@ -2,6 +2,7 @@
 
 import json
 import scrapy
+from quotesbot.items import ImagespiderItem
 
 domain = 'http://dg.fzg360.com'
 
@@ -23,7 +24,7 @@ class Fzg1010Spider(scrapy.Spider):
     def parse(self, response):
         for ili in response.css("div.box_news"):
 
-            item = {}
+            item = {}  # ImagespiderItem()  # 实例化item
             item['title'] = ili.css("h3>a::text").get(),
             item['href'] = ili.css("a::attr(href)").get(),
             item["thumb"] = ili.css("img::attr(src)").get(),
@@ -53,7 +54,7 @@ class Fzg1010Spider(scrapy.Spider):
         #item["imgs"] = ["http://ss.xx_yy.com"+i for i in item["imgs"]]
 
         # save-file
-        fbase = 'E:/www/peace/wepy.git/@tmps/'
+        fbase = 'E:/www/peace/wepy.git/@tmps/pages/'
         fp = open(fbase+item['href'][0].replace('/','-'), "w", encoding='utf-8')  # gbk / utf-8
         data = json.dumps(item, ensure_ascii=False)  # .encode("utf-8")
         fp.write(data)
