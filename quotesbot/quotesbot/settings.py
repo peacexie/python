@@ -9,7 +9,7 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-FEED_EXPORT_ENCODING='UTF8'
+FEED_EXPORT_ENCODING = 'UTF8'
 
 BOT_NAME = 'quotesbot'
 
