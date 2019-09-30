@@ -55,9 +55,9 @@ class Fzg1010Spider(scrapy.Spider):
         # save-file
         fbase = 'E:/www/peace/wepy.git/@tmps/'
         fp = open(fbase+item['href'][0].replace('/','-'), "w", encoding='utf-8')  # gbk / utf-8
-        data = json.dumps(item, ensure_ascii=False)  # , ensure_ascii=False).encode("utf-8")
-        fp.write(data)  # result.encode("utf-8")
+        data = json.dumps(item, ensure_ascii=False)  # .encode("utf-8")
+        fp.write(data)
         fp.close()
 
         # save-output
-        #yield item
+        yield item
