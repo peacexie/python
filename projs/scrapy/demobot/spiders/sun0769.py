@@ -37,16 +37,5 @@ class Sun0769Spider(scrapy.Spider):
         yield item
 
 '''
-# pipelines.py
-import re
-class YanguangPipeline(object):
-    def process_item(self, item, spider):
-        item["content"]=self.process_content(item["content"])
-        print(item)
-        return item
 
-    def process_content(self,content):#文本内容的处理
-        content=[re.sub(r"\xa0|\s","",i)for i in content]
-        content=[i for i in content if len(i)>0]#去除列表中的空字符串
-        return content
 '''

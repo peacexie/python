@@ -4,7 +4,11 @@ import scrapy
 from demobot.items import ImagespiderItem
 
 class ImgspiderSpider(scrapy.Spider):
+
     name = 'imgsp'
+    custom_settings = {
+        'ITEM_PIPELINES': {'demobot.pipelines.ImagespiderPipeline':300}
+    }
     allowed_domains = ['lab.scrapyd.cn']
     start_urls = [
         'http://lab.scrapyd.cn/archives/55.html',
