@@ -6,30 +6,32 @@ import scrapy
 from demobot.items import ImagespiderItem
 
 domain = 'http://dg.fzg360.com'
+catid = ''
 
+class FzgnewsSpider(scrapy.Spider):
 
-class Fzg1010Spider(scrapy.Spider):
-
-    name = "fzg1010"
+    name = "fzgnews"
     custom_settings = {
         'ITEM_PIPELINES': {}
     }
-    '''
-    maxpage = 3
-    li = [2,3] #list(range(maxpage))
-    start_urls = []
-    for p in li:
-        start_urls.append(domain+'/news/lists/catid/1010/page/'+str(p)+'.html')
-    '''
-    start_urls = [
-        #domain+'/news/lists.html'  # 不分栏目,所有新闻
-        domain+'/news/lists/catid/1012/page/1.html',  # 1010,1012
-    ]
 
+    '''
+    start_urls = [  # li = [2,3] #list(range(maxpage))
+        #domain+'/news/lists.html'  # 不分栏目,所有新闻
+        domain + '/news/lists/catid/1012/page/1.html',  # 1010,1012 
+    ]
+    '''
+
+    def start_requests(self):
+        global catid
+        catid = getattr(self, 'catid', '')  # 获取catid值，也就是爬取时传过来的参数
+        url = domain + '/news/lists/' + ('catid/'+catid+'/' if catid else '') + 'page/1.html'
+        #print(url); exit()
+        yield scrapy.Request(url, self.parse)  # 发送请求爬取参数内容
 
     def parse(self, response):
-        for ili in response.css("div.box_news"):
 
+        for ili in response.css("div.box_news"):
             item = {}  # ImagespiderItem()  # 实例化item
             item['title'] = ili.css("h3>a::text").get(),
             item['href'] = ili.css("a::attr(href)").get(),
@@ -56,7 +58,6 @@ class Fzg1010Spider(scrapy.Spider):
         if next_url is not None:
             yield scrapy.Request(response.urljoin(next_url))
 
-
     # 爬取详情
     def get_detail(self, response): #处理详情页
 
@@ -66,9 +67,11 @@ class Fzg1010Spider(scrapy.Spider):
         #item["imgs"] = ["http://ss.xx_yy.com"+i for i in item["imgs"]]
 
         # save-file
-        fp = os.path.realpath(__file__)
-        fbase = os.path.dirname(fp) + '/../../../../../@tmps/pages/'
-        fp = open(fbase+item['href'][0].replace('/','-'), "w", encoding='utf-8')  # gbk / utf-8
+        fbase = os.path.dirname(os.path.realpath(__file__)) + '/../../../../../@tmps/pages/'
+        global catid
+        full = fbase + (catid if catid else 'all') + item['href'][0].replace('/','-')
+
+        fp = open(full, "w", encoding='utf-8')  # gbk / utf-8
         data = json.dumps(item, ensure_ascii=False)  # .encode("utf-8")
         data = data.replace('"], "', "\"], \n\"")
         data = data.replace('", "', "\", \n\"")
