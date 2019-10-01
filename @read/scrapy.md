@@ -1,6 +1,24 @@
 
 
 
+
+https://www.runoob.com/go/go-tutorial.html
+Go 语言教程
+
+https://www.kancloud.cn/hello123/beego/126087
+beego 是一个快速开发 Go 应用的 HTTP 框架
+
+
+
+
+https://blog.csdn.net/peiwang245/article/details/100071316
+scrapy框架不同的爬虫程序设置不同pipelines
+
+
+http://www.scrapyd.cn/jiaocheng/150.html
+scrapy scrapyd 部署原来这么玩！以前看的都是假教程（一）：概述（不看毁一生）
+
+
 https://www.jianshu.com/p/a412c0277f8a
 使用FilesPipeline和ImagesPipeline
 
