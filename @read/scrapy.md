@@ -1,5 +1,9 @@
 
 
+
+
+---------------------------
+
 https://j.map.baidu.com/55/BNM
 莞太路 - 昆盈厂
 
@@ -81,31 +85,6 @@ Python 3 菜鸟教程
 
   - li = response.css("div.box_news")[3]
   - li.getall()
-
-### fzg1010.py
-
-```
-class Fzg1010Spider(scrapy.Spider):
-    name = "fzg1010"
-    maxpage = 5
-    li = list(range(maxpage))
-    start_urls = []
-    for p in li:
-        start_urls.append('http://hy.fzg360.com/news/lists/catid/1010/page/'+str(p)+'.html')
-
-    def parse(self, response):
-        for item in response.css("div.box_news"):
-            yield {
-                'title': item.css("h3 > a::text").extract(),
-                'remark': item.css("p::text").get(),
-                'thumb': item.css("img::attr(src)").extract_first()
-                #'tags': item.css("div.tags > a.tag::text").extract()
-            }
-```
-
-### run: 运行
-    > scrapy crawl fzg1010 -o list1010.json
-    // 记得到 列表结果（json文件）
 
 
 ### doc

@@ -2,7 +2,7 @@
 
 
 * 2019-10-03, python-socket版 聊天模型
-  - https://github.com/peacexie/python/blob/master/projs/cschat/@README.md
+  - https://github.com/peacexie/python/tree/master/projs/cschat
 
 --- 
 
