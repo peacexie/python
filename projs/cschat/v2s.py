@@ -9,16 +9,29 @@ import chatws
 HOST = "127.0.0.1"  #192.168.1.228
 PORT = 10083  # 192.168.1.228:8830
 
+
 # 监听消息
-def handlerMsg(conn):
-    with conn as con:
-        chatws.recvLoop(con, users)
+def handlerMsg(con1):
+    with con1 as conn:
+        while True:
+            drecv = conn.recv(8096)
+            data = ''
+            if drecv[0:1] == b"\x81":  # 发送数据
+                data = chatws.parseData(drecv)
+                print('[get] - ', data)
+            elif drecv[0:1]==b"\x88" or drecv[0:1]==b"":  # (客户端)断开连接
+                chatws.breakOne(conn, users)
+                print('[end] - ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
+                return
+            else:
+                print('[else] - ', drecv)
+            chatws.replyOne(conn, data, users)
+        #chatws.recvLoop(conn, users)
 
 # socket监听
 def handlerAccept(sock):
     while True:
-        conn, addr = sock.accept()
-        #conns.add(conn)  #;print(conn, addr)
+        conn, addr = sock.accept()  #;print(conn, addr)
         data = conn.recv(8096)  # 获取握手数据
         acinfo = chatws.getAcinfo(data)
         conn.sendall(acinfo)  # 响应【握手】信息
@@ -35,7 +48,6 @@ def multiSocket():
     t.start()
 
 
-#conns = set()
 users = {}
 
 if __name__ == "__main__":

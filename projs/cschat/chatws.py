@@ -30,7 +30,7 @@ def sendMsg(conn, mstr):
     return True
 
 # 发送一个提示
-def sendTips(conn, msg, room=''):
+def sendTips(conn, msg, users, room=''):
     tips = '{"key":"tips","val":"'+msg+'"}'  # json.dumps(dict)
     if conn:  # 单独发
        sendMsg(conn, tips)
@@ -57,7 +57,7 @@ def opMsg(key, val, data, conn, users):
     elif key=='joinRoom' and 'uid' in val and 'uroom' in val:  # 进入聊天室
         users[val['uid']]['uroom'] = val['uroom']
     elif key=='exitRoom' and 'uid' in val:  # 退出聊天室
-        sendTips(0, '['+val['uid']+'] Exit chat-room')
+        sendTips(0, '['+val['uid']+'] Exit chat-room', users)
         users[val['uid']]['uroom'] = ''
     elif key=='sendRoom' and 'uroom' in val:  # 发聊天室
         for uid in users:
@@ -73,44 +73,27 @@ def replyOne(conn, data, users):
     try:
         mdic = json.loads(data)
     except Exception as e1:
-        print('Exception: ', e1)
+        print('[exp] - ', e1)
     else:
         if 'key' in mdic and 'val' in mdic:
             key, val = mdic['key'], mdic['val']
             tips = opMsg(key, val, data, conn, users)
         else:
-            print('Error: ', mdic)
+            print('[err] - ', mdic)
     finally:
         pass
     if key!='sendRoom':  # 群发不重复发送
         sendMsg(conn, data)
     if tips:  # 发送提示
-        sendTips(conn, tips)
+        sendTips(conn, tips, users)
 
-def exitOne(conn, users):
+# 中断一个连接
+def breakOne(conn, users):
     for uid in users:
         if(users[uid]['conn']==conn):
-            sendTips(0, '['+uid+'] Client interrupt!')  # broken,interrupt
+            sendTips(0, '['+uid+'] Client broken!', users)
             del users[uid]  # conns.remove(conn)
-
-# 循环接受数据
-def recvLoop(conn, users):
-    while True:
-        drecv = conn.recv(8096)
-        data = ''
-        if drecv[0:1] == b"\x81":  # 发送数据
-            data = parseData(drecv)
-            print('x81 - data: ', data)
-        elif drecv[0:1] == b"\x88":  # 断开连接
-            exitOne(conn, users)
             break
-            print('x88 - end: ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
-            return
-        else:
-            print('else - recv: ', drecv)
-            exitOne(conn, users)
-            break
-        replyOne(conn, data, users)
 
 
 # ------------------------------------------------------------------------------
