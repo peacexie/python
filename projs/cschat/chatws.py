@@ -44,7 +44,10 @@ def opMsg(key, val, data, conn, users):
     tips = ''
     if key=='initUser':
         if 'uid' in val:
-            users[val['uid']] = {"conn":conn, "row":val, 'uroom':''}
+            uid = val['uid']
+            if uid in users:
+                del users[uid]
+            users[uid] = {"conn":conn, "row":val, 'uroom':''}
     elif key=='sendOne' and 'uto' in val:  # 发单个人
         uto = val['uto']
         if uto in users:
@@ -84,6 +87,12 @@ def replyOne(conn, data, users):
     if tips:  # 发送提示
         sendTips(conn, tips)
 
+def exitOne(conn, users):
+    for uid in users:
+        if(users[uid]['conn']==conn):
+            sendTips(0, '['+uid+'] Client interrupt!')  # broken,interrupt
+            del users[uid]  # conns.remove(conn)
+
 # 循环接受数据
 def recvLoop(conn, users):
     while True:
@@ -93,16 +102,14 @@ def recvLoop(conn, users):
             data = parseData(drecv)
             print('x81 - data: ', data)
         elif drecv[0:1] == b"\x88":  # 断开连接
-            for uid in users:
-                if(users[uid]['conn']==conn):
-                    sendTips(0, '['+uid+'] Client interrupt!')  # broken,interrupt
-                    del users[uid]
-                    break
-            #conns.remove(conn)
+            exitOne(conn, users)
+            break
             print('x88 - end: ', drecv)  # b'\x88\x82uR\xdf\xc6v\xbb'
             return
         else:
             print('else - recv: ', drecv)
+            exitOne(conn, users)
+            break
         replyOne(conn, data, users)
 
 
