@@ -1,6 +1,9 @@
 
 
+https://j.map.baidu.com/55/BNM
+莞太路 - 昆盈厂
 
+---------------------------
 
 https://www.runoob.com/go/go-tutorial.html
 Go 语言教程
@@ -8,8 +11,24 @@ Go 语言教程
 https://www.kancloud.cn/hello123/beego/126087
 beego 是一个快速开发 Go 应用的 HTTP 框架
 
+https://studygolang.com/
+Go语言爱好者的学习家园
 
 
+https://www.php.cn/python-tutorials-421849.html
+Selenium+PhantomJs解析渲染Js的基本操作
+
+
+https://www.cnblogs.com/yoyoketang/p/6128655.html
+Selenium2+python自动化17-JS处理滚动条
+
+
+https://www.jianshu.com/p/1531e12f8852
+Python+Selenium基础入门及实践
+
+
+https://www.jianshu.com/nb/25665695
+jianshu Scrapy
 
 https://blog.csdn.net/peiwang245/article/details/100071316
 scrapy框架不同的爬虫程序设置不同pipelines

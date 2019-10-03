@@ -1,6 +1,11 @@
 
 
 
+* 2019-10-03, python-socket版 聊天模型
+  - https://github.com/peacexie/python/blob/master/projs/cschat/@README.md
+
+--- 
+
 * 2019-06-22, 配置Web服务器(IIS)上线 
 * 2019-06-15, 增加：随机数应用
 * 2019-06-13, 增加专业资讯采集
