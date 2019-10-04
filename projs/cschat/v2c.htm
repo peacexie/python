@@ -3,9 +3,8 @@
 <head lang="en">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>client</title>
+    <title>client - python-socket版 聊天模型</title>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
-    <script xsrc="./client.js"></script>
     
 </head>
 <body>
@@ -81,7 +80,7 @@ oConnect.onclick = function(){
             fone = data.indexOf('"key":"sendOne"')>0,
             fget = data.indexOf('"uto":"'+uid+'"')>0,
             fsend = data.indexOf('"ufrom":"'+uid+'"')>0;
-        if(fquan && send){
+        if(fquan && fsend){
             pre = '[群发]'
         }else if(fquan && froom){
             pre = '[群收]'

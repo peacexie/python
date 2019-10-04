@@ -145,7 +145,7 @@ def getAcinfo(data):
     headers = getHeaders(data)
     # 对请求头中的sec-websocket-key进行加密
     tpl = "HTTP/1.1 101 Switching Protocols\r\n" \
-        "Upgrade:websocket\r\n" \
+        "Upgrade: websocket\r\n" \
         "Connection: Upgrade\r\n" \
         "Sec-WebSocket-Accept: %s\r\n" \
         "WebSocket-Location: ws://%s\r\n\r\n"
