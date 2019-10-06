@@ -63,15 +63,11 @@ class FzgnewsSpider(scrapy.Spider):
 
     # 爬取详情
     def get_detail(self, response): #处理详情页
-
         global catid
-
         item = response.meta["item"]
         item["detail"] = response.css(".detailcon").get()
         item["imgs"] = response.css(".detailcon img::attr(src)").getall()
         #item["imgs"] = ["http://ss.xx_yy.com"+i for i in item["imgs"]]
         item["_catid"] = catid
-
-        # save-output
         yield item
 
