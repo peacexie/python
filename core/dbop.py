@@ -4,7 +4,7 @@ from core import argv
 #import pymysql, sqlite3, pymssql ... # 动态加载: 
 
 def edb(key):
-    cfgs = config.init()
+    cfgs = argv.init()
     cdb = dict(copy.deepcopy(cfgs['cdb']), **cfgs[key])
     return dbm(cdb)
 

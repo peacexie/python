@@ -3,8 +3,7 @@
 import sys, os
 import json
 import scrapy
-#from demobot.items import ImagespiderItem
-from demobot.items import FzgmysqlItem
+from demobot.items import ImagespiderItem
 
 domain = 'http://dg.fzg360.com'
 catid = ''
@@ -13,7 +12,7 @@ class FzgnewsSpider(scrapy.Spider):
 
     name = "fzgnews"
     custom_settings = {
-        'ITEM_PIPELINES': {'demobot.pipelines.FzgnewsPipeline':300}
+        'ITEM_PIPELINES': {}
     }
 
     '''
@@ -33,7 +32,7 @@ class FzgnewsSpider(scrapy.Spider):
     def parse(self, response):
 
         for ili in response.css("div.box_news"):
-            item = FzgmysqlItem()  # 实例化item
+            item = {}  # ImagespiderItem()  # 实例化item
             item['title'] = ili.css("h3>a::text").get(),
             item['href'] = ili.css("a::attr(href)").get(),
             item["thumb"] = ili.css("img::attr(src)").get(),
@@ -48,7 +47,6 @@ class FzgnewsSpider(scrapy.Spider):
             )
             break  # 一页爬一条就是了...
 
-        #'''
         # 翻页处理
         next_url = None
         items = response.css(".pager a")
@@ -59,18 +57,26 @@ class FzgnewsSpider(scrapy.Spider):
                 break
         if next_url is not None:
             yield scrapy.Request(response.urljoin(next_url))
-        #'''
 
     # 爬取详情
     def get_detail(self, response): #处理详情页
-
-        global catid
 
         item = response.meta["item"]
         item["detail"] = response.css(".detailcon").get()
         item["imgs"] = response.css(".detailcon img::attr(src)").getall()
         #item["imgs"] = ["http://ss.xx_yy.com"+i for i in item["imgs"]]
-        item["_catid"] = catid
+
+        # save-file
+        fbase = os.path.dirname(os.path.realpath(__file__)) + '/../../../../../@tmps/pages/'
+        global catid
+        full = fbase + (catid if catid else 'all') + item['href'][0].replace('/','-')
+
+        fp = open(full, "w", encoding='utf-8')  # gbk / utf-8
+        data = json.dumps(item, ensure_ascii=False)  # .encode("utf-8")
+        data = data.replace('"], "', "\"], \n\"")
+        data = data.replace('", "', "\", \n\"")
+        fp.write(data)
+        fp.close()
 
         # save-output
         yield item

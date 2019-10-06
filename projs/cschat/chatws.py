@@ -79,7 +79,7 @@ def replyOne(conn, data, users):
             key, val = mdic['key'], mdic['val']
             tips = opMsg(key, val, data, conn, users)
         else:
-            print('[err] - ', mdic)
+            print('[er2] - ', mdic)
     finally:
         pass
     if key!='sendRoom':  # 群发不重复发送
@@ -177,6 +177,33 @@ def bstring(mbytes):
 
 '''
 
+### 基础思路
 
+* 自己是谁？ 
+  --- uid(用户)
+  --- 或 tips/system(系统消息)
+
+* 发给谁？   
+  --- uto
+  --- 或(uroom房间号)
+
+### 结构规划
+
+* 用户资料   - user: {uid, uname, thumb...}
+* 聊天对方   - ufrom -> {uto, uroom}
+* 初始化     - act=initUser: ("conn":conn, "row":val, 'uroom':'') 
+* 加入聊天室 - act=joinRoom: (uid, uroom)
+* 离开聊天室 - act=exitRoom: (uid, uroom?)
+* 更新用户   - act=userUpd: (user, uto) - 由游客到登录
+* 设置聊天方 - act=setTo: (uto)
+* 发送消息   - act=sendOne: (ufrom, uto, type, msg)
+* 发群消息   - act=sendRoom: (ufrom, uroom, type, msg)
+* 消息类型   - type=text, pic, video, audio, info
+* info类型   - info=news, house, rent, sale...
+
+### 辅助方法
+
+* pullConversationList, setTopConversation, delConversation
+* pullUnreads, pullHistoryMessages, clearUnreadStatus
 
 '''

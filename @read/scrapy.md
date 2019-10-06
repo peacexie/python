@@ -1,5 +1,6 @@
 
 
+http://ourhouse.txjia.com/home.php/ocar
 
 3.1+2.7+0.9+0.4
 (7)
@@ -78,6 +79,8 @@ Python 3 菜鸟教程
 * How to run our spider
   - scrapy crawl quotes
   - scrapy crawl quotes -o quotes.json
+  - scrapy crawl cname -a tag=美女
+  - scrapy crawl fzgnews -a catid=1012
 
 * Extracting data
   - scrapy shell 'http://quotes.toscrape.com/page/1/'

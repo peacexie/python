@@ -19,3 +19,16 @@ class ImagespiderItem(scrapy.Item):
     imgname = scrapy.Field()
     pass
 #'''
+
+class FzgmysqlItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    title = scrapy.Field()
+    href = scrapy.Field()
+    thumb = scrapy.Field()
+    remark = scrapy.Field()
+    detail = scrapy.Field()
+    imgs = scrapy.Field()
+    _catid = scrapy.Field()
+    pass
+
