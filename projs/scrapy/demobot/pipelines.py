@@ -50,13 +50,11 @@ class FzgnewsPipeline(object):
     def __init__(self):
         pass
 
+    # save-file
     def process_item(self, item, spider):
-        # save-file
-        #return item  # 必须实现返回
         fbase = os.path.dirname(os.path.realpath(__file__)) + '/../../../../@tmps/pages/'
         catid = item['_catid']
         full = fbase + (catid if catid else 'all') + item['href'][0].replace('/','-')
-
         fp = open(full, "w", encoding='utf-8')  # gbk / utf-8
         data = str(item)
         fp.write(data)

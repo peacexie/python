@@ -1,5 +1,21 @@
 
 
+
+https://w3techs.com/
+Content Management Systems
+Server-side Programming Languages
+
+https://www.cnblogs.com/nica/archive/2017/01/04/6248376.html
+说一说从php转python的感想
+
+https://www.liaoxuefeng.com/wiki/1016959663602400/1017075323632896
+Python简介
+
+python 1991~
+php 1995~
+asp 1996年推出一种Web应用开发技术ASP
+
+
 http://ourhouse.txjia.com/home.php/ocar
 
 3.1+2.7+0.9+0.4
