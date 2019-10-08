@@ -1,6 +1,17 @@
 
 
 
+https://www.runoob.com/django/django-install.html
+Django 教程
+
+
+https://blog.csdn.net/mouday/article/details/88691493
+Python编程：几个基于Django的CMS内容管理系统
+
+http://www.uml.org.cn/python/201906201.asp?artid=22104
+15个最受欢迎的Python开源框架
+
+
 https://w3techs.com/
 Content Management Systems
 Server-side Programming Languages
