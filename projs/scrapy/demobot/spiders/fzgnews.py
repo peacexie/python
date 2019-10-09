@@ -12,8 +12,12 @@ catid = ''
 class FzgnewsSpider(scrapy.Spider):
 
     name = "fzgnews"
+    allowed_domains = ['dg.fzg360.com']
     custom_settings = {
-        'ITEM_PIPELINES': {'demobot.pipelines.FzgnewsPipeline':300}
+        'ITEM_PIPELINES': {
+            'demobot.pipelines.FzgimgPipeline':300,
+            'demobot.pipelines.FzgnewsPipeline':300
+        }
     }
 
     '''
@@ -48,7 +52,7 @@ class FzgnewsSpider(scrapy.Spider):
             )
             break  # 一页爬一条就是了...
 
-        #'''
+        '''
         # 翻页处理
         next_url = None
         items = response.css(".pager a")
@@ -59,7 +63,7 @@ class FzgnewsSpider(scrapy.Spider):
                 break
         if next_url is not None:
             yield scrapy.Request(response.urljoin(next_url))
-        #'''
+        '''
 
     # 爬取详情
     def get_detail(self, response): #处理详情页
